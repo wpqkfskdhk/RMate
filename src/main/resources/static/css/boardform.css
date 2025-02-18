@@ -1,0 +1,252 @@
+#bBody {
+    /*background-image: url("../images/rose.png");*/
+    /*background-repeat: no-repeat;*/
+    /*background-position: bottom;*/
+    /*background-attachment: fixed;*/
+    /*background-size: cover;*/
+    margin: 0;
+    position: relative;
+    overflow-x: hidden;
+    background-color: rgba(255, 192, 203); /* 연한 분홍색, */
+    min-height: 100vh;
+}
+.form {
+    background-color: #fff; /* 흰색 배경 */
+    border: 3px solid #999; /* 3픽셀 두께의 진한 회색 테두리 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* 그림자 효과 */
+    width: 950px; /* 가로 크기 (원하는 크기로 수정 가능) */
+    max-width: 95%; /* 최대 가로 크기를 뷰포트 너비의 95%로 제한 */
+    padding: 30px; /* 내부 여백 */
+    box-sizing: border-box; /* 패딩과 테두리를 너비에 포함 */
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    /*margin-bottom: 50px;*/
+}
+
+.hash-tag-container {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.hash-tag-list {
+    display: inline-block; /* 태그 목록을 콘텐츠 크기에 맞춤 */
+    padding: 0;
+    margin: 10px 0 0 0; /* 기본 margin 제거 */
+    list-style: none; /* 점 리스트 제거 */
+}
+
+.hash-tag-list li {
+    display: inline-block; /* 태그를 가로로 정렬 */
+    margin: 5px; /* 태그 간 간격 */
+    padding: 5px 10px;
+    font-size: 14px;
+    background-color: #777;
+    color: #fff;
+    border-radius: 5px; /* 둥근 모서리 */
+}
+
+.hash-tag-list li:hover {
+    background-color: #262626; /* 마우스 오버 시 색상 변경 */
+    color: #fff;
+}
+
+.del-btn {
+    margin-left: 5px;
+    font-size: 12px;
+    cursor: pointer;
+    color: #fff;
+}
+.hash-tag-container input,
+.hash-tag-container ul {
+    all: unset; /* 상속된 스타일 제거 */
+}
+
+.hash-tag-container ul {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+
+.editor-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 20px auto;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#toolbar {
+    display: flex; /* 자식 요소들을 가로로 정렬 */
+    justify-content: space-between; /* 아이템 간에 간격을 evenly 분배 */
+    align-items: center; /* 세로 중앙 정렬 */
+}
+
+.toggle-btn {
+    display: flex; /* 버튼 내부 요소 정렬 */
+    flex-direction: column; /* 버튼 내부 요소는 세로로 정렬 */
+    align-items: center; /* 버튼 내부 요소들 가운데 정렬 */
+    text-align: center;
+    padding: 10px; /* 버튼 여백 */
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.toggle-btn img {
+    max-width: 40px; /* 이미지 크기 제한 */
+    margin-bottom: 5px;
+}
+
+.toggle-btn span {
+    font-size: 14px; /* 텍스트 크기 */
+    color: #333; /* 텍스트 색상 */
+}
+
+
+#editor-textarea {
+    width: 800px;
+    height: 500px;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    line-height: 1.5;
+    resize: none !important; /* 강제 적용 */
+    outline: none;
+}
+
+
+#selected-info {
+    text-align: center;
+    padding: 10px 10px;
+
+}
+
+/* 카테고리와 제목 입력 */
+.header-row {
+    display: flex;
+    justify-content: space-between; /* 두 항목을 양쪽 정렬 */
+    width: 100%;
+    max-width: 800px; /* 컨테이너와 동일한 너비 */
+    margin: 0 auto 10px; /* 컨테이너 위쪽에 위치하고 하단 간격 추가 */
+    box-sizing: border-box;
+}
+
+.header-row > div {
+    display: flex;
+    align-items: center;
+}
+
+.header-row select {
+    flex: 0 0 30%; /* 카테고리 창: 30% */
+    margin-right: 10px;
+}
+
+.header-row input {
+    flex: 1;
+}
+
+
+
+.footer-row {
+    display: flex;
+    justify-content: space-between; /* 두 항목을 양쪽 정렬 */
+    width: 100%;
+    max-width: 800px; /* 컨테이너와 동일한 너비 */
+    margin: 0 auto 10px; /* 컨테이너 위쪽에 위치하고 하단 간격 추가 */
+    box-sizing: border-box;
+}
+
+.footer-row > div {
+    display: flex;
+    align-items: center;
+}
+
+.footer-row select {
+    flex: 0 0 20%; /* 카테고리 창: 30% */
+    margin-right: 10px;
+}
+
+.footer-row input {
+    flex: 1;
+}
+/* 수정 폼 전용 스타일 */
+#boardModifyFormContainer {
+    background: none !important; /* 배경 제거 */
+    padding: 0 !important; /* 필요에 따라 패딩 조정 */
+}
+
+.row1 {
+    display: flex;
+    justify-content: center;
+}
+
+
+#row-submit, #cancel-modify {
+    margin: 0 10px; /* 버튼 간격을 조정 */
+}
+
+/* (추가) 컨텐츠 영역 스타일 */
+.content-area {
+    display: flex;
+    justify-content: space-between; /* 양쪽 정렬 */
+    align-items: flex-start;
+    width: 1400px; /* (수정) 필요에 따라 너비 조절 */
+    max-width: 95%; /* (수정) 최대 너비 설정 */
+    margin: 0 auto; /* (추가) 가운데 정렬 */
+}
+
+/* (추가) 왼쪽 태그 목록 스타일 */
+.tag-list-left {
+    width: 200px; /* (수정) 필요에 따라 너비 조절 */
+}
+
+.tag-list-left ul {
+    list-style: none;
+    padding: 0;
+}
+
+.tag-list-left li {
+    margin-bottom: 5px;
+    cursor: pointer;
+    background-color: #f5f5f5; /* (추가) 배경색 */
+    padding: 5px; /* (추가) 여백 */
+    border-radius: 5px; /* (추가) 둥근 모서리 */
+}
+
+.tag-list-left li:hover {
+    background-color: #e0e0e0; /* (추가) 마우스 오버 시 배경색 */
+}
+
+/* (추가) 오른쪽 추천 태그 스타일 */
+.tag-list-right {
+    width: 200px; /* (수정) 필요에 따라 너비 조절 */
+}
+
+.tag-list-right ul {
+    list-style: none;
+    padding: 0;
+}
+
+.tag-list-right li {
+    margin-bottom: 5px;
+    cursor: pointer;
+    background-color: #f5f5f5; /* (추가) 배경색 */
+    padding: 5px; /* (추가) 여백 */
+    border-radius: 5px; /* (추가) 둥근 모서리 */
+}
+
+.tag-list-right li:hover {
+    background-color: #e0e0e0; /* (추가) 마우스 오버 시 배경색 */
+}
+
+
+
+
+
+

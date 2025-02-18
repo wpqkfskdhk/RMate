@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.icia.rmate.dao.NodeDao">
+    <resultMap type="Node" id="NodeRM">
+        <id property="id" column="id" javaType="Long"></id><!--노드ID-->
+        <result property="name" column="name" javaType="String"></result><!---->
+        <result property="address" column="address" javaType="String"></result><!---->
+        <result property="phone" column="phone" javaType="String"></result><!---->
+        <result property="x" column="x" javaType="Double"></result><!--경도-->
+        <result property="y" column="y" javaType="Double"></result><!--위도-->
+        <result property="regDt" column="reg_dt" javaType="Date"></result><!--등록일시-->
+        <result property="modDt" column="mod_dt" javaType="Date"></result><!--수정일시-->
+    </resultMap>
+    <insert id="insert" parameterType="Node">
+        /* 노드 등록 */
+        INSERT INTO node (
+               id,
+               name,
+               address,
+               phone,
+               x,
+               y,
+               reg_dt,
+               mod_dt
+             ) VALUES (
+               #{entity.id},
+               #{entity.name},
+               #{entity.address},
+               #{entity.phone},
+               #{entity.x},
+               #{entity.y},
+               #{entity.regDt},
+               #{entity.modDt})
+    </insert>
+    <update id="update" parameterType="Node">
+        /* 노드 수정 */
+        UPDATE node 
+               <set>
+               <if test="entity.name != null">
+               name = #{entity.name},
+               </if>
+               <if test="entity.address != null">
+               address = #{entity.address},
+               </if>
+               <if test="entity.phone != null">
+               phone = #{entity.phone},
+               </if>
+               <if test="entity.x != null">
+               x = #{entity.x},
+               </if>
+               <if test="entity.y != null">
+               y = #{entity.y},
+               </if>
+               <if test="entity.regDt != null">
+               reg_dt = #{entity.regDt},
+               </if>
+               <if test="entity.modDt != null">
+               mod_dt = #{entity.modDt},
+               </if>
+               </set>
+         WHERE id = #{entity.id}
+    </update>
+    <delete id="delete" parameterType="Node">
+        /* 노드 삭제 */
+        DELETE FROM node 
+         WHERE id = #{id}
+    </delete>
+    <sql id="cols">
+        a.id,
+        a.name,
+        a.address,
+        a.phone,
+        a.x,
+        a.y,
+        a.reg_dt,
+        a.mod_dt
+    </sql>
+    <sql id="where">
+            <if test="id != null">
+        AND a.id = #{id}
+            </if>
+            <if test="name != null">
+        AND a.name = #{name}
+            </if>
+            <if test="address != null">
+        AND a.address = #{address}
+            </if>
+            <if test="phone != null">
+        AND a.phone = #{phone}
+            </if>
+            <if test="x != null">
+        AND a.x = #{x}
+            </if>
+            <if test="y != null">
+        AND a.y = #{y}
+            </if>
+            <if test="regDt != null">
+        AND a.reg_dt = #{regDt}
+            </if>
+            <if test="modDt != null">
+        AND a.mod_dt = #{modDt}
+            </if>
+    </sql>
+    <select id="selectOne" resultMap="NodeRM">
+        /* 노드 상세조회 */
+        SELECT <include refid="cols"></include>
+          FROM node a
+         WHERE id = #{id}
+    </select>
+    <select id="selectOneByParam" resultMap="NodeRM">
+        /* 노드 상세조회 */
+        SELECT <include refid="cols"></include>
+          FROM node a
+               <where>
+               <include refid="where"></include>
+               </where>
+    </select>
+    <select id="selectList" resultMap="NodeRM">
+        /* 노드 목록조회 */
+        SELECT <include refid="cols"></include>
+          FROM node a
+               <where>
+               <include refid="where"></include>
+               </where>
+               <if test="pageable != null">
+         LIMIT #{pageable.start}, #{pageable.end}
+               </if>
+    </select>
+    <select id="selectListCount" resultType="Long">
+        /* 노드 전체 개수 조회 */
+        SELECT COUNT(*) AS CNT
+          FROM node a
+               <where>
+               <include refid="where"></include>
+               </where>
+    </select>
+
+    <delete id="deleteById" parameterType="long">
+        DELETE FROM node WHERE id = #{nodeId}
+    </delete>
+
+</mapper>

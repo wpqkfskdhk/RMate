@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="shortcut icon" href="/favicon/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/fonts/icomoon/style.css">
+    <link href="/css/reviewform.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="/css/header.css" rel="stylesheet">
+    <title>후기_게시글작성</title>
+</head>
+<header class="header-area">
+    <div th:replace="~{header.html}"></div>
+</header>
+
+<body>
+<!--<h2 style="text-align: center; margin-top: 30px; margin-bottom: 30px;">리뷰 작성 페이지</h2>-->
+
+<form action="/RWrite" method="post" enctype="multipart/form-data" style="margin-top: 50px; margin-bottom: 30px" >
+    <table>
+
+        <tr>
+            <th>제목</th>
+            <td><input type="text" name="RevTitle" required placeholder="제목을 입력하세요"/></td>
+        </tr>
+
+        <tr>
+            <th>내용</th>
+            <td>
+                <textarea name="RevContent"  required placeholder="내용을 입력하세요 (최대 1000자)" maxlength="1000" style="border: 1px solid #f0b3b0; /* (수정) 연한 핑크 테두리 */"></textarea>
+            </td>
+        </tr>
+
+        <!-- 후기 평가 -->
+        <tr>
+            <th>평가</th>
+            <td>
+                <div class="stars" id="ratingStars">
+                    <i class="fa fa-star" data-value="1"></i>
+                    <i class="fa fa-star" data-value="2"></i>
+                    <i class="fa fa-star" data-value="3"></i>
+                    <i class="fa fa-star" data-value="4"></i>
+                    <i class="fa fa-star" data-value="5"></i>
+                </div>
+                <input id="ratingValue" name="Rating" type="hidden" value="0"/>
+            </td>
+        </tr>
+
+        <tr>
+            <th>파일 첨부</th>
+            <td>
+                <input type="file" id="RevFile" name="RevFile"/>
+                <br/> <img id="preImage" width="150px"/>
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2" style="text-align: center; padding-top: 20px;">
+                <input type="hidden" name="UserNickname" th:value="${session.loginNickname}"/>
+                <input type="hidden" name="UserId" th:value="${session.loginId}"/>
+                <input type="hidden" name="BNum" th:value="${bNum}"/>
+                <input type="submit" value="등록"/>
+                <input type="reset" value="초기화"/>
+            </td>
+        </tr>
+    </table>
+</form>
+
+<div th:replace="~{footer.html}"></div>
+
+</body>
+
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+        crossorigin="anonymous"></script>
+
+<script th:if="${session.loginId eq null}">
+    $(() => {
+        alert('로그인 후 사용');
+        location.href = '/mLoginForm';
+    });
+</script>
+
+<script>
+
+    $('#RevFile').on('change', function (event) {
+        let file = event.target.files[0];
+        let reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#preImage').attr('src', e.target.result);
+        }
+
+        reader.readAsDataURL(file);
+    });
+
+    // 별점 클릭 시 이벤트 처리
+    $(document).ready(function () {
+        $('.stars i').on('click', function () {
+            var value = $(this).data('value');
+            $('#ratingValue').val(value);  // 선택된 별점 값을 hidden input에 설정
+
+            // 선택된 별점까지 황금색으로 변경
+            $('.stars i').removeClass('active');
+            for (var i = 0; i < value; i++) {
+                $('.stars i').eq(i).addClass('active');
+            }
+        });
+    });
+
+</script>
+
+</html>

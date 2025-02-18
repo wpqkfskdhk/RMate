@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.icia.rmate.dao.JobDao">
+    <resultMap type="Job" id="JobRM">
+        <id property="id" column="id" javaType="Long"></id><!--업무ID-->
+        <result property="memberId" column="member_id" javaType="Long"></result><!--회원ID-->
+        <result property="nodeId" column="node_id" javaType="Long"></result><!--노드ID-->
+        <result property="jobDate" column="job_date" javaType="String"></result><!--업무일자(yyyyMMdd)-->
+        <result property="jobStartTime" column="job_start_time" javaType="String"></result><!--업무시작시각(HHmm)-->
+        <result property="jobEndTime" column="job_end_time" javaType="String"></result><!--업무종료시각(HHmm)-->
+        <result property="jobDuration" column="job_duration" javaType="Integer"></result><!--업무작업시간(분단위)-->
+        <result property="itemQty" column="item_qty" javaType="Long"></result><!--물건수량-->
+        <result property="itemQtyUnit" column="item_qty_unit" javaType="String"></result><!--물건수량단위-->
+        <result property="requireVehicleType" column="require_vehicle_type" javaType="String"></result><!--필요차종-->
+        <result property="memo" column="memo" javaType="String"></result><!--메모-->
+        <result property="regDt" column="reg_dt" javaType="Date"></result><!--등록일시-->
+        <result property="modDt" column="mod_dt" javaType="Date"></result><!--수정일시-->
+    </resultMap>
+    <insert id="insert" parameterType="Job">
+        /* 업무 등록 */
+        INSERT INTO job (
+               member_id,
+               node_id,
+               job_date,
+               job_start_time,
+               job_end_time,
+               job_duration,
+               item_qty,
+               item_qty_unit,
+               require_vehicle_type,
+               memo,
+               reg_dt,
+               mod_dt
+             ) VALUES (
+               #{entity.memberId},
+               #{entity.nodeId},
+               #{entity.jobDate},
+               #{entity.jobStartTime},
+               #{entity.jobEndTime},
+               #{entity.jobDuration},
+               #{entity.itemQty},
+               #{entity.itemQtyUnit},
+               #{entity.requireVehicleType},
+               #{entity.memo},
+               #{entity.regDt},
+               #{entity.modDt})
+        <selectKey resultType="Long" keyProperty="entity.id">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+    <update id="update" parameterType="Job">
+        /* 업무 수정 */
+        UPDATE job 
+               <set>
+               <if test="entity.memberId != null">
+               member_id = #{entity.memberId},
+               </if>
+               <if test="entity.nodeId != null">
+               node_id = #{entity.nodeId},
+               </if>
+               <if test="entity.jobDate != null">
+               job_date = #{entity.jobDate},
+               </if>
+               <if test="entity.jobStartTime != null">
+               job_start_time = #{entity.jobStartTime},
+               </if>
+               <if test="entity.jobEndTime != null">
+               job_end_time = #{entity.jobEndTime},
+               </if>
+               <if test="entity.jobDuration != null">
+               job_duration = #{entity.jobDuration},
+               </if>
+               <if test="entity.itemQty != null">
+               item_qty = #{entity.itemQty},
+               </if>
+               <if test="entity.itemQtyUnit != null">
+               item_qty_unit = #{entity.itemQtyUnit},
+               </if>
+               <if test="entity.requireVehicleType != null">
+               require_vehicle_type = #{entity.requireVehicleType},
+               </if>
+               <if test="entity.memo != null">
+               memo = #{entity.memo},
+               </if>
+               <if test="entity.regDt != null">
+               reg_dt = #{entity.regDt},
+               </if>
+               <if test="entity.modDt != null">
+               mod_dt = #{entity.modDt},
+               </if>
+               </set>
+         WHERE id = #{entity.id}
+    </update>
+    <delete id="delete" parameterType="Job">
+        /* 업무 삭제 */
+        DELETE FROM job 
+         WHERE id = #{id}
+    </delete>
+    <sql id="cols">
+        a.id,
+        a.member_id,
+        a.node_id,
+        a.job_date,
+        a.job_start_time,
+        a.job_end_time,
+        a.job_duration,
+        a.item_qty,
+        a.item_qty_unit,
+        a.require_vehicle_type,
+        a.memo,
+        a.reg_dt,
+        a.mod_dt
+    </sql>
+    <sql id="where">
+            <if test="id != null">
+        AND a.id = #{id}
+            </if>
+            <if test="memberId != null">
+        AND a.member_id = #{memberId}
+            </if>
+            <if test="nodeId != null">
+        AND a.node_id = #{nodeId}
+            </if>
+            <if test="jobDate != null">
+        AND a.job_date = #{jobDate}
+            </if>
+            <if test="jobStartTime != null">
+        AND a.job_start_time = #{jobStartTime}
+            </if>
+            <if test="jobEndTime != null">
+        AND a.job_end_time = #{jobEndTime}
+            </if>
+            <if test="jobDuration != null">
+        AND a.job_duration = #{jobDuration}
+            </if>
+            <if test="itemQty != null">
+        AND a.item_qty = #{itemQty}
+            </if>
+            <if test="itemQtyUnit != null">
+        AND a.item_qty_unit = #{itemQtyUnit}
+            </if>
+            <if test="requireVehicleType != null">
+        AND a.require_vehicle_type = #{requireVehicleType}
+            </if>
+            <if test="memo != null">
+        AND a.memo = #{memo}
+            </if>
+            <if test="regDt != null">
+        AND a.reg_dt = #{regDt}
+            </if>
+            <if test="modDt != null">
+        AND a.mod_dt = #{modDt}
+            </if>
+    </sql>
+    <select id="selectOne" resultMap="JobRM">
+        /* 업무 상세조회 */
+        SELECT <include refid="cols"></include>
+          FROM job a
+         WHERE id = #{id}
+    </select>
+    <select id="selectOneByParam" resultMap="JobRM">
+        /* 업무 상세조회 */
+        SELECT <include refid="cols"></include>
+          FROM job a
+               <where>
+               <include refid="where"></include>
+               </where>
+    </select>
+    <select id="selectList" resultMap="JobRM">
+        /* 업무 목록조회 */
+        SELECT <include refid="cols"></include>
+          FROM job a
+               <where>
+               <include refid="where"></include>
+               </where>
+               <if test="pageable != null">
+         LIMIT #{pageable.start}, #{pageable.end}
+               </if>
+    </select>
+    <select id="selectListCount" resultType="Long">
+        /* 업무 전체 개수 조회 */
+        SELECT COUNT(*) AS CNT
+          FROM job a
+               <where>
+               <include refid="where"></include>
+               </where>
+    </select>
+</mapper>

@@ -1,0 +1,1581 @@
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>여행 계획</title>
+    <link href="https://getbootstrap.com/docs/5.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://getbootstrap.com/docs/5.3/examples/sidebars/sidebars.css" rel="stylesheet">
+    <style>
+        #poi-info {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            font-family: sans-serif;
+        }
+
+        #poi-info div {
+            margin-bottom: 10px;
+        }
+
+        #poi-info strong {
+            font-weight: bold;
+        }
+
+        body {
+            font-family: sans-serif;
+        }
+
+        .container {
+            max-width: 85%;
+            margin: 30px auto;
+            padding: 20px;
+            border: 1px solid #dee2e6;
+            border-radius: 0.25rem;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            grid-template-rows: auto auto auto;
+            gap: 15px;
+        }
+
+        .participants-section, .cost-section, .course-a-section, .course-b-section, .memo-section {
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            padding: 10px;
+        }
+
+        #map {
+            width: 100%;
+            height: 600px;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+        }
+
+        .button-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .course-details-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+        }
+
+        .participants-section {
+            grid-column: 1 / 2;
+            grid-row: 1 / 2;
+        }
+
+        .cost-section {
+            grid-column: 1 / 2;
+            grid-row: 2 / 3;
+        }
+
+        #map {
+            grid-column: 2 / 3;
+            grid-row: 1 / 3;
+        }
+
+        .button-section {
+            grid-column: 3 / 4;
+            grid-row: 1 / 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: stretch;
+        }
+
+        .button-section button {
+            margin-bottom: 5px;
+        }
+
+        .course-details-container {
+            grid-column: 1 / 4;
+            grid-row: 3 / 4;
+        }
+
+        .course-a-section {
+
+        }
+
+        .course-b-section {
+
+        }
+
+        .memo-section {
+
+        }
+
+        .course-a-section h4, .course-b-section h4 {
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .course-a-section p, .course-b-section p {
+            margin-bottom: 5px;
+        }
+    </style>
+    <link href="/css/header.css" rel="stylesheet">
+</head>
+<body>
+<header class="header-area">
+    <div th:replace="~{header.html}"></div>
+</header>
+
+<div class="container">
+    <div class="grid-container">
+        <div class="participants-section">
+            <h4>참여자 <span class="badge bg-secondary" id="participant-count">0명</span></h4>
+            <ul class="list-unstyled" id="participant-list">
+                <!-- 동적으로 추가될 참여자 목록 -->
+            </ul>
+        </div>
+
+        <div class="cost-section">
+            <h4>예상 견적비</h4>
+            <ul class="list-unstyled">
+                <li id="fullfuel-cost"></li>
+                <li id="fuel-cost"></li>
+            </ul>
+        </div>
+
+        <div id="map"></div>
+
+        <div class="button-section">
+            <input type="text" class="btn btn-dark w-100" id="searchInput" placeholder="검색어를 입력하세요">
+            <br>
+            <button type="button" class="btn btn-success" onclick="searchPoi();" id="searchPoiButton">주변 관광지 검색</button>
+
+            <button type="button" class="btn btn-primary" id="pay-button" onclick="openPayPopup()">결제하기</button>
+            <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-body-tertiary border border-r-1"
+                 style="width: 450px; height: 500px">
+                <div class="d-flex align-items-center flex-shrink-0 p-3 link-body-emphasis text-decoration-none" id="summary-title">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="#4ae39c" viewBox="0 0 256 256" class="me-2">
+                        <path d="M232,128A104,104,0,1,1,128,24,104.13,104.13,0,0,1,232,128Z"></path>
+                    </svg>
+                    <span class="fs-5 fw-semibold">코스 소개</span>
+                    <button type="button" class="btn btn-dark btn-sm ms-2" onclick="fetchCourseList(bNum)">코스 VRP</button>
+                </div>
+                <div class="d-flex flex-wrap py-3 px-2 gap-3 align-items-center justify-content-center border-bottom" id="summary-section">
+                    <div class="d-flex flex-column align-items-center">
+                        <div id="totalVisit"></div>
+                        <div class="fw-light" style="font-size:.75rem">경유지</div>
+                    </div>
+                    <div class="border-start border-2 h-50"></div>
+                    <div class="d-flex flex-column align-items-center">
+                        <div id="totalDistance"></div>
+                        <div class="fw-light" style="font-size:.75rem">이동거리</div>
+                    </div>
+                    <div class="border-start border-2 h-50"></div>
+                    <div class="d-flex flex-column align-items-center">
+                        <div id="totalDuration"></div>
+                        <div class="fw-light" style="font-size:.75rem">이동시간</div>
+                    </div>
+                </div>
+                <div class="list-group scrollarea px-3 flex-grow-1" id="nodeList">
+
+                </div>
+            </div>
+        </div>
+
+        <div class="course-details-container">
+            <div class="course-a-section">
+
+            </div>
+            <div class="course-b-section">
+
+                <div class="mb-3">
+                    <a id="oLink2" style="
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff; /* 배경색 */
+    color: white; /* 글자색 */
+    text-decoration: none; /* 밑줄 제거 */
+    border-radius: 5px; /* 둥근 모서리 */
+    font-weight: bold; /* 글자 굵게 */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+    transition: background-color 0.3s ease; /* 부드러운 배경색 전환 효과 */
+">오픈톡 가기!</a>
+
+                    <input type="text" class="form-control" id="oLink" placeholder="오픈 채팅방 링크를 입력해주세요" />
+                </div>
+
+            </div>
+            <div class="memo-section">
+
+                <h4>오픈톡방 제목 규칙</h4>
+
+              <label>📢 제목 : [목적지] [날짜] 일정! 존댓말로 소통해요 🤗 톡방 매너 필수!</label>
+            </div>
+            <div id="apply-list-container"></div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2d9eb0b403c46eb5f1bd564c9b9149d1&libraries=services"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+
+
+
+    function spinOn() {
+        $("#spin").addClass("d-flex");
+    }
+
+    function spinOff() {
+        $("#spin").removeClass("d-flex");
+    }
+
+    console.log((typeof kakao));
+    var container = document.getElementById('map');
+    var options = {
+        center: new kakao.maps.LatLng(37.5665, 126.9780),
+        level: 4
+    };
+    var map = new kakao.maps.Map(container, options);
+    var geocoder = new kakao.maps.services.Geocoder();
+    let urlParams = new URLSearchParams(window.location.search);
+    const encodedAddress = urlParams.get('addressFromPos');
+    const addressFromPost = decodeURIComponent(encodedAddress);
+
+    spinOn();
+    geocoder.addressSearch(addressFromPost, function (result, status) {
+        spinOff();
+        if (status === kakao.maps.services.Status.OK) {
+            var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+            map.setCenter(coords);
+            var marker = new kakao.maps.Marker({
+                map: map,
+                position: coords
+            });
+            var infowindow = new kakao.maps.InfoWindow({
+                content: '<div style="width:150px;text-align:center;padding:6px 0;">' + addressFromPost + '</div>'
+            });
+            // infowindow.open(map, marker);
+            marker.setMap(null); // 중심지 마커 숨기기
+        } else {
+        }
+    });
+
+
+    function loadInitialData() {
+        clearAnimation(); // 애니메이션 초기화 함수 호출
+        clearManualMarkers(); // 수동 마커 및 경로 제거 (★★★★★ 추가 ★★★★★)
+        spinOn();
+        $.ajax({
+            url: `/cpoi?bNum=${bNum}`,
+            type: 'get',
+            success: function (result) {
+                if (result.code != 'SUCC') {
+                    alert("초기 데이터 로딩에 실패.");
+                    spinOff();
+                    return;
+                }
+                const data = result.data;
+                displayData3(data);
+                goVrp();
+
+            },
+            error: function () {
+                alert("초기 데이터 로딩에 실패");
+                spinOff();
+            }
+        });
+
+    }
+    function openPayPopup() {
+
+        const totalDistanceElement = document.getElementById("totalDistance");
+        const totalDistanceText = totalDistanceElement.textContent;
+        const totalDistanceValue = parseFloat(totalDistanceText.replace("km", ""));
+        const urlParams = new URLSearchParams(window.location.search);
+        const countPeople = urlParams.get('countPeople');
+        const countPeopleNum = parseInt(countPeople);
+        const divisor = countPeopleNum - 1;
+        const fuelCost = Math.round(totalDistanceValue * 1700/15 / divisor);
+
+        let url = `/payForm`;
+        if (bNum) {
+            url += `?bNum=${bNum}&fuelCost=${fuelCost}&bNum=${bNum}`;
+        } else {
+            url += `?fuelCost=${fuelCost}`;
+        }
+
+        const options = "width=600, height=400, top=100, left=100, resizable=yes, scrollbars=yes";
+        window.open(url, "payPopup", options);
+    }
+    function boardToHistoryAjax() {
+
+        const bNum = new URLSearchParams(window.location.search).get("bNum");
+        fetch('/boardToHistory', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: `BNum=${bNum}`
+        })
+            .then(response => {
+                if (!response.ok) {
+                    return response.text().then(errorMessage => {
+                        throw new Error(errorMessage || '서버 오류 발생');
+                    });
+                }
+                return response.text();
+            })
+            .then(message => {
+                alert(message);
+                window.location.href = `/RWriteForm?bNum=${bNum}`;
+            })
+            .catch(error => {
+                console.error('AJAX 요청 에러:', error);
+                if (error.message === '서버 오류 발생') {
+                    alert('서버 오류가 발생했습니다.');
+                } else {
+                    alert('요청 실패: ' + error.message);
+                }
+            });
+    }
+    function searchPoi() {
+        clearAnimation(); // 애니메이션 초기화 함수 호출
+        clearManualMarkers(); // 수동 마커 및 경로 제거 (★★★★★ 추가 ★★★★★)
+        var latlng = map.getCenter();
+        const x = latlng.getLng();
+        const y = latlng.getLat();
+        const keyword = $("#searchInput").val();
+        const combinedValue = `${addressFromPost} ${keyword}`;
+        spinOn();
+        $.ajax({
+            url: '/poi',
+            data: {
+                x: x,
+                y: y,
+                keyword: combinedValue
+            },
+            success: function (result) {
+                if (result.code != 'SUCC') {
+                    // alert("주변 관광지 검색에 실패.");
+                    spinOff();
+                    return;
+                }
+                const data = result.data;
+
+                displayData2(data, true);
+            },
+            error: function () {
+                // alert("주변 관광지 검색에 실패");
+                spinOff();
+            }
+        });
+    }
+
+
+    let POLYLINE = null;
+    let totalPathPointList = [];
+    let totalDistance = 0;
+    let totalDuration = 0;
+    let nodeList = [];
+    const NODE_MAP = {};
+    const MARKER_MAP = {};
+    const INFO_MAP = {};
+
+    function displayData(data) {
+        clearNode();
+        clearManualMarkers(); // 수동 마커 및 경로 제거 (★★★★★ 추가 ★★★★★)
+        totalDistance = data.totalDistance;
+        totalDuration = data.totalDuration;
+        totalPathPointList = data.totalPathPointList;
+        nodeList = data.nodeList;
+
+        $("#totalVisit").text(nodeList.length + "곳");
+        $("#totalDistance").text((totalDistance / 1000).toFixed(2) + "km");
+        $("#totalDuration").text(secondsToHoursMinutes(totalDuration));
+        let html = '';
+        let count = 0;
+        var bounds = new kakao.maps.LatLngBounds();
+        for (const node of nodeList) {
+            NODE_MAP[node.id] = node;
+
+            let listItemClass = "list-group-item list-group-item-action py-3 lh-sm mt-3 border rounded-2";
+            if (count === 0) {
+                listItemClass += " start-point"
+            }
+            else if (count === nodeList.length - 1) {
+                listItemClass += " end-point"
+            }
+
+            html += `
+<a href="javascript:panTo(${node.id});" class="${listItemClass}" data-node-id="${node.id}" data-x="${node.x}" data-y="${node.y}">
+  <div class="d-flex w-100 align-items-center justify-content-start mb-1">
+    <span class="badge text-bg-secondary">${++count}</span><strong class="ms-1">${node.name}</strong>
+  </div>
+  <div class="mt-3 small">
+    <div class="d-flex align-items-center justify-content-between">
+      <div class="d-flex align-items-center"><span class="badge text-bg-light border border-secondary-subtle me-2">주소</span> <span>${node.address}</span></div>
+      ${node.phone == null ? '' : `
+         <div class="d-flex align-items-center">
+            <span class="badge text-bg-light border border-secondary-subtle me-2">전화</span>
+            <span>${node.phone}</span>
+          </div>
+      `}
+    </div>
+  </div>
+  <div class="mt-2 d-flex justify-content-between align-items-center">
+    <button class="btn btn-danger btn-sm delete-node-button" id="delete-node-${node.id}" onclick="deleteNode(${node.id})">삭제</button>
+  </div>
+</a>
+
+`;
+            drawMarker(node, bounds,count,nodeList.length);
+        }
+        if (nodeList.length > 0) {
+            map.setBounds(bounds);
+        }
+        $("#nodeList").html(html);
+        // 애니메이션 시작 (경로가 있고, 출발지와 도착지가 있는 경우)
+        if (totalPathPointList.length > 1 && nodeList.length >= 2) {
+            // alert("차 달리기시작");
+            animateMarker(totalPathPointList); // 수정된 animateMarker 함수 호출
+            updateFuelCost();
+            function updateFuelCost() {
+
+                const totalDistanceElement = document.getElementById("totalDistance");
+                const totalDistanceText = totalDistanceElement.textContent;
+                const totalDistanceValue = parseFloat(totalDistanceText.replace("km", ""));
+                const urlParams = new URLSearchParams(window.location.search);
+                const countPeople = urlParams.get('countPeople');
+                const countPeopleNum = parseInt(countPeople);
+                const divisor = countPeopleNum - 1;
+                const fuelCost = Math.round(totalDistanceValue * 1700/15 / divisor);
+                const fullcost = Math.round(totalDistanceValue * 1700 /15);
+                // HTML 요소 찾기
+                const fuelCostElement = document.getElementById("fuel-cost");
+                const fullfuelCost = document.getElementById("fullfuel-cost")
+
+
+                // 연료비 값 HTML에 업데이트
+                if (fuelCostElement) {
+                    fuelCostElement.textContent = `연료비: ${fuelCost} 원`;
+                    fullfuelCost.textContent = `총연료비: ${fullcost} 원`;
+                } else {
+                    console.error("fuel-cost 요소를 찾을 수 없습니다.");
+                }
+            }
+        } else {
+            alert("차 달리기 실패");
+        }
+
+        spinOff();
+    }
+
+    let animatedOverlay = null; // 애니메이션 오버레이 (마커 대신)
+    let animationInterval = null; // 애니메이션 interval 저장
+    let carImageElement = null; // 자동차 이미지 요소
+
+    function animateMarker(pathPoints) { // animateMarker 함수 (수정됨)
+        clearAnimation();
+        if (animatedOverlay) {
+            animatedOverlay.setMap(null); // 기존 오버레이 제거
+        }
+
+        // 자동차 이미지 요소 생성 (애니메이션 시작 시점에 한 번만 생성)
+        if (!carImageElement) {
+            carImageElement = document.createElement('img');
+            carImageElement.src = '/images/car.png'; // 자동차 이미지 경로 확인
+            carImageElement.style.width = '30px'; // 이미지 크기 조정 (원하는 크기로)
+            carImageElement.style.transition = 'transform 0.1s linear'; // 회전 부드럽게
+        }
+
+        // CustomOverlay 생성 (처음 위치에)
+        animatedOverlay = new kakao.maps.CustomOverlay({
+            position: new kakao.maps.LatLng(pathPoints[0].y, pathPoints[0].x),
+            content: carImageElement, // 이미지 요소를 내용으로 설정
+            map: map
+        });
+
+        let pointIndex = 1;
+        animationInterval = setInterval(function () {
+            if (pointIndex < pathPoints.length) {
+                var prevPoint = pathPoints[pointIndex - 1];
+                var thisPoint = pathPoints[pointIndex];
+
+                var deg = getBearing(prevPoint.x, prevPoint.y, thisPoint.x, thisPoint.y); // getBearing 함수 사용
+
+                moveVehicle(pathPoints[pointIndex], deg); // moveVehicle 함수 호출
+                pointIndex++;
+            } else {
+                // clearInterval(animationInterval); // 애니메이션 종료 - 이 줄을 제거!
+                pointIndex = 1; // pointIndex를 1로 재설정하여 반복 시작
+                // (선택 사항) 시작점으로 바로 돌아가게 하려면 다음 줄을 추가할 수 있습니다.
+                // moveVehicle(pathPoints[0], getBearing(pathPoints[0].x, pathPoints[0].y, pathPoints[1].x, pathPoints[1].y));
+            }
+        }, 30);
+    }
+
+    function moveVehicle(point, deg) { // moveVehicle 함수 (수정됨)
+        if (animatedOverlay && carImageElement) {
+            carImageElement.style.transform = 'rotate(' + (deg - 90) + 'deg)'; // -90도 보정 (이미지 방향에 따라 조정)
+            var position = new kakao.maps.LatLng(point.y, point.x);
+            animatedOverlay.setPosition(position);
+        }
+    }
+
+    function getBearing(x1, y1, x2, y2) { // getBearing 함수 (예제 코드에서 추가)
+        // 위도, 경도를 라디안 단위로 변환
+        var radY1 = y1 * Math.PI / 180;  // latitude y
+        var radX1 = x1 * Math.PI / 180;  // longitude x
+        var radY2 = y2 * Math.PI / 180;
+        var radX2 = x2 * Math.PI / 180;
+
+        var deltaX = radX2 - radX1;
+
+        var y = Math.sin(deltaX) * Math.cos(radY2);
+        var x = Math.cos(radY1) * Math.sin(radY2) -
+            Math.sin(radY1) * Math.cos(radY2) * Math.cos(deltaX);
+        var bearing = Math.atan2(y, x) * 180 / Math.PI;
+        return (bearing + 360) % 360; // 0~360도 범위로 조정
+    }
+
+    //     // 애니메이션 시작 (경로가 있고, 출발지와 도착지가 있는 경우)
+    //     if (totalPathPointList.length > 1 && nodeList.length >= 2) {
+    //         alert("차 달리기시작");
+    //         animateMarker(totalPathPointList);
+    //     }else{
+    //         alert("차 달리기 실패");
+    //     }
+    //
+    //     spinOff();
+    // }
+    //
+    // let animatedMarker = null; // 애니메이션 마커 전역 변수
+    // let animationInterval = null; // 애니메이션 interval 저장
+    //
+    //
+    // function animateMarker(pathPoints) { // animateMarker 함수 (기존 코드 활용)
+    //     if (animatedMarker) {
+    //         animatedMarker.setMap(null);
+    //     }
+    //     animatedMarker = new kakao.maps.Marker({
+    //         position: new kakao.maps.LatLng(pathPoints[0].y, pathPoints[0].x),
+    //         map: map,
+    //         image: new kakao.maps.MarkerImage(
+    //             '/images/car.png',
+    //             new kakao.maps.Size(30, 30),
+    //             {
+    //                 offset: new kakao.maps.Point(15, 30),
+    //                 rotation: 0 // 초기 회전 각도 0으로 설정
+    //             }
+    //         )
+    //     });
+    //
+    //     let pathIndex = 1;
+    //     animationInterval = setInterval(function() {
+    //         if (pathIndex < pathPoints.length) {
+    //             const currentPoint = pathPoints[pathIndex - 1]; // 현재 좌표
+    //             const nextPoint = pathPoints[pathIndex];       // 다음 좌표
+    //
+    //             const currentLatLng = new kakao.maps.LatLng(currentPoint.y, currentPoint.x);
+    //             const nextLatLng = new kakao.maps.LatLng(nextPoint.y, nextPoint.x);
+    //
+    //             // 두 지점 사이의 각도 계산 (degree 단위)
+    //             const angle = calculateAngle(currentLatLng, nextLatLng);
+    //
+    //             // 회전 각도를 적용한 새 MarkerImage 생성
+    //             const rotatedImage = new kakao.maps.MarkerImage(
+    //                 '/images/car.png',
+    //                 new kakao.maps.Size(30, 30),
+    //                 {
+    //                     offset: new kakao.maps.Point(15, 30),
+    //                     rotation: angle // 계산된 각도 적용
+    //                 }
+    //             );
+    //
+    //             animatedMarker.setImage(rotatedImage); // 마커 이미지 업데이트
+    //             animatedMarker.setPosition(nextLatLng);   // 마커 위치 이동
+    //
+    //             pathIndex++;
+    //         } else {
+    //             pathIndex = 0;
+    //             let startPoint = pathPoints[0];
+    //             let startLatLng = new kakao.maps.LatLng(startPoint.y, startPoint.x);
+    //             animatedMarker.setPosition(startLatLng);
+    //         }
+    //     }, 100);
+    // }
+    //
+    // // 두 LatLng 지점 사이의 각도를 degree 단위로 계산하는 함수
+    // function calculateAngle(latlng1, latlng2) { // calculateAngle 함수 (기존 코드 활용)
+    //     const lat1 = latlng1.getLat();
+    //     const lng1 = latlng1.getLng();
+    //     const lat2 = latlng2.getLat();
+    //     const lng2 = latlng2.getLng();
+    //
+    //     const deltaLng = lng2 - lng1;
+    //     const deltaLat = lat2 - lat1;
+    //
+    //     let angleRad = Math.atan2(deltaLng, deltaLat); // 라디안 각도 계산
+    //     let angleDeg = angleRad * (180 / Math.PI);     // degree 로 변환
+    //
+    //     // 각도 보정: 마커 이미지가 Y축 방향을 기준으로 회전하므로, 보정이 필요할 수 있습니다.
+    //     // 필요에 따라 아래 보정값을 조절하거나 제거할 수 있습니다.
+    //
+    //     // angleDeg = angleDeg - 90; // 예시: -90도 보정 (차량 이미지 방향에 따라 조절)
+    //
+    //     return angleDeg;
+    // }
+    function clearAnimation() {
+        if (animatedOverlay) {
+            animatedOverlay.setMap(null); // 지도에서 애니메이션 오버레이 제거
+            animatedOverlay = null; // 변수 초기화
+        }
+        if (animationInterval) {
+            clearInterval(animationInterval); // 애니메이션 interval 중지
+            animationInterval = null; // 변수 초기화
+        }
+    }
+    function displayData2(data) {
+        clearNode();
+        clearManualMarkers(); // 수동 마커 및 경로 제거 (★★★★★ 추가 ★★★★★)
+        totalDistance = data.totalDistance;
+        totalDuration = data.totalDuration;
+        totalPathPointList = data.totalPathPointList;
+        nodeList = data.nodeList;
+
+        // $("#totalVisit").text(nodeList.length + "곳");
+        // $("#totalDistance").text((totalDistance / 1000).toFixed(2) + "km");
+        // $("#totalDuration").text(secondsToHoursMinutes(totalDuration));
+
+        let html = '';
+        let count = 0;
+        var bounds = new kakao.maps.LatLngBounds();
+        for (const node of nodeList) {
+            NODE_MAP[node.id] = node;
+            let listItemClass = "list-group-item list-group-item-action py-3 lh-sm mt-3 border rounded-2";
+            if (count === 0) {
+                listItemClass += " start-point"
+            }
+            else if (count === nodeList.length - 1) {
+                listItemClass += " end-point"
+            }
+
+            html += `
+    <a href="javascript:panTo(${node.id});" class="${listItemClass}" data-node-id="${node.id}" data-x="${node.x}" data-y="${node.y}">
+      <div class="d-flex w-100 align-items-center justify-content-start mb-1">
+        <span class="badge text-bg-secondary">${++count}</span><strong class="ms-1">${node.name}</strong>
+      </div>
+      <div class="mt-3 small">
+        <div class="d-flex align-items-center justify-content-between">
+          <div class="d-flex align-items-center"><span class="badge text-bg-light border border-secondary-subtle me-2">주소</span> <span>${node.address}</span></div>
+          ${node.phone == null ? '' : `
+             <div class="d-flex align-items-center">
+                <span class="badge text-bg-light border border-secondary-subtle me-2">전화</span>
+                <span>${node.phone}</span>
+              </div>
+          `}
+        </div>
+      </div>
+      <div class="mt-2 d-flex justify-content-between align-items-center">
+        <button class="btn btn-success btn-sm add-to-course-button" data-node-id="${node.id}">추가</button>
+      </div>
+    </a>
+  `;
+            drawMarker(node, bounds,count,nodeList.length, true);
+        }
+        if (nodeList.length > 0) {
+            map.setBounds(bounds);
+        }
+        $("#nodeList").html(html);
+        spinOff();
+    }
+
+    function displayData3(data) {
+        clearNode();
+        clearManualMarkers(); // 수동 마커 및 경로 제거 (★★★★★ 추가 ★★★★★)
+        totalDistance = data.totalDistance;
+        totalDuration = data.totalDuration;
+        totalPathPointList = data.totalPathPointList;
+        nodeList = data.nodeList;
+
+        // $("#totalVisit").text(nodeList.length + "곳");
+        // $("#totalDistance").text((totalDistance / 1000).toFixed(2) + "km");
+        // $("#totalDuration").text(secondsToHoursMinutes(totalDuration));
+
+        let html = '';
+        let count = 0;
+        var bounds = new kakao.maps.LatLngBounds();
+        for (const node of nodeList) {
+            NODE_MAP[node.id] = node;
+            let listItemClass = "list-group-item list-group-item-action py-3 lh-sm mt-3 border rounded-2";
+            if (count === 0) {
+                listItemClass += " start-point"
+            }
+            else if (count === nodeList.length - 1) {
+                listItemClass += " end-point"
+            }
+
+            html += `
+    <a href="javascript:panTo(${node.id});" class="${listItemClass}" data-node-id="${node.id}" data-x="${node.x}" data-y="${node.y}">
+      <div class="d-flex w-100 align-items-center justify-content-start mb-1">
+        <span class="badge text-bg-secondary">${++count}</span><strong class="ms-1">${node.name}</strong>
+      </div>
+      <div class="mt-3 small">
+        <div class="d-flex align-items-center justify-content-between">
+          <div class="d-flex align-items-center"><span class="badge text-bg-light border border-secondary-subtle me-2">주소</span> <span>${node.address}</span></div>
+          ${node.phone == null ? '' : `
+             <div class="d-flex align-items-center">
+                <span class="badge text-bg-light border border-secondary-subtle me-2">전화</span>
+                <span>${node.phone}</span>
+              </div>
+          `}
+        </div>
+      </div>
+      <div class="mt-2 d-flex justify-content-between align-items-center">
+
+      </div>
+    </a>
+  `;
+            drawMarker(node, bounds,count,nodeList.length, true);
+        }
+        if (nodeList.length > 0) {
+            map.setBounds(bounds);
+        }
+        $("#nodeList").html(html);
+        spinOff();
+    }
+
+
+    function secondsToHoursMinutes(seconds) {
+        const hours = Math.floor(seconds / 3600);
+        const minutes = Math.floor((seconds % 3600) / 60);
+        const formattedHours = hours > 0 ? `${hours.toString().padStart(2, '0')}시간 ` : '';
+        const formattedMinutes = minutes.toString().padStart(2, '0');
+        return `${formattedHours}${formattedMinutes}분`;
+    }
+
+    function drawMarker(node, bounds, count, nodeLength, isSearch = false) {
+        const position = new kakao.maps.LatLng(node.y, node.x);
+        bounds.extend(position);
+        let markerClass = "kakaoMarker";
+        let markerImage = null;
+
+        if(isSearch){
+            markerImage = new kakao.maps.MarkerImage(
+                'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png', // 기본 마커 이미지 URL
+                new kakao.maps.Size(24, 35),
+                { offset: new kakao.maps.Point(13, 35) }
+            );
+            markerClass += " search-point";
+        }else{
+            if (count === 1) {
+                markerClass += " start-point";
+                markerImage = new kakao.maps.MarkerImage(
+                    "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/red_b.png",
+                    new kakao.maps.Size(50, 45),
+                    { offset: new kakao.maps.Point(13, 35) }
+                );
+            } else
+            if (count === nodeLength) {
+                markerClass += " end-point";
+                markerImage = new kakao.maps.MarkerImage(
+                    "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/blue_b.png",
+                    new kakao.maps.Size(50, 45),
+                    { offset: new kakao.maps.Point(13, 35) }
+                );
+            } else {
+                markerClass += " waypoint-point";
+                markerImage = new kakao.maps.MarkerImage(
+                    "https://t1.daumcdn.net/localimg/localimages/07/2018/pc/flagImg/green_b_1.png", // 경유지 이미지
+                    new kakao.maps.Size(24, 35),
+                    { offset: new kakao.maps.Point(13, 35) }
+                );
+            }
+        }
+        const marker = new kakao.maps.Marker({
+            position: position,
+            clickable: true,
+            image: markerImage
+        });
+        marker.setMap(map);
+
+        const name = node.name;
+        const phone = node.phone;
+        const phoneText = phone ? phone : ""; // 수정된 부분
+        const infowindow = new kakao.maps.InfoWindow({
+            content: `<div class ="${markerClass}"style="padding:5px;">` + name + '<br/>' + phoneText + '</div>', // 수정된 부분
+            removable: true
+        });
+
+        MARKER_MAP[node.id] = marker;
+        INFO_MAP[node.id] = infowindow;
+
+        kakao.maps.event.addListener(marker, 'click', function () {
+            infowindow.open(map, marker);
+        });
+    }
+    function drawPath(pathPointList) {
+        if (pathPointList.length > 0) {
+            var linePath = [];
+            for (var point of pathPointList) {
+                linePath.push(new kakao.maps.LatLng(point.y, point.x));
+            }
+            POLYLINE = new kakao.maps.Polyline({
+                path: linePath,
+                strokeWeight: 5,
+                strokeColor: 'red',
+                strokeOpacity: 0.7,
+                strokeStyle: 'solid'
+            });
+            POLYLINE.setMap(map);
+        }
+    }
+
+    function panTo(nodeId) {
+        clearInfoWindow();
+        const node = NODE_MAP[nodeId];
+        INFO_MAP[nodeId].open(map, MARKER_MAP[nodeId]);
+        var moveLatLon = new kakao.maps.LatLng(node.y, node.x);
+        map.panTo(moveLatLon);
+    }
+
+    function clearInfoWindow() {
+        for (const nodeId in INFO_MAP) {
+            INFO_MAP[nodeId].close();
+        }
+    }
+
+    function clearNode() {
+        for (const nodeId in NODE_MAP) {
+            MARKER_MAP[nodeId].setMap(null);
+            MARKER_MAP[nodeId] = null;
+            INFO_MAP[nodeId].close();
+            INFO_MAP[nodeId] = null;
+            delete MARKER_MAP[nodeId];
+            delete INFO_MAP[nodeId];
+            delete NODE_MAP[nodeId];
+        }
+        if (POLYLINE) {
+            POLYLINE.setMap(null);
+            POLYLINE = null;
+        }
+    }
+
+    function goVrp() {
+
+        clearAnimation();
+        clearManualMarkers(); // 수동 마커 및 경로 제거 (★★★★★ 추가 ★★★★★)
+        spinOn();
+        var latlng = map.getCenter();
+        const x = latlng.getLng();
+        const y = latlng.getLat();
+        // const vrpData = Object.values(nodeList);
+        //2. Object.values(NODE_MAP) 는 순서를 보장하지 않는 객체의 값을 배열로 만듭니다. 순서가 랜덤으로 바뀌면 안되는 경우 ajax에서도 리스트를 사용해야합니다.
+        $.ajax({
+            url: '/vrp',
+            type: 'post',
+            contentType: "application/json",
+            data: JSON.stringify(nodeList),
+            success: function (result) {
+                if (result.code != 'SUCC') {
+                    // alert("경로 최적화에 실패 하였습니다.");
+                    spinOff();
+                    return;
+                }
+                const data = result.data;
+                displayData(data);
+                drawPath(totalPathPointList);
+            },
+            error: function () {
+                // alert("경로 최적화에 실패 하였습니다.");
+                spinOff();
+            }
+        });
+    }
+
+    function goVrp1(courseList) { // response 대신 courseList를 명시적으로 사용하는 것이 좋습니다.
+        clearAnimation();
+        clearManualMarkers();
+        spinOn();
+
+        // var latlng = map.getCenter();  // 이 부분은 더 이상 필요하지 않습니다.
+        // const x = latlng.getLng();
+        // const y = latlng.getLat();
+        // alert(courseList);
+        $.ajax({
+            url: '/vrp1',  // 올바른 엔드포인트 (/vrp1)
+            type: 'POST',  // 올바른 HTTP 메서드 (POST)
+            contentType: "application/json",
+            data: JSON.stringify(courseList), // CourseDTO 리스트를 JSON으로 변환하여 전송
+            success: function (result) {
+                if (result.code != 'SUCC') {
+                    spinOff();
+                    return;
+                }
+
+                const data = result.data;
+
+                displayData(data);
+                drawPath(totalPathPointList);
+            },
+            error: function () {
+                // alert("vrp1 실패")
+                spinOff();
+            }
+        });
+    }
+
+    function fetchApplyList(bNum) {
+
+        console.log(bNum);
+        $.ajax({
+            url: `/list/${bNum}`,
+            type: "GET",
+            success: function (response) {
+                console.log("신청 목록 조회 성공:", response);
+                displayApplyList(response);
+            },
+            error: function (error) {
+                console.error("신청 목록 조회 실패:", error);
+                alert('신청 목록 조회 실패:' + error.responseJSON.message);
+            },
+        });
+    }
+    async function displayApplyList(applyList) {
+        console.log("displayApplyList 호출 시작", applyList);
+        const participantList = $("#participant-list");
+        const participantCount = $("#participant-count");
+        participantList.empty();
+        participantCount.text(applyList.length + "명");
+        countPeople1 = urlParams.get("countPeople");
+        if (applyList.length === 0) {
+            participantList.append("<li>신청자가 없습니다.</li>");
+            console.log("신청자가 없습니다.");
+            return;
+        }
+
+        for (const apply of applyList) {
+            console.log("apply 순회 시작:", apply);
+
+            let userGender = apply.userGender;
+            let userId = apply.userId;
+            let userNickName = apply.userNickName;
+            let userAddress = apply.userAddress;
+            const loginUserId = '[[${session.loginId}]]';
+
+
+            // **2. 조건 확인: userId 비교 및 PStatus 확인**
+            if (userId === loginUserId && apply.pstatus === 1) {
+                // **3. "결제하기" 버튼 숨기기**
+                const payButton = document.getElementById('pay-button');
+                if (payButton) {
+                    payButton.style.display = 'none';
+                }
+            }
+
+            if (applyList.length >= countPeople1 && loginUserId === apply.userId && apply.pstatus === 1) { // 신청자 수와 모집 인원 비교 (NEW!)
+                // .memo-section 클래스를 가진 요소 찾기
+                const memoSection = document.querySelector('.memo-section');
+
+                // memo-section 요소가 존재하는지 확인
+                if (memoSection) {
+                    // 새로운 button 요소 생성
+                    const successButton = document.createElement('button');
+
+                    // button 요소에 속성 및 클래스 추가
+                    successButton.id = 'success';
+                    successButton.textContent = '여행 완료'; // 버튼 텍스트 설정
+
+                    // 버튼 클릭 시 AJAX 요청 보내기
+                    successButton.onclick = function () {
+                        $.ajax({
+                            type: 'POST',
+                            url: '/boardToHistory',  // 서버 URL
+                            data: {BNum: bNum},  // bnum 값을 전송
+                            success: function (response) {
+                                alert(response);
+
+                                window.location.href = `/RWriteForm?bNum=${bNum}`;
+                            },
+                            error: function (error) {
+                                console.error(error);
+                            }
+                        });
+                    };
+
+                    // memo-section 요소에 button 요소 추가
+                    memoSection.appendChild(successButton);
+
+
+
+                }
+            }
+
+            console.log("기본 정보 - 성별:", userGender, "아이디:", userId, "닉네임:", userNickName, "주소:", userAddress);
+
+            const nickNames = [...new Set(userNickName.split(",").map(name => name.trim()))];
+            const genders = [...new Set(userGender.split(",").map(gender => gender.trim()))];
+
+            console.log("유니크한 닉네임들:", nickNames);
+            console.log("유니크한 성별들:", genders);
+
+            if (!userAddress) {
+                console.log("주소가 없습니다. user:", apply);
+
+                // 주소가 없는 경우 바로 처리
+                if (nickNames.length === genders.length) {
+                    for (let i = 0; i < nickNames.length; i++) {
+                        const nickName = nickNames[i];
+                        const gender = genders[i];
+                        let listItem = `
+                    <li>
+                        ${nickName} (${gender})
+                    </li>
+                    `;
+                        participantList.append(listItem);
+                        console.log("주소없음 - 리스트 아이템 추가(닉네임/성별):", listItem);
+                    }
+                } else {
+                    let listItem = `
+                <li>
+                    ${userNickName} (${userGender})
+
+                </li>
+                `;
+                    participantList.append(listItem);
+                    console.log("주소없음 - 리스트 아이템 추가(닉네임/성별):", listItem);
+                }
+                console.log("주소없음 - 다음 apply로 넘어감");
+                continue;
+            }
+
+            const geocoder = new kakao.maps.services.Geocoder();
+
+            geocoder.addressSearch(userAddress, function (result, status) { // 콜백 함수 방식
+                if (status === kakao.maps.services.Status.OK) {
+                    var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+                    var x = coords.getLng();
+                    var y = coords.getLat();
+                    console.log("주소 변환 성공 좌표:", x, y);
+                    console.log(userAddress + " 주소 변환 확인");
+
+                    $.ajax({
+                        url: '/poi',
+                        data: {
+                            x: x,
+                            y: y,
+                            keyword: userAddress
+                        },
+                        success: function (result) {
+                            console.log("POI 조회 결과:", result);
+
+                            if (result && result.data && result.data.nodeList && result.data.nodeList.length > 0) {
+                                const firstPoiItem = result.data.nodeList[0];
+                                const addCourseData = {
+                                    nodeId: firstPoiItem.id,
+                                    name: firstPoiItem.name,
+                                    address: firstPoiItem.address,
+                                    phone: firstPoiItem.phone,
+                                    x: firstPoiItem.x,
+                                    y: firstPoiItem.y,
+                                    regDt: firstPoiItem.regDt,
+                                    modDt: firstPoiItem.modDt
+                                };
+                                console.log(addCourseData + "코스 저장전 확인")
+                                addCourse(addCourseData.nodeId, addCourseData.name, addCourseData.address, addCourseData.phone, addCourseData.x, addCourseData.y, addCourseData.regDt, addCourseData.modDt,1);
+
+                                //여기가 중요
+                                if (nickNames.length === genders.length) {
+                                    for (let i = 0; i < nickNames.length; i++) {
+                                        const nickName = nickNames[i];
+                                        const gender = genders[i];
+                                        let listItem = `
+                                        <li class="list-group-item" data-x="${x}" data-y="${y}">
+                                            ${nickName} (${gender})
+                                            <br><span class="badge bg-light text-dark" style="font-size: 0.8rem;">주소: ${userAddress}</span>
+                                               ${apply.pstatus === 1 ? '결제완료' : '결제필요'}
+
+                                        </li>
+                                    `;
+                                        participantList.append(listItem);
+                                        console.log("리스트 아이템 추가(닉네임/성별/주소):", listItem);
+                                    }
+                                } else {
+                                    let listItem = `
+                                    <li class="list-group-item" data-x="${x}" data-y="${y}">
+                                        ${userNickName} (${userGender})
+                                        <br><span class="badge bg-light text-dark" style="font-size: 0.8rem;">주소: ${userAddress}</span>
+                                    </li>
+                                `;
+                                    participantList.append(listItem);
+                                    console.log("리스트 아이템 추가(닉네임/성별/주소):", listItem);
+                                }
+
+                            } else {
+                                console.error("POI 데이터 없음 (nodeList)");
+                                handleError();
+                            }
+                        },
+                        error: function () {
+                            // alert("주변 주소 검색 실패");
+                            // console.error("POI 검색 실패");
+                            // handleError();
+                        }
+                    });
+
+                } else { // 주소 변환 실패
+                    console.error("주소 변환 실패:", userAddress, status, result);
+                    handleError();
+                }
+            });
+
+            // 에러 처리 함수로 중복 제거
+            function handleError() {
+                if (nickNames.length === genders.length) {
+                    for (let i = 0; i < nickNames.length; i++) {
+                        const nickName = nickNames[i];
+                        const gender = genders[i];
+                        let listItem = `
+                        <li>
+                            ${nickName} (${gender})
+                            ${userAddress ? `<br><span class="badge bg-light text-dark" style="font-size: 0.8rem;">주소: ${userAddress}</span>` : ''}
+
+                        </li>
+                    `;
+                        participantList.append(listItem);
+                        console.log("에러발생 - 리스트 아이템 추가(닉네임/성별/주소):", listItem);
+                    }
+                } else {
+                    let listItem = `
+                    <li>
+                        ${userNickName} (${userGender})
+                        ${userAddress ? `<br><span class="badge bg-light text-dark" style="font-size: 0.8rem;">주소: ${userAddress}</span>` : ''}
+
+                    </li>
+                `;
+                    participantList.append(listItem);
+                    console.log("에러발생 - 리스트 아이템 추가(닉네임/성별/주소):", listItem);
+                }
+            }
+
+            console.log("apply 처리 완료:", apply);
+        }
+        console.log("displayApplyList 호출 완료");
+    }
+
+    function fetchCourseList(bNum) {
+        $.ajax({
+            url: `/courseList/${bNum}`,
+            type: "GET",
+            success: function (response) {
+                console.log("코스 목록 조회 성공:", response);
+                // $('.course-b-section > *:not(:first-child)').hide();
+                displayCourseList(response);
+                goVrp1(response);
+            },
+            error: function (error) {
+                console.error("코스 목록 조회 실패:", error);
+            },
+        });
+    }
+
+    function displayCourseList(courseList) {
+
+        console.log("displayCourseList 호출", courseList);
+        const courseASection = $(".course-a-section");
+        const courseBSection = $(".course-b-section");
+
+        courseASection.empty();
+        let courseAhtml = `<h4><button type="button" class="btn btn-dark btn-sm mt-2 show-address-button" id="showAdress">코스 정보보기</button></h4>`;
+        let oLinkValue = "";
+        courseList.forEach((course, index) => {
+            if (course.address) {
+                courseAhtml += `<p style="display: none;" class="address-item course-address"> ${course.name} 주소: ${course.address}</p> `;
+            }
+
+
+            if (course.olink) {
+
+                oLinkValue = course.olink;
+                const oLinkInput = document.getElementById('oLink');
+                const oLink2Element = document.getElementById('oLink2');
+                oLinkInput.value = oLinkValue;
+                oLink2Element.href = oLinkValue;
+            }
+        });
+        courseASection.html(courseAhtml);
+        // // 첫 번째 코스 정보에서 total 값을 가져와서 유류비 계산 및 표시
+        // if (courseList[0]) {
+        //     const urlParams = new URLSearchParams(window.location.search);
+        //     let countPeople = urlParams.get("countPeople");
+        //     if (!countPeople || isNaN(parseInt(countPeople))) {
+        //         countPeople = 1;
+        //     } else {
+        //         countPeople = parseInt(countPeople)
+        //     }
+        //     const totalDistanceElement = document.getElementById("totalDistance");
+        //     if (totalDistanceElement) {
+        //         const totalDistanceText = totalDistanceElement.textContent;
+        //         const totalDistanceValue = parseFloat(totalDistanceText.replace("km", ""));
+        //         const fuelCost = (totalDistanceValue * 1700) / countPeople;
+        //         $("#fuel-cost").text(`유류비: ${fuelCost.toLocaleString()} 원`);
+        //         document.getElementById("fuel-cost").dataset.fuelcost = fuelCost;
+        //     } else {
+        //         $("#fuel-cost").text(`유류비: ________ 원`);
+        //         document.getElementById("fuel-cost").dataset.fuelcost = 0;
+        //     }
+        // } else {
+        //     $("#fuel-cost").text(`유류비: ________ 원`);
+        //     document.getElementById("fuel-cost").dataset.fuelcost = 0;
+        // }
+    }
+
+
+
+    $(document).ready(function () {
+
+
+        if (bNum) {
+
+            fetchApplyList(bNum)
+            fetchCourseList(bNum);
+
+        }
+
+        window.addEventListener('message', function (event) {
+            if (event.data === 'paymentComplete') {
+                location.href = '/myPageForm';
+            }
+        });
+    });
+    bNum = new URLSearchParams(window.location.search).get("bNum");
+    totalDistanceElement = document.getElementById("totalDistance");
+    totalDistanceText = totalDistanceElement.textContent;
+    totalDistanceValue = parseFloat(totalDistanceText.replace("km", ""));
+    urlParams = new URLSearchParams(window.location.search);
+    const countPeople = urlParams.get('countPeople');
+    countPeopleNum = parseInt(countPeople);
+    divisor = countPeopleNum - 1;
+    fuelCost = totalDistanceValue * 1700 / divisor/ 15;
+
+    // document.getElementById('success').addEventListener('click', function() {
+    //     // 2. AJAX 요청 (fetch API 사용)
+    //     fetch('/boardToHistory', {
+    //         method: 'POST', // POST 요청
+    //         headers: {
+    //             'Content-Type': 'application/x-www-form-urlencoded' // 요청 본문 타입 설정 (request parameter 방식)
+    //         },
+    //         body: `BNum=${bNum}` // 요청 본문에 BNum 파라미터 전달
+    //     })
+    //         .then(response => {
+    //             if (!response.ok) { // HTTP 응답 상태 코드가 200-299 범위가 아니면 에러
+    //                 return response.text().then(errorMessage => { // 에러 메시지 받아서 처리
+    //                     throw new Error(errorMessage || '서버 오류 발생'); // 에러 메시지 던지기 (catch에서 잡힘)
+    //                 });
+    //             }
+    //             return response.text(); // 응답 body를 텍스트로 파싱 (String message)
+    //         })
+    //         .then(message => {
+    //             // 성공 시 처리
+    //             alert(message); // 서버에서 받은 메시지 알림 (예: "히스토리 저장 성공")
+    //             // 게시글 상세 페이지로 리다이렉트
+    //             window.location.href = `/RWriteForm?bNum=${bNum}`;
+    //         })
+    //         .catch(error => {
+    //             // 에러 발생 시 처리
+    //             console.error('AJAX 요청 에러:', error);
+    //             if (error.message === '서버 오류 발생') { // 일반적인 서버 오류 (500)
+    //                 alert('서버 오류가 발생했습니다.');
+    //             } else { // 400 에러 등 구체적인 에러 메시지 처리
+    //                 alert('요청 실패: ' + error.message);
+    //             }
+    //         });
+    // });
+
+    function deleteNode(nodeId) {
+
+        $.ajax({
+            url: `/deleteNode/${nodeId}`,
+            type: 'DELETE',
+            success: function (response) {
+                if (response === "삭제 성공") {
+                    $(`a button#delete-node-${nodeId}`).closest('a').remove();
+                    if (MARKER_MAP[nodeId]) {
+                        MARKER_MAP[nodeId].setMap(null);
+                        delete MARKER_MAP[nodeId];
+                    }
+                    if (INFO_MAP[nodeId]) {
+                        INFO_MAP[nodeId].close();
+                        delete INFO_MAP[nodeId];
+                    }
+                    delete NODE_MAP[nodeId];
+                } else {
+                    alert("삭제에 실패했습니다: " + response);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.log("xhr : " + xhr);
+                console.log("status : " + status);
+                console.log("error : " + error);
+                alert("삭제에 실패했습니다. " + error);
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        let courseIndex = 1;
+        let selectedNodeIds = [];
+        let courseDTOList = []; // CourseDTO 객체를 저장할 배열
+
+        $(document).on('click', '.list-group-item', function (event) {
+            event.preventDefault();
+            const nodeId = $(this).data('node-id');
+            panTo(nodeId);
+        });
+
+        $(document).on('click', '.delete-node-button', function () {
+            const buttonId = this.id;
+            const match = buttonId.match(/delete-node-(\d+)/);
+            if (match && match[1]) {
+                const nodeId = parseInt(match[1], 10);
+                deleteNode(nodeId);
+            }
+        });
+        $(document).on('click', '.add-to-course-button', function () {
+            const listItem = $(this).closest('.list-group-item');
+            const nodeId = $(this).data('node-id');
+            const name = listItem.find('strong').text().trim();
+            const address = listItem.find("span.badge:contains('주소')").next('span').text().trim();
+            const phone = listItem.find("span.badge:contains('전화')").next('span').text().trim();
+            const x = parseFloat(listItem.data('x'));
+            const y = parseFloat(listItem.data('y'));
+            const regDt = new Date();
+            const modDt = new Date();
+
+            // 클릭시 즉시 저장
+            addCourse(nodeId, name, address, phone, x, y, regDt, modDt, 0);
+        });
+
+
+
+        function addCourseToDTO(nodeId, name, address, phone, x, y, regDt, modDt) {
+            const bNum = new URLSearchParams(window.location.search).get("bNum");
+            const userId = '[[${session.loginId}]]'; // Thymeleaf를 통해 userId를 직접 설정
+            const oLink = $("#oLink").val();
+            const cStatus = 0;
+
+            if (selectedNodeIds.includes(nodeId)) {
+                alert("이미 추가된 코스 입니다");
+                return;
+            }
+
+            selectedNodeIds.push(nodeId);
+
+            const courseDTO = {
+                id: nodeId,
+                name: name,
+                address: address,
+                phone: phone,
+                x: x,
+                y: y,
+                regDt: regDt,
+                modDt: modDt,
+                BNum: bNum,
+                UserId: userId,
+                OLink: oLink,
+                CStatus: cStatus
+            };
+
+            courseDTOList.push(courseDTO);
+        }
+
+
+    });
+
+    function addCourse(nodeId, name, address, phone, x, y, regDt, modDt ,cStatus) {
+        const bNum = new URLSearchParams(window.location.search).get("bNum");
+        const userId = '[[${session.loginId}]]'; // Thymeleaf를 통해 userId를 직접 설정
+        const oLink = $("#oLink").val();
+
+
+        const courseDTO = {
+            id: nodeId,
+            name: name,
+            address: address,
+            phone: phone,
+            x: x,
+            y: y,
+            regDt: regDt,
+            modDt: modDt,
+            BNum: bNum,
+            UserId: userId,
+            OLink: oLink,
+            CStatus: cStatus
+        };
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const bNum2 = urlParams.get("bNum");
+        oLink2 = $("#oLink").val();
+        const userId2 = `[[${session.loginId}]]`;
+
+        if (!bNum2) {
+            alert("게시글 정보가 없습니다.");
+            return;
+        }
+        if (!userId2) {
+            alert("로그인이 필요합니다");
+            return;
+        }
+
+        spinOn();
+
+        $.ajax({
+            url: '/addCourse',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                courseList: [courseDTO], // 변경된 부분: 배열로 감싸서 전송
+                bNum: bNum2,
+                oLink: oLink2,
+                userId: userId2,
+            }),
+            success: function (response) { // 성공 콜백 (HTTP 200 OK)
+                spinOff();
+                // alert('코스 저장 성공!'); // 성공 알림 (선택 사항)
+                // loadInitialData(); // 성공 시 데이터 다시 로드 (선택 사항)
+                // window.location.reload(); // 페이지 새로고침 (선택 사항)
+            },
+            error: function (jqXHR) {
+                spinOff();
+                if (jqXHR.status === 409) { // HTTP 상태 코드 409 Conflict (코스 수 초과, 주소 중복 등)
+                    // alert('더이상 코스를 저장할 수 없습니다!')
+
+                }
+            }
+        });
+    }
+
+    $(document).on('click', '.show-address-button', function () {
+        console.log('코스 정보보기 버튼 클릭됨');
+        $('.course-address').toggle();
+    });
+
+
+    // $(document).on('click', '#searchPoiButton', function() {
+    //     console.log('주변 관광지 검색 버튼 클릭됨');
+    //     $('#summary-title').remove();
+    //     $('#summary-section').remove();
+    // });
+    let manualMarkers = []; // 수동 마커들을 저장할 배열 (★★★★★ 추가 ★★★★★)
+    let manualPolyline = null; // 수동 경로 polyline (★★★★★ 추가 ★★★★★)
+    // 지도 클릭 이벤트 리스너 등록 (★★★★★ 수정된 부분 ★★★★★)
+    kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
+        // 클릭한 위도, 경도 정보를 가져옵니다
+        var latlng = mouseEvent.latLng;
+
+        // 좌표를 주소로 변환합니다
+        geocoder.coord2Address(latlng.getLng(), latlng.getLat(), function(result, status) {
+            if (status === kakao.maps.services.Status.OK) {
+                var detailAddr = !!result[0].road_address ? '<div>도로명주소 : '  + result[0].road_address.address_name + '</div>' : '';
+                detailAddr += '<div>지번 주소 : ' + result[0].address.address_name + '</div>';
+
+                var content = detailAddr;
+
+                // // 정보창 내용 설정 및 표시
+                // $('#clickLatlng').text('클릭한 좌표: ' + latlng.getLat() + ', ' + latlng.getLng());
+                // $('#clickAddress').html(content);
+
+                // ★★★★★ 마커 표시 기능 추가 ★★★★★
+                // 1. 새 마커 생성 (기존 마커 제거 X)
+                var marker = new kakao.maps.Marker({
+                    map: map,
+                    position: latlng
+                });
+
+                // 2. 마커를 배열에 추가 (★★★★★ 수정 ★★★★★)
+                manualMarkers.push(marker);
+
+                // 3. 마커 지도에 표시
+                marker.setMap(map);
+
+                // // 4. 경로를 다시 그리기 (★★★★★ 추가 ★★★★★)
+                // drawManualPath();
+
+                // 5. 클릭한 위치 주소로 POI 검색 및 코스 추가 (★★★★★ 추가 ★★★★★)
+                const userAddress = result[0].road_address ? result[0].road_address.address_name : result[0].address.address_name;
+
+                // ★★★★★ 확인 창 추가 ★★★★★
+                if (confirm('이 위치에 코스를 추가하시겠습니까?')) { // confirm() 함수로 확인 창 표시
+                    searchPoiAndAddCourse(latlng.getLng(), latlng.getLat(), userAddress); // "예" 클릭 시 코스 추가 함수 호출
+                } else {
+                    console.log("코스 추가 취소"); // "아니오" 또는 취소 클릭 시 콘솔에 메시지 출력 (선택 사항)
+                }
+                // ★★★★★ 확인 창 추가  끝 ★★★★★
+
+                // ★★★★★ 마커 표시 기능 추가  끝 ★★★★★
+            }
+        });
+    });
+
+    // POI 검색 및 코스 자동 추가 함수 (★★★★★ 추가 ★★★★★)
+    function searchPoiAndAddCourse(x, y, userAddress) {
+        // alert(userAddress+"useraddress 여부 확인")
+        $.ajax({
+            url: '/poi',
+            data: {
+                x: x,
+                y: y,
+                keyword: userAddress
+            },
+            success: function (result) {
+                console.log("POI 조회 결과:", result);
+                if (result && result.data && result.data.nodeList && result.data.nodeList.length > 0) {
+                    const firstPoiItem = result.data.nodeList[0];
+                    const addCourseData = {
+                        nodeId: firstPoiItem.id,
+                        name: firstPoiItem.name,
+                        address: firstPoiItem.address,
+                        phone: firstPoiItem.phone,
+                        x: firstPoiItem.x,
+                        y: firstPoiItem.y,
+                        regDt: firstPoiItem.regDt,
+                        modDt: firstPoiItem.modDt
+                    };
+                    console.log(addCourseData+"코스 저장전 확인")
+                    addCourse(addCourseData.nodeId, addCourseData.name, addCourseData.address, addCourseData.phone, addCourseData.x, addCourseData.y, addCourseData.regDt, addCourseData.modDt,0);
+                window.location.reload();
+                }
+            },
+            error: function () {
+                console.error("POI 검색 에러");
+            }
+        });
+    }
+    // 수동 마커 및 경로 제거 함수 (★★★★★ 추가 ★★★★★)
+    function clearManualMarkers() {
+        if (manualMarkers && manualMarkers.length > 0) {
+            for (var i = 0; i < manualMarkers.length; i++) {
+                manualMarkers[i].setMap(null); // 지도에서 마커 제거
+            }
+            manualMarkers = []; // 배열 비우기
+        }
+        if (manualPolyline) {
+            manualPolyline.setMap(null); // 지도에서 경로 제거
+            manualPolyline = null; // 변수 초기화
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,337 @@
+@font-face {
+    font-family: 'Jalnan2TTF';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'ONE-Mobile-POP';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/ONE-Mobile-POP.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+#bBody {
+    text-align: center;
+    background-color: transparent; /* 배경색 투명하게 설정 */
+}
+
+.board1 {
+    margin: 0 auto;
+    text-align: center;
+}
+
+#row {
+    border-radius: 30px; /* 더 둥근 모서리 */
+    background-color: rgba(256, 250, 220, 0.9); /* 밝은 아이보리색 배경, 투명도 85% */
+    width: 1200px;
+    height: auto;
+    border: 10px solid #f0e68c;/* 테두리 변경: 진한 핑크색 */
+    text-align: center;
+    margin: 0 auto; /* 가로 중앙 정렬 */
+    padding: 30px; /* 내부 여백 증가 */
+    margin-top: 50px; /* 위쪽 여백 추가 */
+    margin-bottom: 50px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1); /* 더 옅은 그림자 효과 */
+}
+
+/* 태우다 게시판 css */
+#board1-album1, #board2-album2, #board3-album3 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* 양쪽 정렬 */
+    gap: 20px; /* 게시글 간 간격, 필요에 따라 조정 */
+    width: 100%;
+    margin: auto 0;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.board-bod-a {
+    display: flex;
+    justify-content: space-between; /* 요소들 사이에 간격을 두고 양 끝에 배치 */
+    align-items: center; /* 세로로 가운데 정렬 */
+}
+
+#paging {
+    display: flex;
+    justify-content: center; /* 가로 중앙 정렬 */
+    align-items: center; /* 세로 중앙 정렬 (필요 시) */
+    gap: 20px; /* 버튼 간 간격 */
+    margin: 0 auto; /* 좌우 여백 자동 설정 */
+    width: 100%; /* 부모 컨테이너의 전체 너비를 차지 */
+    color: #5e5e5e; /* 본문 텍스트 색상 조정 */
+}
+
+/* (글쓰기 버튼 색상 변경) */
+.btn-board-form {
+    background: #f8f9fa; /* 밝은 회색 버튼 배경색 */
+    font-family: inherit;
+    padding: 0.6em 1.3em;
+    font-weight: 900;
+    font-size: 12px;
+    border: 3px solid #d3d3d3; /* 연한 회색 테두리 */
+    border-radius: 15px;
+    box-shadow: 0.1em 0.1em rgba(0, 0, 0, 0.2); /* 더 옅은 그림자 */
+    cursor: pointer;
+    margin-right: 0;
+    color: #5e5e5e; /* 버튼 텍스트 색상 조정 */
+    gap: 20px;
+}
+
+.btn-board-form:hover {
+    box-shadow: 0.15em 0.15em rgba(0, 0, 0, 0.3); /* 호버 시 그림자 조정 */
+}
+
+.btn-board-form:active {
+    box-shadow: 0.05em 0.05em rgba(0, 0, 0, 0.2); /* 클릭 시 그림자 조정 */
+}
+.board-item {
+    display: flex;
+    padding: 15px;
+    border-radius: 10px;
+    background-color: rgba(256, 250, 200); /* 밝은 아이보리색 배경, 투명도 85% */
+    width: calc(50% - 10px); /* 한 줄에 2개씩 배치, 양쪽 여백 고려 (gap / 2) */
+    box-sizing: border-box; /* width 계산에 padding, border 포함 */
+    border: 4px solid #000000;
+}
+.board-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+/*.board-thumbnail {*/
+/*    width: 190px; !* 원하는 이미지 너비로 조정 *!*/
+/*    height: 150px; !* 원하는 이미지 높이로 조정 *!*/
+/*    object-fit: contain; !* 이미지가 잘리지 않고, 가로/세로 비율 유지하며 영역 안에 다 들어옴 *!*/
+/*    border-radius: 5px;*/
+/*    border: 3px solid #ccc;*/
+/*}*/
+
+.board-thumbnail img {
+    width: 210px;
+    height: 170px;
+    object-fit: cover; /* 이미지가 잘리지 않고, 가로/세로 비율 유지하며 영역 안에 다 들어옴 */
+    border-radius: 5px;
+    border: 3px solid #000000;
+
+}
+
+.board-details {
+    flex: 1;
+    font-weight:bold;
+}
+
+.board-title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #5e5e5e; /* 게시글 제목 색상 조정 */
+    text-decoration: none;
+}
+
+.board-title:hover {
+    text-decoration: underline;
+}
+
+.board-info {
+    font-size: 18px;
+    color: #777; /* 게시글 정보 색상 조정 */
+    line-height: 1.5;
+}
+
+#input {
+    width: 300px;
+    height: 80%;
+    border: none;
+    outline: none;
+    font-size: 15px;
+    caret-color: rgb(255, 81, 0);
+}
+
+#boardsearchform {
+    text-align: left;
+    margin-left: 50px;
+    margin-top: 30px;
+}
+
+.labelforsearch {
+    cursor: text;
+    padding: 0px 12px;
+}
+
+#searchIcon {
+    width: 13px;
+
+}
+
+.border {
+    height: 40%;
+    width: 1.3px;
+    background-color: rgb(223, 223, 223);
+}
+
+.micIcon {
+    width: 12px;
+}
+
+.micButton {
+    padding: 0px 15px 0px 12px;
+    border: none;
+    background-color: transparent;
+    height: 40px;
+    cursor: pointer;
+    transition-duration: 0.3s;
+}
+
+#searchbtn {
+    height: 80%;
+    border-style: hidden;
+    background: none;
+}
+
+#searchIcon path {
+    fill: rgb(114, 114, 114);
+}
+
+.micIcon path {
+    fill: rgb(255, 81, 0);
+}
+
+.micButton:hover {
+    background-color: rgb(255, 230, 230);
+    transition-duration: 0.3s;
+}
+
+.divider {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 15px;
+    line-height: 1.5;
+    padding-bottom: 10px;
+}
+
+.divider span {
+    margin: 0 10px;
+}
+
+.form-control custom-input {
+    width: 300px;
+    height: 80%;
+    border: none;
+    outline: none;
+    font-size: 15px;
+    caret-color: rgb(255, 81, 0);
+}
+
+/* (검색창 관련 스타일) */
+.search-wrapper {
+    display: flex;
+    align-items: center; /* Vertically centers the items */
+    justify-content: center; /* Horizontally centers the items */
+    gap: 10px; /* Optional: Adjusts the space between the elements */
+    max-width: 600px; /* 최대 너비 설정 */
+    margin: 0 auto; /* 가로 중앙 정렬 */
+}
+
+#category {
+    border: 1px solid #d3d3d3; /* 연한 회색 테두리 */
+    padding: 10px;
+    border-radius: 5px; /* 둥근 모서리 */
+    background-color: #fff; /* 배경색을 흰색으로 설정 */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* 은은한 그림자 효과 */
+}
+
+.ui-input-container {
+    position: relative;
+    width: 100%; /* .search-wrapper에 맞춰 너비 조정 */
+}
+
+.ui-input {
+    width: 100%;
+    padding: 10px 10px 10px 10px;
+    font-size: 1em;
+    border: none;
+    border-bottom: 2px solid #d3d3d3; /* 연한 회색 테두리 */
+    outline: none;
+    background-color: transparent;
+    transition: border-color 0.3s;
+    margin: auto 0;
+}
+
+.ui-input:focus {
+    border-color: #90ee90; /* 포커스 시 테두리 색상을 연한 초록색으로 변경 */
+}
+
+.ui-input-icon button {
+    border: none;
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+}
+
+.ui-input-underline {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    width: 100%;
+    background-color: #d3d3d3; /* 연한 회색 */
+    transform: scaleX(0);
+    transition: transform 0.3s;
+}
+
+.ui-input:focus + .ui-input-underline {
+    transform: scaleX(1);
+}
+
+.ui-input-highlight {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 100%;
+    width: 0;
+    background-color: rgba(144, 238, 144, 0.1); /* 연한 초록색 하이라이트 */
+    transition: width 0.3s;
+}
+
+.ui-input:focus ~ .ui-input-highlight {
+    width: 100%;
+}
+
+.ui-input-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #777; /* 아이콘 색상을 더 진한 회색으로 변경 */
+    transition: color 0.3s;
+}
+
+.ui-input:focus ~ .ui-input-icon {
+    color: #90ee90; /* 포커스 시 아이콘 색상을 연한 초록색으로 변경 */
+}
+
+.ui-input-icon svg {
+    width: 20px;
+    height: 20px;
+    transition: stroke 0.3s;
+}
+
+.ui-input:focus ~ .ui-input-icon svg path {
+    stroke: #90ee90; /* 포커스 시 아이콘 선 색상을 연한 초록색으로 변경 */
+}
+
+@media (max-width: 768px) { /* 화면 너비가 768px 이하일 때 */
+    .board-item {
+        flex-basis: calc(100% - 20px); /* 한 줄에 1개씩 배치 */
+    }
+}
+
+.table-text{
+    font-family: "ONE-Mobile-POP","serif";
+    font-weight: 200;
+    font-size: 48px;
+    font-style: normal;
+}

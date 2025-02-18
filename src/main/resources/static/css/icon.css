@@ -1,0 +1,28 @@
+.icon-google,
+.icon-instagram,
+.icon-facebook,
+.icon-x {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    text-indent: -9999px;
+    overflow: hidden;
+}
+.icon-google {
+    background-image: url("../images/google.png"); /* 경로 수정 */
+}
+
+.icon-instagram {
+    background-image: url('../images/instagram.png'); /* 경로 수정 */
+}
+
+.icon-facebook {
+    background-image: url('../images/facebook.png'); /* 경로 수정 */
+}
+
+.icon-x {
+    background-image: url('../images/x.png');  /* 경로 수정 */
+}

@@ -1,0 +1,17 @@
+.top-header-area {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: transparent; /* 배경을 투명하게 설정 */
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    z-index: 1000; /* 다른 요소들 위에 보이게 설정 */
+}
+
+#logo {
+    top: 0;
+    left: 50%;
+    margin: auto 0;
+}

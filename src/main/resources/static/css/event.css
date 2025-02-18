@@ -1,0 +1,428 @@
+/* 이벤트 컨테이너 */
+.event-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+#event {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4개의 열 */
+    gap: 30px; /* 각 항목 사이의 간격 */  /* 기존 50px에서 30px로 변경 */
+    max-width: 1200px;
+    width: 100%;
+    text-align: center;
+    margin: 0 auto;  /* 오른쪽 마진 제거하고 auto로 변경 */
+}
+
+.event-line{
+/*    border: 2px solid black; !* 실선 테두리 *!
+    padding: 10px; !* 내용과 테두리 사이 간격 (선택 사항) *!
+    border-radius: 5px; !* 테두리 둥글게 (선택 사항) *!
+    margin: 10px; !* 주변과의 간격 (선택 사항) *!*/
+}
+
+/* 그리드 메뉴 전체를 감싸는 박스 */
+.grid-container {
+    display: flex; /* 자식 요소들을 가로로 배치 */
+    flex-wrap: wrap; /* 화면 너비에 따라 줄 바꿈 */
+    justify-content: center; /* 가로축 중앙 정렬 */
+    align-items: flex-start; /* 세로축 상단 정렬 */
+    width: 90%; /* 화면 너비의 90% 차지 (필요에 따라 조정) */
+    max-width: 1200px; /* 최대 너비 제한 (필요에 따라 조정) */
+    margin: 20px auto; /* 상하 마진 20px, 좌우 마진 auto로 중앙 정렬 */
+    padding: 20px;
+    border: 2px solid #ccc; /* 실선 테두리 */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+}
+
+/*===== 태우고 게시판 호버 =====*/
+.gridmenu {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    width: 275px;
+    height: auto;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+    margin: 10px; /* 그리드 메뉴 사이의 간격 (필요에 따라 조정) */
+}
+
+.gridmenu:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 2px rgba(0, 0, 0, 0.3);
+}
+
+.gridmenu img {
+    max-width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 1px solid #ddd;
+}
+
+.gridmenu .boardtitle {
+    width: 100%;
+}
+
+.gridmenu .info {
+    width: 100%;
+}
+
+/* 비디오 에리어 (리뷰게시판) */
+.video-area {
+    background-image: url("../assets/img/service/trip.jpg");
+    background-size: cover; /* 배경 이미지를 요소에 맞춰 확대/축소 */
+    background-position: center; /* 배경 이미지를 중앙 정렬 (선택사항) */
+    background-repeat: no-repeat; /* 배경 이미지 반복 방지 (선택사항) */
+    position: relative;
+    width: 100%;
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+
+.video-area .container {
+    display: flex;
+    justify-content: center; /* 중앙 정렬 */
+}
+
+
+.video-area .row {
+    width: 100%;
+    max-width: 1200px; /* row의 최대 너비 설정 */
+    margin: 0 auto;
+}
+
+.video-area .col-xl-12 {
+    display: flex;
+    justify-content: center;
+}
+
+.video-area .video-caption {
+    width: 100%; /* video-caption이 부모 컨테이너를 채우도록 */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.video-area .video-icon {
+    margin-bottom: 20px; /* 아이콘 아래 여백 */
+}
+
+.video-area .pera1,
+.video-area .pera2,
+.video-area .pera3 {
+    margin-bottom: 10px; /* 문단 아래 여백 */
+}
+
+.video-area .popup-video {
+    font-size: 36px; /* 아이콘 크기 설정 */
+}
+
+/* 여행 코스 이미지&유튜브 부분 스타일 */
+.untree_co-section .media-thumb {
+    cursor: pointer;
+    display: block;
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%;
+    overflow: hidden;
+}
+
+.untree_co-section .media-thumb iframe {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.untree_co-section .media-thumb img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.untree_co-section .item {
+    padding: 10px;
+}
+
+.untree_co-section {
+    padding: 0 20px 50px;
+    margin-top: 50px;
+}
+
+/* 공통 스타일 (기존 스타일 유지) */
+.full-width-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.right-caption {
+    width: 100%;
+}
+
+.container {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.untree_co-section {
+    padding: 0 20px 50px;
+    margin-top: 50px;
+}
+
+/* 비디오 썸네일 슬라이드 스타일 */
+.video-carousel {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto 30px;
+    padding: 0 8px;
+}
+
+.video-container {
+    display: flex;
+    transition: transform 0.5s ease;
+    z-index: 6;
+
+}
+
+.video-wrapper {
+    flex: 0 0 33.33%;
+    margin-bottom: 20px;
+    padding: 0 10px;
+    box-sizing: border-box;
+    height: 270px;
+    display: flex;
+    justify-content: center;
+}
+
+.video-wrapper iframe {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    aspect-ratio: 16/9;
+}
+
+.video-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+/* 미디어 쿼리 (모바일 대응) */
+@media (max-width: 768px) {
+    .video-wrapper {
+        width: 100%;
+        padding: 0;
+        height: auto;
+    }
+
+    .video-container {
+        padding: 0;
+    }
+
+    .video-carousel {
+        padding: 0;
+    }
+}
+
+/* 영상 폼 가운데 배치 */
+#video-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+/* 부모 컨테이너 스타일 */
+.full-width-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.right-caption {
+    width: 100%;
+}
+
+/* 화살표 버튼 컨테이너 스타일 */
+.position-relative {
+    position: relative;
+}
+
+.slide-button-container {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transform: translateY(-50%);
+
+}
+
+.prev-button,
+.next-button {
+    position: absolute;
+    top: 50%; /* 세로 중앙 정렬 */
+    transform: translateY(-50%); /* 정확한 중앙 정렬 */
+    background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 50%; /* 동그랗게 */
+    cursor: pointer;
+    z-index: 20; /* 썸네일 위에 겹치게 */
+    opacity: 0.8; /* 살짝 투명하게 */
+    transition: opacity 0.3s ease; /* 호버 효과 부드럽게 */
+}
+
+/* 화살표 버튼 스타일 */
+.prev-button,
+.next-button {
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 10px;
+    font-size: 1.5em;
+    cursor: pointer;
+    z-index: 1;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    margin: 0; /* 버튼 마진 제거 */
+}
+
+.prev-button:hover,
+.next-button:hover {
+    background-color: rgba(150, 150, 150, 0.5);
+    color: white;
+}
+
+.prev-button span,
+.next-button span {
+    display: inline-block;
+    transition: transform 0.3s ease;
+    transform: translateX(0);
+}
+
+.prev-button:hover span {
+    transform: translateX(-5px);
+    transition: transform 0.3s ease;
+}
+
+.next-button:hover span {
+    transform: translateX(5px);
+    transition: transform 0.3s ease;
+}
+
+.prev-button {
+    left: -130px; /* 왼쪽으로 이동 */
+}
+
+.next-button {
+    right: -130px; /* 오른쪽으로 이동 */
+}
+
+/* 화살표 스타일 추가 */
+.prev-button::before {
+    content: "";
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    border: solid currentColor;
+    border-width: 0 2px 2px 0;
+    transform: rotate(135deg);
+    margin-left: 3px;
+    transition: transform 0.3s ease;
+}
+
+.prev-button:hover::before {
+    transform: translateX(-5px) rotate(135deg);
+}
+
+.next-button::before {
+    content: "";
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    border: solid currentColor;
+    border-width: 0 2px 2px 0;
+    transform: rotate(-45deg);
+    margin-right: 3px;
+    transition: transform 0.3s ease;
+}
+
+.next-button:hover::before {
+    transform: translateX(5px) rotate(-45deg);
+}
+
+/* 리뷰 이동 버튼 및 호버 */
+button.rb1 {
+    width: 210px;
+    height: 60px;
+    border: 3px solid #315cfd;
+    border-radius: 45px;
+    transition: all 0.3s;
+    cursor: pointer;
+    background: #f5f5f5; /* 매우 연한 회색 배경 */
+    font-size: 1em;
+    font-weight: 550;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #315cfd;
+}
+
+button.rb1:hover {
+    background: #315cfd;
+    color: white;
+    font-size: 1.5em;
+}
+
+button.rb1 > svg {
+    width: 34px;
+    margin-left: 10px;
+    transition: transform 0.3s ease-in-out;
+}
+
+button.rb1:hover svg {
+    transform: translateX(5px);
+}
+
+button.rb1:active {
+    transform: scale(0.95);
+}
+
+button.rb1 span {
+    color: #000; /* 내부 span 요소의 색상 검정색으로 지정 */
+}

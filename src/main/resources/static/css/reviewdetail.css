@@ -1,0 +1,311 @@
+/*body {*/
+/*    font-family: 'Inter', sans-serif; !* 폰트는 그대로 유지 *!*/
+/*    background-color: #ffe0f0; !* 연한 핑크색 배경 *!*/
+/*    color: #654321; !* 짙은 갈색 텍스트 (가독성을 위해) *!*/
+/*}*/
+
+/* 기본 설정 */
+#bBody {
+    text-align: center;
+    height: auto;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow-y: auto; /* 세로 스크롤 생성 */
+    position: relative; /* 다른 요소들이 particles-js 위에 오도록 설정 */
+    z-index: -1; /* particles-js 보다 z-index를 높게 설정 */
+    background-color: rgba(255, 255, 255, 0.8); /* 배경 투명도 조절 */
+}
+
+#whole-container {
+    max-width: 85vw;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+#modiForm1 {
+    background-color: #ffebf5; /* 연한 핑크색 배경 */
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(255, 192, 203, 0.5); /* 핑크색 그림자 */
+    margin: 80px auto;
+    flex-direction: column;
+    gap: 25px;
+    width: 1200px;
+    max-width: 95%;
+    display: flex;
+    align-items: center;
+}
+
+/* 내용 부분 컨테이너 */
+.rev-content-container {
+    border: 3px dashed #ffb6c1; /* 진한 핑크색 점선 테두리 */
+    padding: 25px;
+    margin: 20px 0;
+    border-radius: 15px;
+    max-width: 800px;
+}
+
+/* 내용 부분 */
+.rev-content {
+    margin-top: 50px;
+    text-align: center;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff5f7; /* 더 연한 핑크색 배경 */
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(255, 105, 180, 0.4); /* 핫핑크 그림자 */
+    border: 2px solid #ffb6c1; /* 진한 핑크색 테두리 */
+    width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+/* 별점 관련 스타일은 그대로 유지 */
+.rating {
+    display: flex;
+    cursor: pointer;
+    font-size: 40px;
+}
+
+.rating span {
+    margin-right: 8px;
+    color: #ddd;
+}
+
+.rating span.select {
+    color: #ffd700;
+}
+
+.stars {
+    display: flex;
+    justify-content: flex-start;
+    cursor: pointer;
+}
+
+.stars i {
+    font-size: 40px;
+    color: #ccc;
+    cursor: pointer;
+}
+
+.stars i.active {
+    color: #ffd700;
+}
+
+.stars i:hover {
+    color: #ffd700;
+}
+
+#rating {
+    display: flex;
+    justify-content: center;
+}
+
+.star {
+    font-size: 36px;
+    color: #d3d3d3;
+    cursor: pointer;
+}
+
+.star.select,
+.star.active {
+    color: #ffd700;
+}
+
+button img,
+#list img {
+    width: 25px;
+    height: 25px;
+}
+
+/* 상단 내용과 이미지 */
+.content-container {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 50px;
+    overflow: hidden;
+}
+
+/* 상단 이미지 및 텍스트 */
+.top-content {
+    display: flex;
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+/* 이미지 스타일 */
+.rev-image {
+    width: 350px;
+    margin-right: 30px;
+    margin-left: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(255, 105, 180, 0.5); /* 핫핑크 그림자 */
+}
+
+/* 버튼들을 하단에 고정 */
+.button-container {
+    /*position: sticky;*/
+    bottom: 0;
+    padding: 15px;
+    text-align: center;
+    z-index: 1000;
+}
+
+
+
+/* header-container는 제목과 버튼들을 포함하는 부모 컨테이너 */
+.header-container {
+    display: flex;
+    justify-content: center;
+    /*align-items: center;*/
+    padding: 15px 25px;
+    width: 100%;
+}
+
+/* 제목 스타일 */
+.header-container h1 {
+    margin: 0;
+    white-space: nowrap;
+    font-size: 28px;
+    color: #ff1493; /* 진한 핑크색 제목 */
+}
+
+/* 버튼 그룹을 오른쪽 끝에 배치 */
+.button-groups {
+    display: flex;
+    align-items: center;
+    margin-right: 25px;
+}
+
+.button-groups button {
+    margin-left: 15px;
+}
+
+/* 반응형 디자인 - 브라우저 너비가 850px 이하일 때 */
+@media (max-width: 850px) {
+    .rev-content-container {
+        width: 95%;
+        margin: 20px auto;
+    }
+
+    .rev-content {
+        font-size: 16px;
+    }
+
+    .rating {
+        font-size: 30px;
+    }
+
+    .stars i {
+        font-size: 30px;
+    }
+
+    .star {
+        font-size: 28px;
+    }
+}
+
+/* #modiForm2 스타일 */
+#modiForm2 {
+    background-color: rgba(255, 235, 245, 1); /* 연한 핑크색 배경, 투명도 조절 */
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 0 25px rgba(255, 105, 180, 0.6); /* 핑크색 그림자, 강도 높임 */
+    margin: 80px auto;
+    width: 1000px;
+    max-width: 95%;
+    z-index: 10; /* 하트 배경보다 위에 오도록 */
+    position: relative; /* z-index 사용을 위해 */
+}
+
+#modiForm2 table {
+    width: 100%;
+    margin: 0 auto;
+    border-collapse: collapse; /* 테이블 셀 간격 제거 */
+}
+
+#modiForm2 th,
+#modiForm2 td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ffb6c1; /* 핑크색 하단 테두리 추가 */
+}
+
+#modiForm2 th {
+    width: 30%;
+    color: #ff1493; /* 진한 핑크색 */
+    font-size: 18px;
+    border-right: 2px solid #ffb6c1; /* 핑크색 우측 테두리 추가 */
+    padding-right: 20px; /* 우측 테두리와 텍스트 간 간격 */
+}
+
+#modiForm2 td {
+    padding-left: 20px; /* 좌측 테두리와 텍스트 간 간격 */
+}
+
+#modiForm2 input[type="text"],
+#modiForm2 textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ffb6c1; /* 핑크색 테두리 */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(255, 192, 203, 0.5); /* 연한 핑크색 그림자 */
+    font-size: 16px;
+    color: #654321; /* 짙은 갈색 텍스트 */
+    background-color: #fff; /* 입력 필드 배경색 */
+    box-sizing: border-box;
+}
+
+#modiForm2 textarea {
+    resize: none; /* 크기 조절 불가능하도록 */
+    overflow: hidden; /* 스크롤바 제거 */
+    min-height: 200px; /* 최소 높이 설정, 필요에 따라 조정 */
+}
+
+#modiForm2 .stars {
+    justify-content: center; /* 별 중앙 정렬 */
+    margin-bottom: 15px; /* 하단 여백 */
+}
+
+#modiForm2 #ratingStars {
+    display: flex;
+    justify-content: center; /* 별 중앙 정렬 */
+    margin-bottom: 15px; /* 하단 여백 */
+}
+
+#modiForm2 input[type="file"] {
+    margin-bottom: 10px;
+}
+
+#modiForm2 #preImage {
+    display: block; /* 이미지가 중앙에 오도록 */
+    margin: 0 auto 10px; /* 중앙 정렬 및 하단 여백 */
+    border: 2px solid #ffb6c1; /* 핑크색 테두리 */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(255, 192, 203, 0.5); /* 연한 핑크색 그림자 */
+}
+
+#modiForm2 input[type="submit"] {
+    background-color: #ff69b4; /* 핫핑크 버튼 배경색 */
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(255, 105, 180, 0.5); /* 핫핑크 그림자 */
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.3s ease; /* 부드러운 전환 효과 */
+}
+
+#modiForm2 input[type="submit"]:hover {
+    background-color: #ff1493; /* 더 진한 핑크색으로 변경 */
+    box-shadow: 0 0 15px rgba(255, 105, 180, 0.7); /* 더 강한 그림자 */
+}

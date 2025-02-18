@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    <meta content="Untree.co" name="author">
+    <link href="/static/favicon.png" rel="shortcut icon">
+
+    <meta content="" name="description"/>
+    <meta content="bootstrap, bootstrap4" name="keywords"/>
+
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Source+Serif+Pro:wght@400;700&display=swap"
+          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/owl.carousel.min.css" rel="stylesheet">
+    <link href="/css/owl.theme.default.min.css" rel="stylesheet">
+    <link href="/css/jquery.fancybox.min.css" rel="stylesheet">
+    <link href="/fonts/icomoon/style.css" rel="stylesheet">
+    <link href="/fonts/flaticon/font/flaticon.css" rel="stylesheet">
+    <link href="/css/daterangepicker.css" rel="stylesheet">
+    <link href="/css/aos.css" rel="stylesheet">
+    <link href="/css/header.css" rel="stylesheet">
+    <link href="/css/reviewboard.css" rel="stylesheet">
+
+    <title>남기고</title>
+    <!-- Particles.js 라이브러리 추가 -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/custom.js"></script>
+</head>
+<style>
+    /* CSS 추가 */
+    #particles-js {
+        position: fixed; /* 고정 위치 */
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1; /* 다른 요소들 뒤에 위치 */
+    }
+</style>
+
+<body id="bBody">
+
+<!-- 입자 효과를 위한 div 추가 -->
+<div id="particles-js"></div>
+
+<!-- ##### Header Area Start #####-->
+<header class="header-area">
+    <div th:replace="~{header.html}"></div>
+</header>
+
+</br></br>
+</br></br>
+
+<div class="row">
+    <form class="board" th:object="${searchDTO}" method="post" action="/RsearchList">
+        <div class="search-section">
+            <div class="search-wrapper">
+                <select id="category" th:field="*{category}">
+                    <option value="UserNickname">닉네임</option>
+                    <option value="RevTitle">제목</option>
+                    <option value="RevContent">내용</option>
+                </select>
+                <div class="ui-input-container">
+                    <input class="ui-input" id="keyword" th:field="*{keyword}" placeholder="Type something..." required="" type="text"/>
+                    <div class="ui-input-underline"></div>
+                    <div class="ui-input-highlight"></div>
+                    <div class="ui-input-icon">
+                        <button id="searchBtn" type="submit">
+                            <svg fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M21 21L16.65 16.65M19 11C19 15.4183 15.4183 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br/>
+
+        <div class="divider">
+            <h3 class="table-text" >즐거운 시간 보내셨나요? 리뷰를 남겨주세요!!</h3>
+        </div>
+
+        <br/>
+
+        <!-- 남기고 목록 보기 -->
+        <div class="board-list" id="review-album">
+            <!-- 게시글 테이블 -->
+        </div>
+
+        <div class="board-bod-a">
+            <!-- 페이징 버튼 -->
+            <div class="pagination" id="paging"></div>
+        </div>
+    </form>
+
+    <div id="loginId" style="display:none;" th:text="${session.loginId}"></div>
+
+    <!-- 로그인/회원가입 모달 -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">로그인 또는 회원가입</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/mLogin" method="post">
+                        <fieldset>
+                            <label>아이디 : <input type="text" name="UserId" required/></label><br/>
+                            <label>비밀번호 : <input type="password" name="UserPw" required/></label><br/>
+                            <input id="login" type="submit" value="로그인">
+                            <button id="joinButton" class="btn btn-primary">회원가입</button>
+
+                        </fieldset>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // JavaScript: Particles.js 설정
+    $(document).ready(function() {
+        particlesJS("particles-js", {
+            particles: {
+                number: {
+                    value: 150, // 하트 개수 조절
+                    density: {
+                        enable: true,
+                        value_area: 800
+                    }
+                },
+                shape: {
+                    type: "image",
+                    image: {
+                        src: "/images/heart.png", // 하트 이미지 경로
+                        width: 100,
+                        height: 100
+                    }
+                },
+                opacity: {
+                    value: 0.7, // 투명도 조절
+                    random: true,
+                    anim: {
+                        enable: true,
+                        speed: 1,
+                        opacity_min: 0.1,
+                        sync: false
+                    }
+                },
+                size: {
+                    value: 20, // 크기 조절
+                    random: true,
+                    anim: {
+                        enable: true,
+                        speed: 5,
+                        size_min: 5,
+                        sync: false
+                    }
+                },
+                line_linked: {
+                    enable: false
+                },
+                move: {
+                    enable: true,
+                    speed: 2, // 속도 조절
+                    direction: "top", // 위로 이동
+                    random: true,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false,
+                    attract: {
+                        enable: false,
+                        rotateX: 600,
+                        rotateY: 1200
+                    }
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: {
+                        enable: false,
+                        mode: "repulse"
+                    },
+                    onclick: {
+                        enable: false,
+                        mode: "push"
+                    },
+                    resize: true
+                },
+                modes: {
+                    grab: {
+                        distance: 400,
+                        line_linked: {
+                            opacity: 1
+                        }
+                    },
+                    bubble: {
+                        distance: 400,
+                        size: 40,
+                        duration: 2,
+                        opacity: 8,
+                        speed: 3
+                    },
+                    repulse: {
+                        distance: 200,
+                        duration: 0.4
+                    },
+                    push: {
+                        particles_nb: 4
+                    },
+                    remove: {
+                        particles_nb: 2
+                    }
+                }
+            },
+            retina_detect: true
+        });
+    });
+    // 기존 게시글 로드 및 페이징 관련 JavaScript 코드는 그대로 유지
+    $(document).ready(function () {
+
+
+        const isLoggedIn = true; // false일 경우 로그인이 안 된 상태로 가정
+
+
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const dd = String(today.getDate()).padStart(2, '0');
+
+        const currentDate = `${yyyy}-${mm}-${dd}`;
+
+        let list = [];
+        let page = 1;       // 현재 페이지 번호
+        let limit = 6;      // 페이지당 출력 게시글 수
+        const block = 6;    // 페이징 블록 단위
+        let count = 0;      // 전체 게시글 수
+
+        // 페이지 로딩 후 게시글 가져오기
+        $(() => {
+            $.ajax({
+                type: "POST",
+                url: "/revList",
+                dataType: "json",
+                success: (result) => {
+                    list = result;
+                    // 게시글 출력 및 페이징 처리
+                    pagingAndLoadRevList(page, list);
+                },
+                error: () => {
+                    alert('게시글 목록을 가져오는 데 실패했습니다.');
+                }
+            });
+        });
+
+        // 게시글 출력 및 페이징 처리
+        function pagingAndLoadRevList(page, list) {
+            count = list.length;
+
+            if (count > 0) {
+                let maxPage = Math.ceil(count / limit);
+                if (page > maxPage) {
+                    page = maxPage;
+                }
+
+                let startRow = (page - 1) * limit;
+                let endRow = Math.min(page * limit - 1, count - 1);
+
+                let startPage = Math.floor((page - 1) / block) * block + 1;
+                let endPage = Math.min(startPage + block - 1, maxPage);
+
+                // 게시글 출력
+                let output = '';
+                for (let i = startRow; i <= endRow; i++) {
+                    const rating = list[i].rating; // 별점 값 가져오기
+
+                    // 별점 숫자를 별로 변환
+                    let stars = '';
+                    for (let j = 1; j <= 5; j++) {
+                        stars += (j <= rating) ? '★' : '☆';
+                    }
+
+                    output += `
+        <div class="review-item" id="review-item">
+                            <div class="review-thumbnail">
+                                <a href="/revView/${list[i].revnum}">
+                                    <img src="/upload/${list[i].revFileName}"  onerror="this.src='/images/default.png'" alt=""/>
+                                </a>
+
+                            </div>
+
+                            <div class="review-details">
+                            <a id="title" href="/revView/${list[i].revnum}">${list[i].revTitle}</a>
+                                <p>${list[i].userNickname}</p>
+                                <p>조회수: ${list[i].rhit} / 별점: ${stars}</p>
+                                <p>${new Date(list[i].revDate).toLocaleDateString()}</p>
+                            </div>
+                        </div>
+
+                    <!-- 호버 모달 -->
+
+                `;
+                }
+
+                $('#review-album').html(output);
+
+                // 페이징 처리
+                let pageNum = '';
+                pageNum += page <= 1 ? '<span class="prev">이전</span>' : `<a href="#" class="prev" data-page="${page - 1}">이전</a>`;
+                for (let i = startPage; i <= endPage; i++) {
+                    pageNum += page === i ? `<span class="iNum">${i}</span>` : `<a href="#" class="iNum" data-page="${i}">${i}</a>`;
+                }
+                pageNum += page >= maxPage ? '<span class="next">다음</span>' : `<a href="#" class="next" data-page="${page + 1}">다음</a>`;
+
+                $('#paging').html(pageNum);
+            } else {
+                $('#review-album').html('<p>게시글이 없습니다.</p>');
+            }
+        }
+
+
+        $('#paging').on('click', 'a', function (e) {
+            e.preventDefault();
+            page = parseInt($(this).data('page'));
+            pagingAndLoadRevList(page, list);
+        });
+
+        $('#limit').change(function () {
+            limit = parseInt($(this).val());
+            page = 1;
+            pagingAndLoadRevList(page, list);
+        });
+
+        // 검색
+        $('#searchBtn').click((e) => {
+            e.preventDefault();
+            let category = $('#category').val();
+            let keyword = $('#keyword').val();
+
+            $.ajax({
+                type: "POST",
+                url: "/RsearchList",
+                data: {category, keyword},
+                dataType: "json",
+                success: (result) => {
+                    list = result;
+                    pagingAndLoadRevList(page, list);
+                },
+                error: () => {
+                    alert('검색 요청에 실패했습니다.');
+                }
+            });
+        });
+    });
+</script>
+<script>
+
+    // 동적으로 생성된 review-item에 대한 클릭 이벤트 처리
+    $(document).on('click', '.review-item', function() {
+        // 로그인 상태 확인
+        const loginId = $('#loginId').text(); // th:text="${session.loginId}"
+
+        // 로그인되지 않은 경우
+        if (loginId === "") {
+            alert("로그인 후 이용해주세요.");
+            // 로그인 모달 창 띄우기
+            event.preventDefault(); // a 태그의 기본 동작 막기
+            document.getElementById("loginModal").style.display = "block";
+            document.querySelector('.modal-overlay').style.display = 'block';
+            return;
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,856 @@
+
+
+<!doctype html>
+<html class="no-js" lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title> 태우GO!</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/favicon.ico">
+
+    <!-- CSS here -->
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/assets/css/flaticon.css">
+    <link rel="stylesheet" href="/assets/css/slicknav.css">
+    <link rel="stylesheet" href="/assets/css/animate.min.css">
+    <link rel="stylesheet" href="/assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="/assets/css/fontawesome-all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Jua&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/themify-icons.css">
+    <link rel="stylesheet" href="/assets/css/slick.css">
+    <link rel="stylesheet" href="/assets/css/nice-select.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/event.css">
+    <link rel="stylesheet" href="/css/icon.css">
+    <link rel="stylesheet" href="/css/board.css">
+</head>
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+    }
+</style>
+<body>
+
+<header class="header-area">
+    <div th:replace="~{header.html}"></div>
+</header>
+
+<main>
+    <div class="slider-area">
+        <div class="slider-active">
+            <div class="single-slider hero-overly slider-height d-flex align-items-center">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-9 col-lg-9 col-md-9">
+                            <div class="hero__caption">
+                                <h1>친구 찾을 땐?? 태우GO!</h1>
+                                <p>친구와 함께 여행을 떠나보세요!</p>
+                            </div>
+                        </div>
+                        <!-- Search Box -->
+                        <div class="row search-row">
+                            <div class="col-xl-12">
+                                <!-- form -->
+                                <form action="/saveSearchOption" class="search-box" method="post">
+                                    <div class="input-form mb-30">
+                                        <input type="text" placeholder="검색어를 입력해주세요" name="keyword">
+                                    </div>
+                                    <div class="select-form mb-30">
+                                        <div class="select-itms">
+                                            <select name="detailNum" id="select1">
+                                                <option value="">지역선택</option>
+                                                <option value="1">Chungcheongnam-do, KR</option>
+                                                <option value="2">Gyeonggi, KR</option>
+                                                <option value="3">Incheon, KR</option>
+                                                <option value="4">Chungcheongbuk-do, KR</option>
+                                                <option value="5">Gangwon-do, KR</option>
+                                                <option value="6">Ulsan, KR</option>
+                                                <option value="7">Busan, KR</option>
+                                                <option value="8">Daegu, KR</option>
+                                                <option value="9">Jeollanam-do, KR</option>
+                                                <option value="10">Jeollabuk-do, KR</option>
+                                                <option value="11">Gwangju, KR</option>
+                                                <option value="12">Gyeongsangnam-do, KR</option>
+                                                <option value="13">Gyeongsangbuk-do, KR</option>
+                                                <option value="14">Jeju-do, KR</option>
+                                                <option value="15">Daejeon, KR</option>
+                                                <option value="16">Sejong, KR</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <button class="search-button">🔍</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="IndexBannerWrap">
+                            <img src="../../images/IndexBannerImg.png" class="IndexBannerImg" alt="친구와 함께 떠나요!">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="our-services servic-padding">
+        <div class="container">
+            <div class="row d-flex justify-contnet-center">
+                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6">
+                    <div class="single-services text-center mb-30">
+                        <div class="services-ion">
+                            <img id="rideCar" class="img-icon" src="/assets/img/icon/riding.png" alt="icon">
+                        </div>
+                        <div class="services-cap">
+                            <h5>태우고<br><br>여러 친구들을 태우고<br/>함께 떠나세요!</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6">
+                    <div class="single-services text-center mb-30">
+                        <div class="services-ion">
+                            <img id="gride" class="img-icon" src="/assets/img/icon/gride.png" alt="icon">
+                        </div>
+                        <div class="services-cap">
+                            <h5>타고<br><br>대중교통을 타고<br/>어디든 가세요!</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6">
+                    <div class="single-services text-center mb-30">
+                        <div class="services-ion">
+                            <img id="stayPlace" class="img-icon" src="/assets/img/icon/staying.png" alt="icon">
+                        </div>
+                        <div class="services-cap">
+                            <h5>머물고<br><br>여행가는 곳에서<br/>멋진 추억을 만드세요!</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6">
+                    <div class="single-services text-center mb-30">
+                        <div class="services-ion">
+                            <img id="rates" class="img-icon" src="/assets/img/icon/rates%20us.png" alt="icon">
+                        </div>
+                        <div class="services-cap">
+                            <h5>남기고<br><br>여행의 추억을 남기고<br/>친구들과 공유하세요!</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--여행 코스 이미지&유튜브 부분 시작-->
+    <div class="full-width-container">
+        <div class="right-caption">
+            <div class="container">
+                <div class="position-relative">
+                    <!-- 새로운 wrapper 생성 -->
+                    <div class="untree_co-section">
+                        <div class="row text-center justify-content-center mb-5">
+                            <h2 class="section-title text-center text-font">태우고 친구와 놀러 갈 추천 코스</h2>
+                        </div>
+                        <button type="button" class="prev-button" style="position: absolute; left: -50px; z-index: 13;" id="prev-button"></button>
+                        <div class="video-carousel">
+                            <div class="video-container">
+
+                                <!-- 영상 1 -->
+                                <div class="video-wrapper">
+                                    <a href="https://www.youtube.com/watch?v=7M5bDZ1EPVQ" target="_blank">
+                                        <img src="https://i.ytimg.com/vi/7M5bDZ1EPVQ/mqdefault.jpg" alt="영상 1 썸네일" class="video" style="position: relative; z-index: 10;">
+                                    </a>
+                                </div>
+                                <!-- 영상 2 -->
+                                <div class="video-wrapper">
+                                    <a href="https://www.youtube.com/watch?v=aJu_1AzRWeo" target="_blank">
+                                        <img src="https://i.ytimg.com/vi/aJu_1AzRWeo/mqdefault.jpg" alt="영상 2 썸네일" class="video" style="position: relative; z-index: 10;">
+                                    </a>
+                                </div>
+                                <!-- 영상 3 -->
+                                <div class="video-wrapper">
+                                    <a href="https://www.youtube.com/watch?v=Rx_pxQkvzoY" target="_blank">
+                                        <img src="https://i.ytimg.com/vi/Rx_pxQkvzoY/mqdefault.jpg" alt="영상 3 썸네일" class="video" style="position: relative; z-index: 10;">
+                                    </a>
+                                </div>
+                                <!-- 영상 4 -->
+                                <div class="video-wrapper">
+                                    <a href="https://www.youtube.com/watch?v=YzoT0Dsy4VA" target="_blank">
+                                        <img src="https://i.ytimg.com/vi/YzoT0Dsy4VA/mqdefault.jpg" alt="영상 4 썸네일" class="video" style="position: relative; z-index: 10;">
+                                    </a>
+                                </div>
+                                <!-- 영상 5 -->
+                                <div class="video-wrapper">
+                                    <a href="https://www.youtube.com/watch?v=1h9CDLWON3I" target="_blank">
+                                        <img src="https://i.ytimg.com/vi/1h9CDLWON3I/mqdefault.jpg" alt="영상 5 썸네일" class="video" style="position: relative; z-index: 10;">
+                                    </a>
+                                </div>
+                                <!-- 영상 6 -->
+                                <div class="video-wrapper">
+                                    <a href="https://www.youtube.com/watch?v=puVNvKQz0eU" target="_blank">
+                                        <img src="https://i.ytimg.com/vi/puVNvKQz0eU/mqdefault.jpg" alt="영상 6 썸네일" class="video" style="position: relative; z-index: 10;">
+                                    </a>
+                                </div>
+                                <!-- 영상 7 -->
+                                <div class="video-wrapper">
+                                    <a href="https://www.youtube.com/watch?v=BaqttsJ4e0A" target="_blank">
+                                        <img src="https://i.ytimg.com/vi/BaqttsJ4e0A/mqdefault.jpg" alt="영상 7 썸네일" class="video" style="position: relative; z-index: 10;">
+                                    </a>
+                                </div>
+                                <!-- 영상 8 -->
+                                <div class="video-wrapper">
+                                    <a href="https://www.youtube.com/watch?v=Rax8TQJ3tIY" target="_blank">
+                                        <img src="https://i.ytimg.com/vi/Rax8TQJ3tIY/mqdefault.jpg" alt="영상 8 썸네일" class="video" style="position: relative; z-index: 10;">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>  <!-- 닫는 태그 추가 -->
+                    <button type="button" class="next-button" style="position: absolute; right: -50px; z-index:13;" id="next-button"></button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="favourite-place place-padding">
+        <div class="container">
+            <!-- Section Tittle -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-tittle text-center">
+                        <h2 class="cs-font">태우고 게시판</h2>
+                    </div>
+                </div>
+
+                <section class="events">
+                    <div>
+                        <div class="event-container">
+                            <div class="event-line">
+                                <div id="event">
+                                    <!-- 이벤트 항목이 JavaScript로 추가됩니다 -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- Favourite Places End -->
+    <div class="video-area video-bg pt-100 pb-100" data-file="assets/img/service/trip.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="video-caption text-center">
+                        <div class="video-icon">
+                            <button type="button" class="rb1" id="rlist-button">
+                                <i class="fas fa-play"></i>  <!-- 아이콘 유지 -->
+                                <span>리뷰 게시판</span>  <!-- 텍스트 추가 (선택사항) -->
+                            </button>
+                        </div>
+                        <p class="pera1">다른 메이트들과 경험을 공유해보세요!!</p>
+                        <p class="pera2">새로운 친구들과 즐거운 시간 보내셨나요?</p>
+                        <p class="pera3">즐거움은 나누면 배가 됩니다!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <div class="footer-area footer-padding footer-bg" data-background="assets/img/service/footer_bg.jpg">
+        <div class="container">
+            <div class="row d-flex justify-content-between">
+                <div class="col-xl-3 col-lg-3 col-md-5 col-sm-6">
+                    <div class="single-footer-caption mb-50">
+                        <div class="footer-image-text">
+                            <div class="footer-image">
+                                <img src="../assets/img/logo/TaewoogoLogo2.png" alt="Logo"><br/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-2 col-lg-3 col-md-3 col-sm-5">
+                    <div class="single-footer-caption mb-50">
+                        <div class="footer-tittle">
+                            <h4>Contact Us</h4>
+                            <ul>
+                                <li><a href="/board1Form">태우고</a></li>
+                                <li><a href="/board2Form">타고</a></li>
+                                <li><a href="/board3Form">머물고</a></li>
+                                <li><a href="/RList">남기고</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-2 col-lg-3 col-md-3 col-sm-5">
+                    <div class="single-footer-caption mb-50">
+                        <div class="footer-tittle">
+                            <h4>빠른 목록이동</h4>
+                            <ul>
+                                <li><a href="/board1Form">태우고</a></li>
+                                <li><a href="/board2Form">타고</a></li>
+                                <li><a href="/board3Form">머물고</a></li>
+                                <li><a href="/RList">남기고</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer-social f-right">
+                    <div class="footer-tittle">
+                        <h4>소셜 이미지</h4>
+                        <ul class="list-unstyled social">
+                            <li><span class="icon-google"></span></li>
+                            <li><span class="icon-instagram"></span></li>
+                            <li><span class="icon-facebook"></span></li>
+                            <li><span class="icon-x"></span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer bottom -->
+            <div class="footer-bottom">
+                <div class="row pt-padding">
+                    <hr class="line-col"/>
+                    <div class="footer-bottom-links">
+                        <p>
+                            <a href="/terms">이용약관</a> | <a href="/privacy">개인정보처리방침</a>
+                        </p>
+                        <div class="footer-pera">
+                            <p class="company-info">
+                                <span>사업자 등록번호 : 123-45-67890</span>
+                                <span>통신판매업 신고번호 : 제 2025-인천미추홀-0001 호</span>
+                                <span>대표자 : 김태우</span>
+                                <span>연락처 : 032 1734 3180</span>
+                                <span>주소 : 인천광역시 미추홀구 매소홀로488번길 6-32 태승빌딩 5층 (1층 홈플러스)</span>
+                                <span>고객 지원 : Taewogohelp@gmail.com</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="footer-copy-rig">
+                        <p>
+                            <span>
+                                Copyright ©
+                                <script>document.write(new Date().getFullYear());</script>
+                                All rights reserved | made by 살려조
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- JS here -->
+<!-- All JS Custom Plugins Link Here here -->
+<script src="/assets/js/vendor/modernizr-3.5.0.min.js"></script>
+
+<!-- Jquery, Popper, Bootstrap -->
+<script src="/assets/js/vendor/jquery-1.12.4.min.js"></script>
+<script src="/assets/js/popper.min.js"></script>
+<script src="/assets/js/bootstrap.min.js"></script>
+<!-- Jquery Mobile Menu -->
+<script src="/assets/js/jquery.slicknav.min.js"></script>
+
+<!-- Jquery Slick , Owl-Carousel Plugins -->
+<script src="/assets/js/owl.carousel.min.js"></script>
+<script src="/assets/js/slick.min.js"></script>
+<!-- One Page, Animated-HeadLin -->
+<script src="/assets/js/wow.min.js"></script>
+<script src="/assets/js/animated.headline.js"></script>
+<script src="/assets/js/jquery.magnific-popup.js"></script>
+
+<!-- Scrollup, nice-select, sticky -->
+<script src="/assets/js/jquery.scrollUp.min.js"></script>
+<script src="/assets/js/jquery.nice-select.min.js"></script>
+<script src="/assets/js/jquery.sticky.js"></script>
+
+<!-- contact js -->
+<script src="/assets/js/contact.js"></script>
+<script src="/assets/js/jquery.form.js"></script>
+<script src="/assets/js/jquery.validate.min.js"></script>
+<script src="/assets/js/mail-script.js"></script>
+<script src="/assets/js/jquery.ajaxchimp.min.js"></script>
+
+<!-- Jquery Plugins, main Jquery -->
+<script src="/assets/js/plugins.js"></script>
+<script src="/assets/js/main.js"></script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const sliderArea = document.querySelector('.slider-area');
+        const IndexBannerImg = sliderArea.querySelector('.IndexBannerImg');
+        const IndexBannerWrap = sliderArea.querySelector('.IndexBannerWrap');
+
+        const gradients = [
+            ["#9fd4ff", "#9fd4ff"],
+            ["#9fd4ff", "#a3ffaa"],
+            ["#a3ffaa", "#a3ffaa"],
+            ["#a3ffaa", "#e7d9c4"],
+            ["#e7d9c4", "#e7d9c4"],
+            ["#e7d9c4", "#ffa9bf"],
+            ["#ffa9bf", "#ffa9bf"],
+            ["#ffa9bf", "#9fd4ff"]
+        ];
+
+        let currentGradientIndex = 0;
+        let animationFrameId;
+        let startTime = 0;
+        const transitionDuration = 3700;
+        const holdDuration = 2000;
+        let holdTimeout;
+
+
+        function applyGradient() {
+            const [startColor, endColor] = gradients[currentGradientIndex];
+            sliderArea.style.backgroundPosition = '100% 50%'; // 초기 위치 오른쪽 끝으로 변경
+            sliderArea.style.backgroundImage = `linear-gradient(to right, ${startColor}, ${endColor})`;
+        }
+
+        function animateBackground(timestamp) {
+            if (!startTime) startTime = timestamp;
+            const progress = Math.min((timestamp - startTime) / transitionDuration, 1);
+            const [startColor, endColor] = gradients[currentGradientIndex];
+
+            const r1 = parseInt(startColor.slice(1, 3), 16);
+            const g1 = parseInt(startColor.slice(3, 5), 16);
+            const b1 = parseInt(startColor.slice(5, 7), 16);
+
+            const r2 = parseInt(endColor.slice(1, 3), 16);
+            const g2 = parseInt(endColor.slice(3, 5), 16);
+            const b2 = parseInt(endColor.slice(5, 7), 16);
+
+            const r = Math.round(r1 + (r2 - r1) * progress);
+            const g = Math.round(g1 + (g2 - g1) * progress);
+            const b = Math.round(b1 + (b2 - b1) * progress);
+
+            sliderArea.style.backgroundImage = `linear-gradient(to right, rgb(${r},${g},${b}), ${endColor})`;
+            sliderArea.style.backgroundPosition = `${100 - (100 * progress)}% 50%`
+
+            if (progress < 1) {
+                animationFrameId = requestAnimationFrame(animateBackground);
+            } else {
+                startTime = null;
+                cancelAnimationFrame(animationFrameId);
+                holdTimeout = setTimeout(function () {
+                    currentGradientIndex = (currentGradientIndex + 1) % gradients.length;
+                    applyGradient();
+                    animationFrameId = requestAnimationFrame(animateBackground);
+                }, holdDuration);
+            }
+        }
+
+
+        if (IndexBannerImg) {
+            IndexBannerWrap.setAttribute('data-alt', IndexBannerImg.getAttribute('alt'));
+
+        }
+        applyGradient()
+        requestAnimationFrame(animateBackground);
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        let list = [];
+        let page = 1;        // 현재 페이지 번호
+        let limit = 8;       // 한 페이지에 출력될 데이터 개수
+        const block = 4;     // 한 블록에 출력될 페이지 개수
+        let count = 0;       // 전체 데이터 개수
+
+        loadBoardList();
+
+        function loadBoardList() {
+            $.ajax({
+                type: "post",
+                url: "/boardList", // 기존 URL 사용
+                success: function (result) {
+                    console.log("Loaded board data:", result);
+                    list = result;
+                    count = list.length;
+                    pagingList(page);
+                    applyDisplayLogic(); // 데이터 로드 후 필터링 적용
+                },
+                error: function () {
+                    alert('boardList 불러오기 실패!!');
+                }
+            });
+        }
+
+        function pagingList(page) {
+            const maxPage = Math.ceil(count / limit);
+            const startRow = (page - 1) * limit;
+            const endRow = Math.min(page * limit - 1, count - 1);
+
+            const limitedList = list.slice(startRow, endRow + 1);
+            let output = '';
+
+            if (limitedList.length > 0) {
+                limitedList.forEach(function (board) {
+                    const imageUrl = board[4] ? `/boardUpload/${board[4]}` : 'images/default.png';
+                    output += `
+                     <div class="gridmenu" style="display: none;">
+                            <a href="/boarddetail/${board[0]}">
+                                 <img id="preImage" src="${imageUrl}" alt="board Image" onerror="this.src='/images/image.png'" />
+                            </a>
+                            <a href="/boarddetail/${board[0]}" class="boardtitle">${board[1]}</a>
+                            <div class="info">
+                                <p>지역: <span class="board-location">${board[9]}</span></p>
+                                <p>일정: ${new Date(board[5]).toLocaleDateString()} ~ ${new Date(board[6]).toLocaleDateString()}</p>
+                                <p>인원수: ${board[3]} / ${board[2]}</p>
+                            </div>
+                        </div>`;
+                });
+            } else {
+                output = '<p>게시글이 없습니다.</p>';
+            }
+
+            $('#event').html(output);
+        }
+    });
+
+    function applyDisplayLogic() {
+        const loginAddress = $('body').attr('data-login-address');
+        console.log("Login Address:", loginAddress);
+        const events = $('.events .gridmenu'); // 변경된 부분: events 섹션 내의 gridmenu 선택
+
+        // 로그인 여부 확인 (session.loginId != null)
+        const isLoggedIn = /*[[${session.loginId != null}]]*/ false; // Thymeleaf 변수 사용
+        // console.log(isLoggedIn+"로그인확인")
+
+        events.each(function () {
+            const eventElement = $(this);
+            const boardLocationElement = eventElement.find('.board-location');
+
+            if (boardLocationElement.length) {
+                const eventLocation = boardLocationElement.text().trim();
+                console.log("Event Location:", eventLocation);
+
+                if (isLoggedIn) {
+                    // 로그인 상태일 때: 주소 비교
+                    if (loginAddress && eventLocation && loginAddress.includes(eventLocation)) {
+                        eventElement.show();
+                    } else {
+                        eventElement.hide();
+                    }
+                } else {
+                    // 로그아웃 상태일 때: 모두 보여주기 (조건 수정!)
+                    eventElement.show();
+                }
+            } else {
+                console.log("Error: .board-location element not found in this event.");
+            }
+        });
+    }
+
+    document.getElementById("rlist-button").addEventListener("click", function () {
+        window.location.href = "/RList";
+    });
+    $(document).ready(function () {
+        let currentImageIndex = 1;
+        const totalImages = 4; // 전체 이미지 수
+
+        setInterval(function () {
+            // 이전 이미지 fadeOut
+            $(`.slider-bg-${currentImageIndex}`).removeClass('active');
+
+            // 다음 이미지 인덱스 계산
+            currentImageIndex = (currentImageIndex % totalImages) + 1;
+
+            // 다음 이미지 fadeIn
+            $(`.slider-bg-${currentImageIndex}`).addClass('active');
+        }, 5000); // 5초마다 이미지 전환
+    });
+
+</script>
+
+<script>
+    const videoForm = document.querySelector('.untree_co-section');
+    const videoCarousel = videoForm.querySelector('.video-carousel');
+    const videoContainer = videoForm.querySelector('.video-container');
+    // const slideButtonContainer = document.querySelector('.slide-button-container');
+    const videoWrappers = videoForm.querySelectorAll('.video-wrapper');
+
+    let currentSlide = 0;
+    let slideWidth; // 슬라이드 너비는 초기화시에 설정
+    const maxSlides = videoWrappers.length;
+    let autoSlideInterval;
+
+    function updateSlide() {
+        videoContainer.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
+    }
+
+
+
+    function startAutoSlide() {
+        autoSlideInterval = setInterval(() => {
+            currentSlide++;
+            if (currentSlide > maxSlides - 3) {
+                currentSlide = 0;
+            }
+            updateSlide();
+        }, 4000);
+    }
+
+    function initializeSlide() {
+        slideWidth = videoWrappers[0].offsetWidth;
+        updateSlide();
+    }
+
+    window.addEventListener('resize', () => {
+        initializeSlide();
+    });
+
+    initializeSlide();
+    startAutoSlide();
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const sliderArea = document.querySelector('.slider-area');
+        const IndexBannerImg = sliderArea.querySelector('.IndexBannerImg');
+        const IndexBannerWrap = sliderArea.querySelector('.IndexBannerWrap');
+
+        const gradients = [
+            ["#9fd4ff", "#9fd4ff"],
+            ["#9fd4ff", "#a3ffaa"],
+            ["#a3ffaa", "#a3ffaa"],
+            ["#a3ffaa", "#e7d9c4"],
+            ["#e7d9c4", "#e7d9c4"],
+            ["#e7d9c4", "#ffa9bf"],
+            ["#ffa9bf", "#ffa9bf"],
+            ["#ffa9bf", "#9fd4ff"]
+        ];
+
+        let currentGradientIndex = 0;
+        let animationFrameId;
+        let startTime = 0;
+        const transitionDuration = 3700;
+        const holdDuration = 2000;
+        let holdTimeout;
+
+
+        function applyGradient() {
+            const [startColor, endColor] = gradients[currentGradientIndex];
+            sliderArea.style.backgroundPosition = '100% 50%'; // 초기 위치 오른쪽 끝으로 변경
+            sliderArea.style.backgroundImage = `linear-gradient(to right, ${startColor}, ${endColor})`;
+        }
+
+        function animateBackground(timestamp) {
+            if (!startTime) startTime = timestamp;
+            const progress = Math.min((timestamp - startTime) / transitionDuration, 1);
+            const [startColor, endColor] = gradients[currentGradientIndex];
+
+            const r1 = parseInt(startColor.slice(1, 3), 16);
+            const g1 = parseInt(startColor.slice(3, 5), 16);
+            const b1 = parseInt(startColor.slice(5, 7), 16);
+
+            const r2 = parseInt(endColor.slice(1, 3), 16);
+            const g2 = parseInt(endColor.slice(3, 5), 16);
+            const b2 = parseInt(endColor.slice(5, 7), 16);
+
+            const r = Math.round(r1 + (r2 - r1) * progress);
+            const g = Math.round(g1 + (g2 - g1) * progress);
+            const b = Math.round(b1 + (b2 - b1) * progress);
+
+            sliderArea.style.backgroundImage = `linear-gradient(to right, rgb(${r},${g},${b}), ${endColor})`;
+            sliderArea.style.backgroundPosition = `${100 - (100 * progress)}% 50%`
+
+            if (progress < 1) {
+                animationFrameId = requestAnimationFrame(animateBackground);
+            } else {
+                startTime = null;
+                cancelAnimationFrame(animationFrameId);
+                holdTimeout = setTimeout(function () {
+                    currentGradientIndex = (currentGradientIndex + 1) % gradients.length;
+                    applyGradient();
+                    animationFrameId = requestAnimationFrame(animateBackground);
+                }, holdDuration);
+            }
+        }
+
+
+        if (IndexBannerImg) {
+            IndexBannerWrap.setAttribute('data-alt', IndexBannerImg.getAttribute('alt'));
+
+        }
+        applyGradient()
+        requestAnimationFrame(animateBackground);
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        let list = [];
+        let page = 1;        // 현재 페이지 번호
+        let limit = 8;       // 한 페이지에 출력될 데이터 개수
+        const block = 4;     // 한 블록에 출력될 페이지 개수
+        let count = 0;       // 전체 데이터 개수
+
+        loadBoardList();
+
+        function loadBoardList() {
+            $.ajax({
+                type: "post",
+                url: "/boardList", // 기존 URL 사용
+                success: function (result) {
+                    console.log("Loaded board data:", result);
+                    list = result;
+                    count = list.length;
+                    pagingList(page);
+                    applyDisplayLogic(); // 데이터 로드 후 필터링 적용
+                },
+                error: function () {
+                    alert('boardList 불러오기 실패!!');
+                }
+            });
+        }
+
+        function pagingList(page) {
+            const maxPage = Math.ceil(count / limit);
+            const startRow = (page - 1) * limit;
+            const endRow = Math.min(page * limit - 1, count - 1);
+
+            const limitedList = list.slice(startRow, endRow + 1);
+            let output = '';
+
+            if (limitedList.length > 0) {
+                limitedList.forEach(function (board) {
+                    const imageUrl = board[4] ? `/boardUpload/${board[4]}` : 'images/default.png';
+
+                    // 날짜 형식이 유효한지 확인하고, 날짜 형식을 변환하는 함수
+                    function formatDate(dateString) {
+                        // null 값일 경우 처리
+                        if (!dateString) {
+                            return "미정";
+                        }
+
+                        const date = new Date(dateString);
+                        // 유효하지 않은 Date 객체인지 확인
+                        if (isNaN(date.getTime())) {
+                            console.error('Invalid date:', dateString);
+                            return "날짜 형식 오류";
+                        }
+                        // 유효한 날짜인 경우, 날짜 포맷 적용
+                        const year = date.getFullYear();
+                        const month = String(date.getMonth() + 1).padStart(2, '0');
+                        const day = String(date.getDate()).padStart(2, '0');
+
+                        return `${year}.${month}.${day}`;
+                    }
+
+                    const startDate = formatDate(board[6]);
+                    const endDate = formatDate(board[7]);
+
+                    output += `
+                    <div class="gridmenu">
+                        <a href="/boarddetail/${board[0]}">
+                            <img id="preImage" src="${imageUrl}" alt="board Image" onerror="this.src='/images/image.png'" />
+                        </a>
+                        <a href="/boarddetail/${board[0]}" class="boardtitle">${board[1]}</a>
+                        <div class="info">
+                            <p>지역: <span class="board-location">${board[9]}</span></p>
+                            <p>일정: ${startDate} ~ ${endDate}</p>
+                            <p>인원수: ${board[3]} / ${board[2]}</p>
+                        </div>
+                    </div>`;
+                });
+            } else {
+                output = '<p>게시글이 없습니다.</p>';
+            }
+
+            $('#event').html(output);
+        }
+    });
+
+    function applyDisplayLogic() {
+        const loginAddress = $('body').attr('data-login-address');
+        console.log("Login Address:", loginAddress);
+        const events = $('.events .gridmenu'); // 변경된 부분: events 섹션 내의 gridmenu 선택
+
+        // 로그인 여부 확인 (session.loginId != null)
+        const isLoggedIn = /*[[${session.loginId != null}]]*/ false; // Thymeleaf 변수 사용
+        // console.log(isLoggedIn+"로그인확인")
+
+        events.each(function () {
+            const eventElement = $(this);
+            const boardLocationElement = eventElement.find('.board-location');
+
+            if (boardLocationElement.length) {
+                const eventLocation = boardLocationElement.text().trim();
+                console.log("Event Location:", eventLocation);
+
+                if (isLoggedIn) {
+                    // 로그인 상태일 때: 주소 비교
+                    if (loginAddress && eventLocation && loginAddress.includes(eventLocation)) {
+                        eventElement.show();
+                    } else {
+                        eventElement.hide();
+                    }
+                } else {
+                    // 로그아웃 상태일 때: 모두 보여주기 (조건 수정!)
+                    eventElement.show();
+                }
+            } else {
+                console.log("Error: .board-location element not found in this event.");
+            }
+        });
+    }
+
+    document.getElementById("rlist-button").addEventListener("click", function () {
+        window.location.href = "/RList";
+    });
+    $(document).ready(function () {
+        let currentImageIndex = 1;
+        const totalImages = 4; // 전체 이미지 수
+
+        setInterval(function () {
+            // 이전 이미지 fadeOut
+            $(`.slider-bg-${currentImageIndex}`).removeClass('active');
+
+            // 다음 이미지 인덱스 계산
+            currentImageIndex = (currentImageIndex % totalImages) + 1;
+
+            // 다음 이미지 fadeIn
+            $(`.slider-bg-${currentImageIndex}`).addClass('active');
+        }, 5000); // 5초마다 이미지 전환
+    });
+
+</script>
+
+<script>
+
+    document.getElementById("next-button").addEventListener("click", function () {
+        clearInterval(autoSlideInterval);
+        currentSlide++; // Changed to increment for next button
+        if (currentSlide > maxSlides - 3) { // Corrected condition and using maxSlides - 3 as reference
+            currentSlide = 0;
+        }
+        updateSlide();
+        startAutoSlide();
+    });
+
+    document.getElementById("prev-button").addEventListener("click", function () {
+        clearInterval(autoSlideInterval);
+        currentSlide--;
+        if (currentSlide < 0) {
+            currentSlide = maxSlides - 3; // Kept maxSlides - 3 as reference for prev button
+        }
+        updateSlide();
+        startAutoSlide();
+    });
+</script>
+</body>
+</html>

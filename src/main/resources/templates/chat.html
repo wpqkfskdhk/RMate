@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>채팅방 목록</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        .room-button {
+            cursor: pointer;
+            padding: 10px;
+            background-color: #ffd5d5;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+
+        .room-button:hover {
+            background-color: #ddd;
+        }
+
+        #createRoomButton {
+            border-radius: 15px;
+            cursor: pointer;
+            background: #2b3569 ;
+            font-family: inherit;
+            padding: 0.6em 1.3em;
+            font-weight: 900;
+            font-size: 12px;
+            border: 1px solid #FFFFFF;
+            box-shadow: 0.1em 0.1em #2b3569;
+            margin-left: auto;
+            color: #fff;
+        }
+
+        #chatRoom {
+            display: none;
+        }
+
+        #messages {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            height: 300px;
+            overflow-y: auto;
+        }
+
+        #messageInputSection {
+            margin-top: 10px;
+        }
+
+        #messageInput {
+            width: 80%;
+            padding: 5px;
+        }
+
+        #sendButton {
+            border-radius: 15px;
+            cursor: pointer;
+            background: #2b3569 ;
+            font-family: inherit;
+            padding: 0.6em 1.3em;
+            font-weight: 900;
+            font-size: 12px;
+            border: 1px solid #FFFFFF;
+            box-shadow: 0.1em 0.1em #2b3569;
+            margin-left: auto;
+            color: #fff;
+        }
+
+        /* 메시지 스타일 */
+        .message {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+
+        /* 내가 보낸 메시지 */
+        .outgoing {
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            padding: 10px;
+            max-width: 70%;
+            margin-left: auto; /* 오른쪽에 배치 */
+            margin-right: 10px;
+        }
+
+        /* 다른 사람이 보낸 메시지 */
+        .incoming {
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            padding: 10px;
+            max-width: 70%;
+            margin-right: auto; /* 왼쪽에 배치 */
+            margin-left: 10px;
+        }
+
+
+        #inviteModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        #inviteModalContent {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            max-width: 300px;
+            width: 100%;
+        }
+
+        #userList {
+            margin-top: 10px;
+        }
+
+        #searchInput {
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        #participationList {
+            display: none;
+            position: absolute;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            width: 200px;
+            max-height: 300px;
+            overflow-y: auto;
+            top: 30px; /* 버튼 바로 아래에 위치하도록 설정 */
+            right: 0;
+            z-index: 10;
+        }
+
+        /* 참여 목록 항목 스타일 */
+        .user-button {
+            cursor: pointer;
+            padding: 5px;
+            background-color: #f0f0f0;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+
+        .user-button:hover {
+            background-color: #ddd;
+        }
+
+        #participationButton, #inviteButton, #sendButton, #backToRooms {
+            border-radius: 15px;
+            cursor: pointer;
+            background: #2b3569 ;
+            font-family: inherit;
+            padding: 0.6em 1.3em;
+            font-weight: 900;
+            font-size: 12px;
+            border: 1px solid #FFFFFF;
+            box-shadow: 0.1em 0.1em #2b3569;
+            margin-left: auto;
+            color: #fff;
+        }
+
+        #participationButton:hover, #inviteButton:hover, #sendButton:hover, #backToRooms:hover {
+            box-shadow: 0.15em 0.15em;
+        }
+
+        #participationButton:active, #inviteButton:active, #sendButton:active, #backToRooms:active {
+            box-shadow: 0.05em 0.05em;
+        }
+
+
+    </style>
+</head>
+<body>
+<div id="roomContainer">
+    <h2>채팅방 목록</h2>
+    <div id="roomList"></div>
+    <button id="createRoomButton">채팅방 생성</button>
+</div>
+
+<div id="chatRoom">
+    <div style="display: flex; justify-content: space-between;">
+        <h2 id="roomTitle"></h2>
+        <div style="display: flex; align-items: center;">
+            <button id="inviteButton">초대</button>
+            <button id="participationButton">참여 목록</button>
+        </div>
+    </div>
+    <div id="messages"></div>
+    <div id="messageInputSection">
+        <input id="messageInput" type="text" placeholder="메시지를 입력하세요">
+        <button id="sendButton">전송</button>
+    </div>
+    <button id="backToRooms">목록으로</button>
+
+    <div id="participationList">
+    </div>
+</div>
+
+<!-- 초대창 모달 -->
+<div id="inviteModal">
+    <div id="inviteModalContent">
+        <h3>사용자를 초대하세요</h3>
+        <input type="text" id="searchInput" placeholder="사용자 아이디를 검색하세요">
+        <div id="userList"></div>
+        <button id="closeInviteModal">닫기</button>
+    </div>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+    import { getDatabase, ref, push, set, onChildAdded, get, child } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyAf_bQ7Vb0AvxJE18i___OBPAzXaC9mv7s",
+        authDomain: "rmate-d0258.firebaseapp.com",
+        databaseURL: "https://rmate-d0258-default-rtdb.firebaseio.com",
+        projectId: "rmate-d0258",
+        storageBucket: "rmate-d0258.firebasestorage.app",
+        messagingSenderId: "77168886503",
+        appId: "1:77168886503:web:329f22e6a0d0566d259842",
+        measurementId: "G-MD15B0EXWW"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+    const roomsRef = ref(database, 'rooms');
+    const usersRef = ref(database, 'users');
+
+    const roomContainer = document.getElementById('roomContainer');
+    const roomList = document.getElementById('roomList');
+    const chatRoom = document.getElementById('chatRoom');
+    const roomTitle = document.getElementById('roomTitle');
+    const messagesDiv = document.getElementById('messages');
+    const messageInput = document.getElementById('messageInput');
+    const sendButton = document.getElementById('sendButton');
+    const backToRooms = document.getElementById('backToRooms');
+    const inviteModal = document.getElementById('inviteModal');
+    const userList = document.getElementById('userList');
+    const closeInviteModal = document.getElementById('closeInviteModal');
+    const inviteButton = document.getElementById('inviteButton');
+    const participationButton = document.getElementById('participationButton');
+    const participationList = document.getElementById('participationList');
+    const searchInput = document.getElementById('searchInput');
+
+    let currentRoomId = null;
+    let allUsers = [];
+    let roomCreator = ''; // 채팅방 생성자
+
+    // 채팅방 목록 표시
+    onChildAdded(roomsRef, (snapshot) => {
+        const room = snapshot.val();
+        const roomId = snapshot.key;
+        const roomElement = document.createElement('div');
+        roomElement.classList.add('room-button');
+        roomElement.textContent = room.name;
+
+        roomElement.addEventListener('click', () => enterRoom(roomId, room.name, room.creator));
+
+        roomList.appendChild(roomElement);
+    });
+
+    // 채팅방 생성
+    document.getElementById('createRoomButton').addEventListener('click', () => {
+        const roomName = prompt('새 채팅방 이름을 입력하세요:');
+        if (roomName) {
+            const roomCreatorName = prompt('채팅방 생성자 이름을 입력하세요:'); // 채팅방 생성자 이름 입력
+            const newRoomRef = push(roomsRef);
+            set(newRoomRef, { name: roomName, creator: roomCreatorName });
+            roomCreator = roomCreatorName; // 채팅방 생성자 저장
+        }
+    });
+
+    // 채팅방 입장
+    function enterRoom(roomId, roomName, creatorName) {
+        currentRoomId = roomId;
+
+        // 채팅방 목록 숨기기
+        roomContainer.style.display = 'none';
+
+        // 채팅방 보여주기
+        chatRoom.style.display = 'block';
+        roomTitle.textContent = `채팅방: ${roomName}`;
+
+        const messagesRef = ref(database, `messages/${roomId}`);
+
+        // 기존 메시지 초기화
+        messagesDiv.innerHTML = '';
+
+        // 메시지 수신
+        onChildAdded(messagesRef, (snapshot) => {
+            const message = snapshot.val();
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message');
+
+            // 메시지 작성자에 따라 스타일 추가
+            const messageContent = document.createElement('div');
+            messageContent.textContent = `${message.username}: ${message.messageContent}`;
+
+            // 내가 보낸 메시지: 오른쪽, 다른 사람이 보낸 메시지: 왼쪽
+            if (message.username === 'user1') {
+                messageContent.classList.add('outgoing');
+            } else {
+                messageContent.classList.add('incoming');
+            }
+
+            messageElement.appendChild(messageContent);
+            messagesDiv.appendChild(messageElement);
+        });
+
+        // 메시지 전송
+        sendButton.onclick = () => {
+            const messageContent = messageInput.value;
+            if (messageContent) {
+                push(messagesRef, { username: 'user1', messageContent });
+                messageInput.value = '';
+            }
+        };
+
+        // 초대 버튼 클릭 시 초대 모달 표시
+        inviteButton.addEventListener('click', () => {
+            inviteModal.style.display = 'flex';
+        });
+
+        // 초대 모달 닫기 버튼 클릭 시 모달 닫기
+        closeInviteModal.addEventListener('click', () => {
+            inviteModal.style.display = 'none';
+        });
+
+        // 참여 목록 버튼에 마우스를 올리면 참여 목록 표시
+        participationButton.addEventListener('mouseenter', () => {
+            // 참여 목록에 채팅방 생성자 먼저 추가
+            participationList.innerHTML = ''; // 참여 목록 초기화
+            const creatorItem = document.createElement('div');
+            creatorItem.classList.add('user-button');
+            creatorItem.textContent = `채팅방 생성자: ${creatorName}`;
+            participationList.appendChild(creatorItem);
+
+            // 나머지 참여자 추가 (예시로 'user2', 'user3' 추가)
+            const otherUsers = ['user2', 'user3'];
+            otherUsers.forEach((user) => {
+                const userItem = document.createElement('div');
+                userItem.classList.add('user-button');
+                userItem.textContent = user;
+                participationList.appendChild(userItem);
+            });
+
+            participationList.style.display = 'block';
+        });
+
+        // 참여 목록 버튼에서 마우스가 나가면 참여 목록 숨기기
+        participationButton.addEventListener('mouseleave', () => {
+            participationList.style.display = 'none';
+        });
+
+        // 목록으로 돌아가기
+        backToRooms.addEventListener('click', () => {
+            currentRoomId = null;
+
+            // 채팅방 숨기기
+            chatRoom.style.display = 'none';
+
+            // 채팅방 목록 보여주기
+            roomContainer.style.display = 'block';
+        });
+    }
+</script>
+
+</body>
+</html>

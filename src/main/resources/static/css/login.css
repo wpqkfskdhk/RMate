@@ -1,0 +1,75 @@
+body {
+    background-color: #fff;
+}
+
+p {
+    color: #fff;
+    font-family: '강원교육튼튼', sans-serif;
+    font-size: medium;
+    margin-top: 80px;
+}
+
+fieldset {
+    border-radius: 15px;
+    background-color: #ffd5d5;
+    width: 500px;
+    height: 400px;
+    text-align: center;
+    box-shadow: 0 5px 15px 0 #00000026;
+    gap: 50px;
+}
+
+label {
+    text-align: center;
+    margin-top: 50px;
+}
+
+#login, #join {
+    left: 50%;
+    background: #2b3569 ;
+    font-family: inherit;
+    padding: 0.6em 1.3em;
+    font-weight: 900;
+    font-size: 12px;
+    border: 1px solid #FFFFFF;
+    border-radius: 15px;
+    box-shadow: 0.1em 0.1em #2b3569;
+    cursor: pointer;
+    margin-left: auto;
+    color: #fff;
+    margin-top: 40px;
+}
+
+#login:hover {
+    box-shadow: 0.15em 0.15em;
+}
+
+#login:active {
+    box-shadow: 0.05em 0.05em;
+}
+
+#join {
+    left: 50%;
+    background: #2b3569 ;
+    font-family: inherit;
+    padding: 0.6em 1.3em;
+    font-weight: 900;
+    font-size: 12px;
+    border: 1px solid #FFFFFF;
+    border-radius: 15px;
+    box-shadow: 0.1em 0.1em #2b3569;
+    cursor: pointer;
+    margin-left: auto;
+    color: #fff;
+    margin-top: 40px;
+}
+
+#join:hover {
+    box-shadow: 0.15em 0.15em;
+}
+
+
+#join:active {
+    box-shadow: 0.05em 0.05em;
+}
+

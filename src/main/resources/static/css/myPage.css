@@ -1,0 +1,90 @@
+#myPageForm fieldset {
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#myPageForm legend {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    padding: 0 10px;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.info-field-container {
+    display: flex;
+    flex-wrap: wrap; /* 줄 바꿈 허용 */
+    gap: 20px; /* 항목 간 간격 */
+    margin-bottom: 15px;
+}
+
+.info-field {
+    display: flex;
+    justify-content: space-between; /* 라벨과 값이 양쪽에 배치되도록 */
+    width: 48%;
+}
+
+.info-field label {
+    font-weight: 600;
+    /*color: #555;*/
+    /*width: 30%; !* 라벨의 너비 설정 *!*/
+}
+
+.info-value {
+    font-size: 1rem;
+    font-weight: normal;
+    color: #777;
+    width: 65%; /* 값이 표시될 부분의 너비 설정 */
+    padding-left: 10px;
+    word-wrap: break-word; /* 긴 텍스트가 넘치지 않도록 */
+}
+
+#change {
+    background: #2b3569 ;
+    font-family: inherit;
+    padding: 0.6em 1.3em;
+    font-weight: 900;
+    font-size: 12px;
+    border: 1px solid #FFFFFF;
+    border-radius: 15px;
+    box-shadow: 0.1em 0.1em #2b3569;
+    cursor: pointer;
+    margin-left: auto;
+    color: #fff;
+    margin-top: 20px;
+}
+
+#change:hover {
+    box-shadow: 0.15em 0.15em;
+}
+
+#change:active {
+    box-shadow: 0.05em 0.05em;
+}
+
+#delete {
+    background: #2b3569 ;
+    font-family: inherit;
+    padding: 0.6em 1.3em;
+    font-weight: 900;
+    font-size: 12px;
+    border: 1px solid #FFFFFF;
+    border-radius: 15px;
+    box-shadow: 0.1em 0.1em #2b3569;
+    cursor: pointer;
+    margin-left: auto;
+    color: #fff;
+    margin-top: 20px;
+}
+
+#delete:hover {
+    box-shadow: 0.15em 0.15em;
+}
+
+#delete:active {
+    box-shadow: 0.05em 0.05em;
+}

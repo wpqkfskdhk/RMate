@@ -1,0 +1,467 @@
+/* 전체 레이아웃 */
+.profile-container {
+    width: 1200px;
+    margin: 20px auto;
+    border: 1px solid #a2d149; /* 연두색 테두리 */
+    padding: 20px;
+    box-sizing: border-box;
+    font-family: sans-serif;
+    position: relative;
+    background-color: #f0fff0; /* 연한 녹색 배경 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
+}
+
+/* 개인 정보 영역 */
+.personal-info-area {
+    display: flex;
+    border-bottom: 1px solid #a2d149; /* 연두색 테두리 */
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+}
+
+.profile-image {
+    width: 200px;
+    height: 150px;
+    border-radius: 5px; /* 사각형으로 변경 */
+    background-color: #a2d149; /* 연두색 배경 */
+    margin-right: 20px;
+    overflow: hidden;
+    border: 3px solid #79a700; /* 짙은 녹색 테두리 */
+}
+
+.profile-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 이미지가 꽉 차도록 조절 */
+}
+
+.profile-details {
+    flex-grow: 1;
+    color: #333; /* 진한 회색 글자색 */
+}
+
+.profile-details p {
+    margin: 5px 0;
+    font-size: 15px; /* 글자 크기 조절 */
+}
+
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+/*  수정, 홈페이지로, 회원탈퇴 버튼  */
+.action-buttons button,
+.action-buttons .delete-link {
+    padding: 6px 10px;
+    margin-bottom: 5px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100px;
+    min-height: 2.8em;
+    box-sizing: border-box;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.action-buttons button {
+    background-color: #28a745; /* 초록색 배경 */
+    color: white;
+}
+
+.action-buttons button:hover {
+    background-color: #218838; /* 호버 시 조금 더 어두운 초록색 */
+    box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+    transform: translateY(-2px);
+}
+
+.action-buttons button:active {
+    box-shadow: none;
+    transform: translateY(0);
+}
+
+.action-buttons .delete-link {
+    display: inline-block;
+    text-decoration: none;
+    background-color: #dc3545; /* 빨간색 배경 */
+    color: white; /* 흰색 글자색 */
+    text-align: center;
+}
+
+.action-buttons .delete-link:hover {
+    background-color: #c82333;
+    color: white;
+}
+
+#editProfileBtn {
+    background-color: #28a745; /* 수정 버튼 배경색 (초록색) */
+    color: white; /* 수정 버튼 글자색 (흰색) */
+}
+
+/* 탭 메뉴 */
+.tab-menu {
+    display: flex;
+    border-bottom: 1px solid #a2d149; /* 연두색 테두리 */
+    margin-bottom: 15px;
+}
+
+.tab-menu button {
+    padding: 10px 15px;
+    border: none;
+    background-color: #f0fff0; /* 연한 녹색 배경 */
+    cursor: pointer;
+    border-right: 1px solid #a2d149; /* 연두색 테두리 */
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    color: #333; /* 진한 회색 글자색 */
+}
+
+.tab-menu button:last-child {
+    border-right: none;
+}
+
+.tab-menu button.active {
+    background-color: #cce0cc; /* 조금 더 진한 연한 녹색 배경 */
+    font-weight: bold;
+    color: #496f49; /* 짙은 녹색 글자색 */
+}
+
+/* 탭 내용 영역 */
+.tab-content {
+    padding: 10px;
+    background-color: #fff;
+}
+
+.tab-content h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #79a700; /* 짙은 녹색 글자색 */
+}
+
+/* 스크롤 기능 추가 */
+.comment-list,
+.written-post-list,
+.applicant-list,
+.applied-post-list,
+.completed-trip-list,
+.myreview-list,
+.myorders-list {
+    border: 1px solid #a2d149; /* 연두색 테두리 */
+    margin-bottom: 15px;
+    border-radius: 5px;
+    max-height: 200px;
+    overflow-y: auto;
+    position: relative;
+    background-color: #f0fff0; /* 연한 녹색 배경 */
+}
+
+.comment-list h4,
+.written-post-list h4,
+.applicant-list h4,
+.applied-post-list h4,
+.completed-trip-list h4,
+.myreview-list h4,
+.myorders-list h4 {
+    margin-left: 5px;
+    margin-top: 0;
+    border-bottom: 1px solid #a2d149; /* 연두색 테두리 */
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    z-index: 1;
+    width: 100%;
+    color: #79a700; /* 짙은 녹색 글자색 */
+}
+
+.content-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #a2d149; /* 연두색 테두리 */
+    margin-left: 5px;
+}
+
+.content-item:last-child {
+    border-bottom: none;
+}
+
+.content-item a {
+    text-decoration: none;
+    color: #333; /* 진한 회색 글자색 */
+}
+
+.content-title {
+    flex-grow: 1;
+}
+
+.content-date {
+    margin-left: 10px;
+    margin-right: 10px;
+    font-size: 0.9em;
+    color: #777;
+}
+
+.content-button button {
+    padding: 5px 10px;
+    cursor: pointer;
+    border: 1px solid #a2d149; /* 연두색 테두리 */
+    background-color: #e0ffe0; /* 연한 녹색 배경 */
+    border-radius: 3px;
+}
+
+.content-button button:hover {
+    background-color: #cceccc; /* 호버 시 조금 더 진한 녹색 */
+}
+
+/* 신청자 목록 스타일 (내 게시글에 신청한 신청자) */
+.applicant-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #a2d149; /* 연두색 테두리 */
+}
+
+.applicant-list-item:last-child {
+    border-bottom: none;
+}
+
+/* 수정 폼 영역 */
+.edit-profile-form {
+    border-top: 1px solid #a2d149; /* 연두색 테두리 */
+    padding-top: 20px;
+    margin-top: 20px;
+    display: none;
+    background-color: #f0fff0; /* 연한 녹색 배경 */
+}
+
+.edit-profile-form h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #79a700; /* 짙은 녹색 글자색 */
+}
+
+.edit-profile-form table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.edit-profile-form th, .edit-profile-form td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #a2d149; /* 연두색 테두리 */
+}
+
+.edit-profile-form th {
+    width: 120px;
+    font-weight: bold;
+    color: #333;
+}
+
+.edit-profile-form input[type="text"],
+.edit-profile-form input[type="password"],
+.edit-profile-form input[type="email"],
+.edit-profile-form input[type="file"] {
+    width: calc(100% - 16px);
+    padding: 8px;
+    margin: 5px 0;
+    border: 1px solid #a2d149; /* 연두색 테두리 */
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.edit-profile-form .options {
+    display: flex;
+    align-items: center;
+}
+
+.edit-profile-form .option {
+    padding: 8px 15px;
+    margin-right: 10px;
+    border: none;
+    background-color: #eee;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.edit-profile-form .option.selected {
+    background-color: #a2d149; /* 연두색 배경 */
+    color: #fff;
+}
+
+.edit-profile-form input[type="button"],
+.edit-profile-form input[type="submit"],
+.edit-profile-form input[type="reset"] {
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    background-color: #79a700; /* 짙은 녹색 배경 */
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.edit-profile-form input[type="button"]:hover,
+.edit-profile-form input[type="submit"]:hover,
+.edit-profile-form input[type="reset"]:hover {
+    opacity: 0.8;
+}
+
+.edit-profile-actions {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.edit-profile-actions button {
+    padding: 10px 20px;
+    margin: 0 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.edit-profile-actions #modalSaveBtn {
+    background-color: #a2d149; /* 연두색 배경 */
+    color: #fff;
+}
+
+#deleteUserBtn {
+    background-color: #dc3545;
+    color: white;
+}
+
+#deleteUserBtn:hover {
+    background-color: #c82333;
+}
+
+.myPage_btn {
+    display: inline-block;
+    padding: 10px 15px;
+    text-decoration: none;
+    background-color: #79a700; /* 짙은 녹색 배경 */
+    color: white;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.myPage_btn:hover {
+    background-color: #658d00; /* 호버 시 조금 더 어두운 녹색 */
+}
+
+/* 전역 스타일: body 요소에 스크롤바 색상 및 너비 지정 */
+body {
+    scrollbar-color: transparent transparent;
+    background-color: #e0f2e0; /* 연한 초록색 배경 */
+}
+
+/* 웹킷 기반 브라우저 (Chrome, Safari 등) 스크롤바 스타일 지정 */
+::-webkit-scrollbar {
+    width: 0.3em;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: transparent;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* "없습니다" 메시지 스타일 */
+.no-data-message {
+    margin-top: 80px;
+    font-weight: bold;
+    color: #777;
+}
+/*  전체 감싸는 부분  */
+.wrap{
+    display: flex;
+    justify-content: space-between;
+}
+
+/*  왼쪽 이동 버튼  */
+.left-buttons {
+    display: flex;
+    flex-direction: column;
+    position: fixed; /* 고정 위치 설정 */
+    top: 15%; /* 중앙에 위치하도록 수정 */
+    left: 10px; /* 왼쪽 여백 조정 */
+    margin-top: 100px;
+    margin-left: 100px;
+    transform: translateY(-50%);
+    z-index: 1000; /* 다른 요소 위에 오도록 z-index 설정 */
+    align-items: center; /* 버튼 중앙 정렬 */
+}
+
+/*  오른쪽 이동 버튼  */
+.right-buttons {
+    display: flex;
+    flex-direction: column;
+    position: fixed; /* 고정 위치 설정 */
+    top: 15%; /* 중앙에 위치하도록 수정 */
+    margin-top: 100px;
+    margin-right: 100px;
+    right: 10px; /* 오른쪽 여백 조정 */
+    transform: translateY(-50%);
+    z-index: 1000; /* 다른 요소 위에 오도록 z-index 설정 */
+    align-items: center; /* 버튼 중앙 정렬 */
+}
+/* 버튼 스타일 */
+.board-button {
+    height: 75px;
+    width: 175px;
+    max-width: 500px;
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    background-color: #a2d149; /* 연두색 */
+    color: #333; /*  회색 글자색 */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 30px;
+    border: none;
+}
+
+.board-button:hover {
+    background-color: #79a700; /* 호버 시  진한 녹색 */
+    color: #fff;
+}
+/* 태그 리스트 스타일 */
+.tag-list-right {
+    display: flex;
+    flex-direction: column; /* 세로로 정렬 */
+    align-items: flex-start; /* 왼쪽 정렬 */
+    margin-top: 20px; /* 버튼과의 간격 */
+    width: 200px; /* 최대 너비 설정 */
+}
+.tag-list-left {
+    display: flex;
+    flex-direction: column; /* 세로로 정렬 */
+    align-items: flex-start; /* 왼쪽 정렬 */
+    margin-top: 20px; /* 버튼과의 간격 */
+    width: 200px; /* 최대 너비 설정 */
+}
+
+.tag {
+    margin: 0 0 10px 0; /* 태그 간 간격 조정 */
+    padding: 8px 12px;
+    border-radius: 15px;
+    color: #333; /* 진한 회색 글자색 */
+    font-size: 25px;
+    font-weight: bold; /* 글자 굵게 */
+    white-space: nowrap; /* 줄 바꿈 방지 */
+    line-height: 1.5; /* 줄 간격 조정 */
+    width: 100%; /* 한 줄에 하나씩만 표시 */
+    box-sizing: border-box; /* 패딩과 테두리를 너비에 포함 */
+    text-align: center;
+    background-color: #FFFFFF;
+}
+

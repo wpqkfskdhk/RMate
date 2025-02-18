@@ -1,0 +1,936 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Untree.co">
+    <link rel="shortcut icon" href="/static/favicon.png">
+
+    <meta name="description" content=""/>
+    <meta name="keywords" content="bootstrap, bootstrap4"/>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Source+Serif+Pro:wght@400;700&display=swap"
+          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="/css/jquery.fancybox.min.css">
+    <link rel="stylesheet" href="/fonts/icomoon/style.css">
+    <link rel="stylesheet" href="/fonts/flaticon/font/flaticon.css">
+    <link rel="stylesheet" href="/css/daterangepicker.css">
+    <link rel="stylesheet" href="/css/aos.css">
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/boardform.css">
+
+
+    <title>태우고 타고 머물고</title>
+</head>
+
+<body id="bBody">
+
+<!-- ##### Header Area Start ##### -->
+<header class="header-area">
+    <div th:replace="~{header.html}"></div>
+</header>
+
+</br></br>
+</br></br>
+
+<div class="content-area">
+    <div class="tag-list-left">
+        <h4>자주쓰는 태그</h4>
+        <ul>
+            <li>#운동</li>
+            <li>#사교</li>
+            <li>#여행</li>
+            <li>#문화</li>
+            <li>#음악</li>
+        </ul>
+    </div>
+
+    <form class="form" action="/bWrite" method="post" enctype="multipart/form-data" id="boardForm">
+        <input type="hidden" name="UserId" th:value="${session.loginId}"/>
+        <input type="hidden" name="BNickName" th:value="${session.loginNickname}"/>
+        <input type="hidden" id="CountPeople" name="CountPeople" value="1"/>
+
+        <div class="header-row">
+            <div>
+                <select id="Category" name="CategoryNum" class="form-control custom-select">
+                    <option value="">게시판유형</option>
+                    <option value="1">태우고</option>
+                    <option value="2">타고</option>
+                    <option value="3">머물고</option>
+                </select>
+            </div>
+
+            <div>
+                <input type="text" name="BTitle" class="form-control custom-input" placeholder="제목을 입력해주세요."
+                       style="width: 700px"/>
+            </div>
+        </div>
+
+        <div class="editor-container">
+            <div id="toolbar">
+                <div type="button" id="tool-image" class="toggle-btn">
+                    <img src="/images/image.png" alt="사진">
+                    <span>사진</span>
+                </div>
+                <input type="file" id="BFile" name="BFile" class="form-control custom-file" style="display: none;"
+                       accept="image/*">
+
+                <!-- 목적지 버튼 -->
+                <div type="button" id="tool-location" class="toggle-btn">
+                    <img src="/images/location.png" alt="목적지">
+                    <span>목적지</span>
+                </div>
+                <select id="regionSelect" name="RNum" class="form-control custom-select" style="display: none;">
+                    <option value="" selected>지역 선택</option>
+                    <option value="1">서울</option>
+                    <option value="2">경기</option>
+                    <option value="3">인천</option>
+                    <option value="4">충남</option>
+                    <option value="5">충북</option>
+                    <option value="6">강원</option>
+                    <option value="7">울산</option>
+                    <option value="8">부산</option>
+                    <option value="9">대구</option>
+                    <option value="10">전남</option>
+                    <option value="11">전북</option>
+                    <option value="12">광주</option>
+                    <option value="13">경남</option>
+                    <option value="14">경북</option>
+                    <option value="15">제주도</option>
+                    <option value="16">대전</option>
+                    <option value="17">세종</option>
+                </select>
+                <select name="DetailNum" id="detailSelect" class="form-control custom-select" style="display: none;">
+                    <option value="" selected>장소 선택</option>
+                    <!-- 서울 (r_num: 1) -->
+                    <option value="1" style="display: none">종로구</option>
+                    <option value="2" style="display: none">중구</option>
+                    <option value="3" style="display: none">용산구</option>
+                    <option value="4" style="display: none">성동구</option>
+                    <option value="5" style="display: none">광진구</option>
+                    <option value="6" style="display: none">동대문구</option>
+                    <option value="7" style="display: none">중랑구</option>
+                    <option value="8" style="display: none">강북구</option>
+                    <option value="9" style="display: none">도봉구</option>
+                    <option value="10" style="display: none">노원구</option>
+                    <option value="11" style="display: none">은평구</option>
+                    <option value="12" style="display: none">서대문구</option>
+                    <option value="13" style="display: none">마포구</option>
+                    <option value="14" style="display: none">양천구</option>
+                    <option value="15" style="display: none">강서구</option>
+                    <option value="16" style="display: none">구로구</option>
+                    <option value="17" style="display: none">금천구</option>
+                    <option value="18" style="display: none">영등포구</option>
+                    <option value="19" style="display: none">동작구</option>
+                    <option value="20" style="display: none">관악구</option>
+                    <option value="21" style="display: none">서초구</option>
+                    <option value="22" style="display: none">강남구</option>
+                    <option value="23" style="display: none">송파구</option>
+                    <option value="24" style="display: none">강동구</option>
+                    <!-- 경기 (r_num: 2) -->
+                    <option value="25" style="display: none">수원시</option>
+                    <option value="26" style="display: none">성남시</option>
+                    <option value="27" style="display: none">고양시</option>
+                    <option value="28" style="display: none">부천시</option>
+                    <option value="29" style="display: none">안양시</option>
+                    <option value="30" style="display: none">용인시</option>
+                    <option value="31" style="display: none">화성시</option>
+                    <option value="32" style="display: none">평택시</option>
+                    <option value="33" style="display: none">광명시</option>
+                    <option value="34" style="display: none">이천시</option>
+                    <option value="35" style="display: none">김포시</option>
+                    <option value="36" style="display: none">구리시</option>
+                    <option value="37" style="display: none">안산시</option>
+                    <option value="38" style="display: none">오산시</option>
+                    <option value="39" style="display: none">의정부시</option>
+                    <option value="40" style="display: none">시흥시</option>
+                    <option value="41" style="display: none">하남시</option>
+                    <option value="42" style="display: none">파주시</option>
+                    <option value="43" style="display: none">여주시</option>
+                    <option value="44" style="display: none">양주시</option>
+                    <option value="45" style="display: none">동두천시</option>
+                    <option value="46" style="display: none">과천시</option>
+                    <option value="47" style="display: none">광주시</option>
+                    <option value="48" style="display: none">남양주시</option>
+                    <option value="49" style="display: none">안성시</option>
+                    <option value="50" style="display: none">포천시</option>
+                    <option value="51" style="display: none">가평군</option>
+                    <option value="52" style="display: none">양평군</option>
+                    <option value="53" style="display: none">여주군</option>
+                    <!-- 인천 (r_num: 3) -->
+                    <option value="54" style="display: none">중구</option>
+                    <option value="55" style="display: none">동구</option>
+                    <option value="56" style="display: none">미추홀구</option>
+                    <option value="57" style="display: none">연수구</option>
+                    <option value="58" style="display: none">남동구</option>
+                    <option value="59" style="display: none">부평구</option>
+                    <option value="60" style="display: none">계양구</option>
+                    <option value="61" style="display: none">서구</option>
+                    <option value="62" style="display: none">강화군</option>
+                    <option value="63" style="display: none">옹진군</option>
+                    <!-- 충남 (r_num: 4) -->
+                    <option value="64" style="display: none">천안시</option>
+                    <option value="65" style="display: none">공주시</option>
+                    <option value="66" style="display: none">보령시</option>
+                    <option value="67" style="display: none">아산시</option>
+                    <option value="68" style="display: none">서산시</option>
+                    <option value="69" style="display: none">논산시</option>
+                    <option value="70" style="display: none">계룡시</option>
+                    <option value="71" style="display: none">당진시</option>
+                    <option value="72" style="display: none">금산군</option>
+                    <option value="73" style="display: none">부여군</option>
+                    <option value="74" style="display: none">서천군</option>
+                    <option value="75" style="display: none">청양군</option>
+                    <option value="76" style="display: none">홍성군</option>
+                    <option value="77" style="display: none">예산군</option>
+                    <option value="78" style="display: none">유성구</option>
+                    <!-- 충북 (r_num: 5) -->
+                    <option value="79" style="display: none">청주시</option>
+                    <option value="80" style="display: none">충주시</option>
+                    <option value="81" style="display: none">제천시</option>
+                    <option value="82" style="display: none">보은군</option>
+                    <option value="83" style="display: none">옥천군</option>
+                    <option value="84" style="display: none">영동군</option>
+                    <option value="85" style="display: none">진천군</option>
+                    <option value="86" style="display: none">괴산군</option>
+                    <option value="87" style="display: none">음성군</option>
+                    <option value="88" style="display: none">단양군</option>
+                    <option value="89" style="display: none">김천시</option>
+                    <option value="90" style="display: none">이천시</option>
+                    <!-- 강원 (r_num: 6) -->
+                    <option value="91" style="display: none">춘천시</option>
+                    <option value="92" style="display: none">강릉시</option>
+                    <option value="93" style="display: none">원주시</option>
+                    <option value="94" style="display: none">동해시</option>
+                    <option value="95" style="display: none">태백시</option>
+                    <option value="96" style="display: none">속초시</option>
+                    <option value="97" style="display: none">삼척시</option>
+                    <option value="98" style="display: none">홍천군</option>
+                    <option value="99" style="display: none">횡성군</option>
+                    <option value="100" style="display: none">영월군</option>
+                    <option value="101" style="display: none">평창군</option>
+                    <option value="102" style="display: none">정선군</option>
+                    <option value="103" style="display: none">철원군</option>
+                    <option value="104" style="display: none">화천군</option>
+                    <option value="105" style="display: none">양구군</option>
+                    <option value="106" style="display: none">인제군</option>
+                    <option value="107" style="display: none">고성군</option>
+                    <option value="108" style="display: none">양양군</option>
+                    <!-- 울산 (r_num: 7) -->
+                    <option value="109" style="display: none">중구</option>
+                    <option value="110" style="display: none">남구</option>
+                    <option value="111" style="display: none">동구</option>
+                    <option value="112" style="display: none">북구</option>
+                    <option value="113" style="display: none">울주군</option>
+                    <!-- 부산 (r_num: 8) -->
+                    <option value="114" style="display: none">서구</option>
+                    <option value="115" style="display: none">수영구</option>
+                    <option value="116" style="display: none">연제구</option>
+                    <option value="117" style="display: none">영도구</option>
+                    <option value="118" style="display: none">중구</option>
+                    <option value="119" style="display: none">하단구</option>
+                    <!-- 대구 (r_num: 9) -->
+                    <option value="120" style="display: none">중구</option>
+                    <option value="121" style="display: none">동구</option>
+                    <option value="122" style="display: none">서구</option>
+                    <option value="123" style="display: none">남구</option>
+                    <option value="124" style="display: none">북구</option>
+                    <option value="125" style="display: none">수성구</option>
+                    <option value="126" style="display: none">달서구</option>
+                    <option value="127" style="display: none">달성군</option>
+
+                    <!-- 전남 (r_num: 10) -->
+                    <option value="128" style="display: none">목포시</option>
+                    <option value="129" style="display: none">여수시</option>
+                    <option value="130" style="display: none">순천시</option>
+                    <option value="131" style="display: none">광양시</option>
+                    <option value="132" style="display: none">담양군</option>
+                    <option value="133" style="display: none">곡성군</option>
+                    <option value="134" style="display: none">구례군</option>
+                    <option value="135" style="display: none">해남군</option>
+                    <option value="136" style="display: none">영암군</option>
+                    <option value="137" style="display: none">무안군</option>
+                    <option value="138" style="display: none">김제시</option>
+                    <option value="139" style="display: none">완도군</option>
+                    <option value="140" style="display: none">진도군</option>
+                    <option value="141" style="display: none">장흥군</option>
+                    <option value="142" style="display: none">보성군</option>
+                    <option value="143" style="display: none">강진군</option>
+                    <option value="144" style="display: none">영광군</option>
+                    <option value="145" style="display: none">함평군</option>
+                    <option value="146" style="display: none">영암군</option>
+                    <!-- 전북 (r_num: 11) -->
+                    <option value="147" style="display: none">군산시</option>
+                    <option value="148" style="display: none">익산시</option>
+                    <option value="149" style="display: none">정읍시</option>
+                    <option value="150" style="display: none">전주시</option>
+                    <option value="151" style="display: none">완주군</option>
+                    <option value="152" style="display: none">남원시</option>
+                    <option value="153" style="display: none">김제시</option>
+                    <option value="154" style="display: none">진안군</option>
+                    <option value="155" style="display: none">무주군</option>
+                    <option value="156" style="display: none">장수군</option>
+                    <option value="157" style="display: none">임실군</option>
+                    <option value="158" style="display: none">순창군</option>
+                    <option value="159" style="display: none">고창군</option>
+                    <option value="160" style="display: none">부안군</option>
+                    <!-- 광주 (r_num: 12) -->
+                    <option value="161" style="display: none">동구</option>
+                    <option value="162" style="display: none">서구</option>
+                    <option value="163" style="display: none">남구</option>
+                    <option value="164" style="display: none">북구</option>
+                    <option value="165" style="display: none">광산구</option>
+                    <!-- 경남 (r_num: 13) -->
+                    <option value="166" style="display: none">창원시</option>
+                    <option value="167" style="display: none">진주시</option>
+                    <option value="168" style="display: none">통영시</option>
+                    <option value="169" style="display: none">사천시</option>
+                    <option value="170" style="display: none">김해시</option>
+                    <option value="171" style="display: none">밀양시</option>
+                    <option value="172" style="display: none">거제시</option>
+                    <option value="173" style="display: none">양산시</option>
+                    <option value="174" style="display: none">함안군</option>
+                    <option value="175" style="display: none">창녕군</option>
+                    <option value="176" style="display: none">고성군</option>
+                    <option value="177" style="display: none">하동군</option>
+                    <option value="178" style="display: none">남해군</option>
+                    <option value="179" style="display: none">산청군</option>
+                    <option value="180" style="display: none">함양군</option>
+                    <option value="181" style="display: none">거창군</option>
+                    <option value="182" style="display: none">합천군</option>
+                    <!-- 경북 (r_num: 14) -->
+                    <option value="183" style="display: none">포항시</option>
+                    <option value="184" style="display: none">경주시</option>
+                    <option value="185" style="display: none">김천시</option>
+                    <option value="186" style="display: none">안동시</option>
+                    <option value="187" style="display: none">구미시</option>
+                    <option value="188" style="display: none">영주시</option>
+                    <option value="189" style="display: none">영천시</option>
+                    <option value="190" style="display: none">상주시</option>
+                    <option value="191" style="display: none">문경시</option>
+                    <option value="192" style="display: none">경산시</option>
+                    <option value="193" style="display: none">군위군</option>
+                    <option value="194" style="display: none">의성군</option>
+                    <option value="195" style="display: none">청송군</option>
+                    <option value="196" style="display: none">영양군</option>
+                    <option value="197" style="display: none">예천군</option>
+                    <option value="198" style="display: none">봉화군</option>
+                    <option value="199" style="display: none">울진군</option>
+                    <option value="200" style="display: none">울릉군</option>
+                    <!-- 제주도 (r_num: 15) -->
+                    <option value="201" style="display: none">제주시</option>
+                    <option value="202" style="display: none">서귀포시</option>
+                    <option value="203" style="display: none">남제주군</option>
+                    <option value="204" style="display: none">북제주군</option>
+                    <!-- 대전 (r_num: 16) -->
+                    <option value="205" style="display: none">중구</option>
+                    <option value="206" style="display: none">동구</option>
+                    <option value="207" style="display: none">서구</option>
+                    <option value="208" style="display: none">유성구</option>
+                    <option value="209" style="display: none">대덕구</option>
+                    <!-- 세종 (r_num: 17) -->
+                    <option value="210" style="display: none">세종시</option>
+                </select>
+
+                <div type="button" id="tool-date" class="toggle-btn">
+                    <img src="/images/calendar.png" alt="날짜">
+                    <span>날짜</span>
+                </div>
+                <div id="date-inputs" style="display: none;">
+                    <input type="text" id="BStartDisplay" class="form-control custom-input" placeholder="출발일" readonly>
+                    <input type="text" id="BEndDisplay" class="form-control custom-input" placeholder="종료일" readonly>
+                    <input type="hidden" id="BStart" name="BStart">
+                    <input type="hidden" id="BEnd" name="BEnd">
+                </div>
+
+                <div type="button" id="tool-human" class="toggle-btn">
+                    <img src="/images/personnal.png" alt="인원수">
+                    <span>인원수</span>
+                </div>
+                <select id="Cnt_Num" name="CntNum" class="form-control custom-select" style="display: none;">
+                    <option value="">인원수 선택</option>
+                    <option value="2">2명</option>
+                    <option value="3">3명</option>
+                    <option value="4">4명</option>
+                    <option value="5">5명</option>
+                    <option value="6">6명</option>
+                    <option value="7">7명</option>
+                    <option value="8">8명</option>
+                </select>
+
+                <div type="button" id="tool-mate" class="toggle-btn">
+                    <img src="/images/mate.png">
+                    <span>메이트 유형</span>
+                </div>
+                <select id="Mate_Type" name="MType" class="form-control custom-select" style="display: none;">
+                    <option value="">메이트 유형</option>
+                    <option value="이성메이트">이성메이트</option>
+                    <option value="동성메이트">동성메이트</option>
+                    <option value="단체메이트">단체메이트</option>
+                </select>
+
+                <div type="button" id="tool-file" class="toggle-btn">
+                    <img src="/images/file.png" alt="파일 첨부">
+                    <span>파일 첨부</span>
+                </div>
+
+                <input type="file" id="file-input" class="form-control custom-file" style="display: none;"
+                       accept=".pdf,.docx,.txt,.pptx">
+
+                <div id="tool-link" class="toggle-btn">
+                    <img src="/images/link.png">
+                    <span>링크</span>
+                </div>
+                <input type="text" id="link-input" placeholder="URL을 입력하세요" style="display:none;">
+
+                <div type="button" id="tool-table" class="toggle-btn">
+                    <img src="/images/table.png" alt="표 삽입">
+                    <span>표 삽입</span>
+                </div>
+
+                <div id="tool-quote" class="toggle-btn">
+                    <img src="/images/quote.png">
+                    <span>인용구</span>
+                </div>
+                <select id="Quote_Type" name="QType" class="form-control custom-select" style="display: none;">
+                    <option value="《》">《》</option>
+                    <option value="『』">『』</option>
+                    <option value="【】">【】</option>
+                </select>
+
+                <div id="tool-hr" class="toggle-btn">
+                    <img src="/images/line.png">
+                    <span>구분선</span>
+                </div>
+
+            </div>
+            <div id="selected-info" class="selected-info">
+                <span id="selected-location">목적지: 없음</span>
+                <span id="selected-start-date">출발일: 없음</span>
+                <span id="selected-end-date">종료일: 없음</span>
+                <span id="selected-persons">인원수: 없음</span>
+                <span id="selected-mate">메이트 유형: 없음</span>
+            </div>
+            <textarea id="editor-textarea" placeholder="내용을 입력해주세요." name="BContent">
+
+                </textarea>
+
+        </div>
+
+        <div class="footer-row">
+            <div class="row" style="max-width: 800px; width: 100%; margin: 0 auto;">
+                <div class="col-sm-12 col-md-6 mb-3 mb-lg-0 col-lg-4">
+                    <select name="TNum" class="form-control custom-select" style="width: 80px">
+                        <option value="0">고정태그 선택</option>
+                        <option value="1">#운동</option>
+                        <option value="2">#사교</option>
+                        <option value="3">#문학</option>
+                        <option value="4">#여행</option>
+                        <option value="5">#음악</option>
+                        <option value="6">#직무</option>
+                        <option value="7">#문화</option>
+                        <option value="8">#언어</option>
+                        <option value="9">#게임</option>
+                        <option value="10">#공예</option>
+                        <option value="11">#댄스</option>
+                        <option value="12">#봉사</option>
+                        <option value="13">#사진</option>
+                        <option value="14">#자기</option>
+                        <option value="15">#스포츠</option>
+                        <option value="16">#반려</option>
+                        <option value="17">#요리</option>
+                        <option value="18">#자동</option>
+                    </select>
+                </div>
+                <div class="hash-tag-container">
+                    <input type="text" id="Tag" name="TagName" class="form-control custom-input" placeholder="작성할 태그 입력"
+                           style="width: 680px"/>
+                    <ul id="result" class="hash-tag-list"></ul>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row1 align-items-center">
+            <div class="col-sm-12 col-md-6 mb-3 mb-lg-0 col-lg-4">
+                <input type="submit" class="btn btn-primary mt-" id="row-submit" value="작성">
+
+                <input type="reset" class="btn btn-primary mt-" id="row-reset" value="취소"/>
+            </div>
+        </div>
+
+    </form>
+    <div class="tag-list-right">
+        <h4>추천 태그</h4>
+        <ul>
+            <li>#친구</li>
+            <li>#우정</li>
+            <li>#친목</li>
+            <li>#숙소</li>
+            <li>#여행</li>
+        </ul>
+    </div>
+</div>
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+<script src="/js/popper.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/owl.carousel.min.js"></script>
+<script src="/js/jquery.animateNumber.min.js"></script>
+<script src="/js/jquery.waypoints.min.js"></script>
+<script src="/js/jquery.fancybox.min.js"></script>
+<script src="/js/aos.js"></script>
+<script src="/js/moment.min.js"></script>
+<script src="/js/daterangepicker.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/custom.js"></script>
+<script type="module" src="/tag_create.js"></script>
+
+</body>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ko.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $("#boardForm").submit(function(event) {
+            const category = $("#Category").val();
+            const title = $("input[name='BTitle']").val();
+            const content = $("#editor-textarea").val();
+            const region = $("#regionSelect").val(); // 지역 select 값 가져오기
+            const detail = $("#detailSelect").val(); // 상세지역 select 값 가져오기
+            const cntNum = $("#Cnt_Num").val(); // 인원수 select 값 가져오기
+            const startDate = $("#BStartDisplay").val(); // 출발일 input 값 가져오기
+            const endDate = $("#BEndDisplay").val(); // 종료일 input 값 가져오기
+
+            if (!category) {
+                alert("게시판 유형을 선택해주세요.");
+                event.preventDefault();
+                return;
+            }
+
+            if (!title) {
+                alert("제목을 입력해주세요.");
+                event.preventDefault();
+                return;
+            }
+
+            if (!content) {
+                alert("내용을 입력해주세요.");
+                event.preventDefault();
+                return;
+            }
+
+            if (!region || !detail) { // 지역 또는 상세지역이 선택되지 않았을 경우
+                alert("목적지를 선택해주세요.");
+                event.preventDefault();
+                return;
+            }
+
+            if (!cntNum) { // 인원수가 선택되지 않았을 경우
+                alert("인원수를 선택해주세요.");
+                event.preventDefault();
+                return;
+            }
+
+            if (!startDate || !endDate) { // 출발일 또는 종료일이 선택되지 않았을 경우
+                alert("일정 날짜를 선택해주세요.");
+                event.preventDefault();
+                return;
+            }
+            // 다른 필요한 validation rule들을 추가할 수 있습니다.
+        });
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+        // 출발일 달력 설정
+        const startPicker = flatpickr("#BStartDisplay", {
+            dateFormat: "Y-m-d",
+            minDate: "today", // 오늘 이후 날짜만 선택 가능
+            locale: "ko", // 한국어 설정
+            onChange: function (selectedDates, formattedDate) {
+                // 선택된 날짜를 hidden input에 저장
+                const startInput = document.getElementById("BStart");
+                if (startInput) {
+                    startInput.value = formattedDate;
+                }
+
+                // 선택된 날짜를 헤더에 표시 (출발일)
+                const startDateSpan = document.getElementById("selected-start-date");
+                if (startDateSpan) {
+                    startDateSpan.textContent = `출발일: ${formattedDate}`;
+                }
+            },
+        });
+
+        // 종료일 달력 설정
+        const endPicker = flatpickr("#BEndDisplay", {
+            dateFormat: "Y-m-d",
+            minDate: "today", // 오늘 이후 날짜만 선택 가능
+            locale: "ko",
+            onChange: function (selectedDates, formattedDate) {
+                // 선택된 날짜를 hidden input에 저장
+                const endInput = document.getElementById("BEnd");
+                if (endInput) {
+                    endInput.value = formattedDate;
+                }
+
+                // 선택된 날짜를 헤더에 표시 (종료일)
+                const endDateSpan = document.getElementById("selected-end-date");
+                if (endDateSpan) {
+                    endDateSpan.textContent = `종료일: ${formattedDate}`;
+                }
+
+                // 종료일 선택 후 날짜 입력 필드 숨기기
+                const dateInputs = document.getElementById("date-inputs");
+                if (dateInputs) {
+                    dateInputs.style.display = "none"; // 입력 필드 숨기기
+                }
+            },
+        });
+
+        document.getElementById("tool-date").addEventListener("click", function () {
+            // 날짜 입력 필드가 포함된 div 가져오기
+            const dateInputs = document.getElementById("date-inputs");
+
+            // 토글 기능: display 값 변경
+            if (dateInputs.style.display === "none") {
+                dateInputs.style.display = "block"; // 보이게 설정
+            } else {
+                dateInputs.style.display = "none"; // 숨김으로 설정
+            }
+        });
+    });
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const regionSelect = document.getElementById('regionSelect');
+        const detailSelect = document.getElementById('detailSelect');
+        const selectedLocation = document.getElementById("selected-location");
+
+        // 지역 선택 시, 해당하는 상세 지역만 보이게
+        regionSelect.addEventListener('change', function () {
+            const selectedRNum = this.value;
+
+            // 모든 detail 옵션 숨기기
+            Array.from(detailSelect.options).forEach(option => {
+                option.style.display = option.value === "" ? 'block' : 'none';
+            });
+
+            // 선택한 지역에 맞는 옵션만 표시
+            Array.from(detailSelect.options).forEach(option => {
+                const rNum = getRNum(option.value);
+                if (rNum === selectedRNum || option.value === "") {
+                    option.style.display = 'block';
+                }
+            });
+            detailSelect.value = ""; // 이전 선택 초기화
+            selectedLocation.textContent = ''; // 선택된 위치 초기화
+        });
+
+        // 상세 지역 선택 후, 목적지 정보 업데이트 및 드롭다운 접기
+        detailSelect.addEventListener('change', function () {
+            updateLocation();
+            // 드롭다운 메뉴 접기
+            regionSelect.style.display = 'none';
+            detailSelect.style.display = 'none';
+        });
+
+        // "목적지" 버튼 클릭 시 드롭다운 토글
+        document.getElementById('tool-location').addEventListener('click', function () {
+            const locationSelect = document.getElementById('regionSelect');
+            locationSelect.style.display = locationSelect.style.display === 'none' ? 'block' : 'none';
+            detailSelect.style.display = 'block';
+        });
+
+        // 목적지 정보 업데이트
+        function updateLocation() {
+            const selectedRegion = regionSelect.options[regionSelect.selectedIndex].text;
+            const selectedDetail = detailSelect.options[detailSelect.selectedIndex].text;
+
+            // 두 값 모두 선택되었을 때만 업데이트
+            if (selectedRegion && selectedDetail) {
+                selectedLocation.textContent = `목적지: ${selectedRegion} - ${selectedDetail}`;
+            }
+        }
+
+        // detail 번호에 따라 region 번호 반환
+        function getRNum(detailNum) {
+            if (detailNum >= 1 && detailNum <= 24) return "1";  // 서울
+            if (detailNum >= 25 && detailNum <= 53) return "2"; // 경기
+            if (detailNum >= 54 && detailNum <= 63) return "3"; // 인천
+            if (detailNum >= 64 && detailNum <= 78) return "4"; // 충남
+            if (detailNum >= 79 && detailNum <= 90) return "5"; // 충북
+            if (detailNum >= 91 && detailNum <= 108) return "6"; // 강원
+            if (detailNum >= 109 && detailNum <= 113) return "7"; // 울산
+            if (detailNum >= 114 && detailNum <= 119) return "8"; // 부산
+            if (detailNum >= 120 && detailNum <= 127) return "9"; // 대구
+            if (detailNum >= 128 && detailNum <= 146) return "10"; // 전남
+            if (detailNum >= 147 && detailNum <= 160) return "11"; // 전북
+            if (detailNum >= 161 && detailNum <= 165) return "12"; // 광주
+            if (detailNum >= 166 && detailNum <= 182) return "13"; // 경남
+            if (detailNum >= 183 && detailNum <= 200) return "14"; // 경북
+            if (detailNum >= 201 && detailNum <= 204) return "15"; // 제주도
+            if (detailNum >= 205 && detailNum <= 209) return "16"; // 대전
+            if (detailNum == 210) return "17"; // 세종
+            return null;
+        }
+    });
+
+    // "인원수" 버튼 클릭 시 드롭다운 메뉴 토글
+    document.getElementById('tool-human').addEventListener('click', function () {
+        const humanSelect = document.getElementById('Cnt_Num');
+        humanSelect.style.display = humanSelect.style.display === 'none' ? 'block' : 'none';
+    });
+
+    // "인원수" 드롭다운 메뉴에서 선택 시
+    document.getElementById('Cnt_Num').addEventListener('change', function () {
+        const selectedCnt = this.options[this.selectedIndex].text;
+        document.getElementById("selected-persons").textContent = `인원수: ${selectedCnt}`;
+        // 드롭다운 메뉴 접기
+        document.getElementById('Cnt_Num').style.display = 'none';
+    });
+
+    // "메이트 유형" 버튼 클릭 시 드롭다운 메뉴 토글
+    document.getElementById('tool-mate').addEventListener('click', function () {
+        const mateSelect = document.getElementById('Mate_Type');
+        mateSelect.style.display = mateSelect.style.display === 'none' ? 'block' : 'none';
+    });
+
+    // "메이트 유형" 드롭다운 메뉴에서 선택 시
+    document.getElementById('Mate_Type').addEventListener('change', function () {
+        const selectedMate = this.options[this.selectedIndex].text;
+        document.getElementById("selected-mate").textContent = `메이트 유형: ${selectedMate}`;
+        // 드롭다운 메뉴 접기
+        document.getElementById('Mate_Type').style.display = 'none';
+    });
+    // 링크
+    document.getElementById('tool-link').addEventListener('click', function () {
+        const linkInput = document.getElementById('link-input');
+        linkInput.style.display = linkInput.style.display === 'none' ? 'block' : 'none'; // 링크 입력 필드 토글
+        linkInput.focus();
+    });
+
+    document.getElementById('link-input').addEventListener('blur', function () {
+        const url = this.value;
+        if (url) {
+            document.execCommand('createLink', false, url); // 선택된 텍스트에 링크 추가
+        }
+        this.style.display = 'none';
+    });
+
+    // 인용구
+    document.getElementById('tool-quote').addEventListener('click', function () {
+        const quoteSelect = document.getElementById('Quote_Type');
+        quoteSelect.style.display = quoteSelect.style.display === 'none' ? 'block' : 'none';  // 드롭다운 토글
+    });
+
+    // 드롭다운에서 옵션 선택 시 텍스트에 인용구 삽입
+    document.getElementById('Quote_Type').addEventListener('change', function () {
+        const selectedQuote = this.value;  // 선택된 인용구
+
+        // 에디터 영역 선택 또는 커서 위치 삽입
+        const editor = document.getElementById('editor-textarea');
+        const start = editor.selectionStart;
+        const end = editor.selectionEnd;
+        const text = editor.value;
+
+        // 선택된 인용구로 텍스트 형식화하여 삽입
+        const formattedText = selectedQuote + " " + text.substring(start, end) + " " + selectedQuote;
+
+        // 에디터에 텍스트 삽입
+        editor.value = text.substring(0, start) + formattedText + text.substring(end);
+
+        // 커서 위치를 인용구 뒤로 설정
+        editor.selectionStart = editor.selectionEnd = start + formattedText.length;
+
+        // 드롭다운 메뉴 숨기기
+        document.getElementById('Quote_Type').style.display = 'none';
+    });
+
+
+    //  구분선
+    document.getElementById('tool-hr').addEventListener('click', function () {
+        const editor = document.getElementById('editor-textarea');
+        const start = editor.selectionStart;
+        const end = editor.selectionEnd;
+        const text = editor.value;
+
+        // 구분선 HTML 삽입
+        const hr = '<hr>';  // 구분선 HTML
+
+        // 텍스트 삽입
+        editor.value = text.substring(0, start) + hr + text.substring(end);
+
+        // 커서 위치를 구분선 뒤로 설정
+        editor.selectionStart = editor.selectionEnd = start + hr.length;
+    });
+
+    document.getElementById('tool-file').addEventListener('click', function () {
+        document.getElementById('file-input').click();  // 파일 선택 창 열기
+    });
+
+    // 파일 첨부 (문서)
+    document.getElementById('file-input').addEventListener('change', function (event) {
+        const file = event.target.files[0];  // 선택된 파일
+        if (file) {
+            const fileName = file.name;
+            const fileUrl = URL.createObjectURL(file);  // 파일 URL 생성
+
+            // 에디터에 파일 링크 삽입
+            const editor = document.getElementById('editor-textarea');
+            const start = editor.selectionStart;
+            const end = editor.selectionEnd;
+            const text = editor.value;
+
+            const fileLink = `<a href="${fileUrl}" download="${fileName}">${fileName}</a>`; // 파일 다운로드 링크
+
+            // 텍스트 삽입
+            editor.value = text.substring(0, start) + fileLink + text.substring(end);
+
+            // 커서 위치를 파일 링크 뒤로 설정
+            editor.selectionStart = editor.selectionEnd = start + fileLink.length;
+        }
+    });
+
+
+    // 표
+    document.getElementById('tool-table').addEventListener('click', function () {
+        const rows = prompt("행의 수를 입력하세요: ", 3);  // 행 수
+        const cols = prompt("열의 수를 입력하세요: ", 3);  // 열 수
+
+        if (rows && cols) {
+            let tableHTML = "<table border='1' style='width: 100%; text-align: center;'>";
+
+            // 행과 열 생성
+            for (let i = 0; i < rows; i++) {
+                tableHTML += "<tr>";
+                for (let j = 0; j < cols; j++) {
+                    tableHTML += "<td>&nbsp;</td>";  // 빈 셀
+                }
+                tableHTML += "</tr>";
+            }
+            tableHTML += "</table>";
+
+            // 에디터에 표 삽입
+            const editor = document.getElementById('editor-textarea');
+            const start = editor.selectionStart;
+            const end = editor.selectionEnd;
+            const text = editor.value;
+
+            // 표 HTML 삽입
+            editor.value = text.substring(0, start) + tableHTML + text.substring(end);
+
+            // 커서 위치를 표 뒤로 설정
+            editor.selectionStart = editor.selectionEnd = start + tableHTML.length;
+        }
+    });
+
+    // 이미지
+    document.addEventListener("DOMContentLoaded", () => {
+        const imageButton = document.getElementById("tool-image");
+        const fileInput = document.getElementById("BFile");
+        const previewImage = document.getElementById("Image");
+
+        // 버튼 클릭 시 파일 입력 창 열기
+        imageButton.addEventListener("click", () => {
+            fileInput.click();
+        });
+
+        // 파일 선택 시 미리보기 이미지 설정
+        fileInput.addEventListener("change", (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = (e) => {
+                    previewImage.src = e.target.result; // 미리보기 이미지 표시
+                };
+
+                reader.readAsDataURL(file);
+            }
+        });
+    });
+
+</script>
+
+<script>
+    $(document).ready(function () {
+        var tags = []; // 태그를 관리하기 위한 배열
+
+        // 태그를 추가한다.
+        function addTag(value) {
+            tags.push(value); // 태그를 배열에 추가
+        }
+
+        // 최종적으로 서버에 넘길 때 tags를 반환한다.
+        function marginTag() {
+            return tags.join(','); // 배열을 쉼표로 구분된 문자열로 반환
+        }
+
+        $("#Tag").on("keyup", function (e) {
+            var self = $(this);
+            var inputField = self.val(); // 입력된 값 가져오기
+
+            // 엔터 또는 공백 키일 때 태그 추가 처리
+            if (e.key === " " || e.key === "Enter") {
+                var tagValue = inputField.trim(); // 공백 제거
+                if (tagValue !== "") {
+                    // '#'이 없으면 자동으로 추가
+                    tagValue = tagValue.startsWith('#') ? tagValue : '#' + tagValue;
+
+                    // **입력 제한: 기존에 태그가 있으면 추가 입력 막기**
+                    if (tags.includes(tagValue)) {
+                        alert("태그값이 중복됩니다.");
+                    } else if (tags.some(tag => tag.startsWith('#'))) {
+                        alert("이미 태그가 입력되어 추가할 수 없습니다.");
+                    } else {
+                        // 태그 추가
+                        addTag(tagValue);
+
+                        // 입력된 태그를 UI에 표시
+                        $("#result").append("<li class='tag-item'>" + tagValue + "<span class='del-btn' idx='" + (tags.length - 1) + "'>x</span></li>");
+                    }
+                }
+
+                self.val(""); // 입력값 초기화
+                e.preventDefault();
+            }
+        });
+
+        // 삭제 버튼
+        $(document).on("click", ".del-btn", function () {
+            var index = $(this).attr("idx"); // idx 값으로 태그 식별
+            tags.splice(index, 1); // 배열에서 해당 태그 제거
+            $(this).parent().remove(); // UI에서 삭제
+
+            // idx 속성 업데이트 (필요한 경우)
+            $(".del-btn").each(function (i) {
+                $(this).attr("idx", i);
+            });
+        });
+
+        // 폼 전송 전에 태그 값들 설정
+        $("form").submit(function () {
+            // 태그 값을 hidden input에 설정
+            $("input[name='TagName']").val(marginTag());
+        });
+    });
+    // 폼 내부의 모든 input 태그에 대해 엔터 키 입력 시 form submit 방지
+    $("form input").on("keydown", function (e) {
+        if (e.key === "Enter") {
+            e.preventDefault(); // form submit 방지
+        }
+    });
+</script>
+
+</html>

@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+  <meta content="Untree.co" name="author">
+  <link href="/static/favicon.png" rel="shortcut icon">
+
+  <meta content="" name="description"/>
+  <meta content="bootstrap, bootstrap4" name="keywords"/>
+
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Source+Serif+Pro:wght@400;700&display=swap"
+        rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/owl.carousel.min.css" rel="stylesheet">
+  <link href="/css/owl.theme.default.min.css" rel="stylesheet">
+  <link href="/css/jquery.fancybox.min.css" rel="stylesheet">
+  <link href="/fonts/icomoon/style.css" rel="stylesheet">
+  <link href="/fonts/flaticon/font/flaticon.css" rel="stylesheet">
+  <link href="/css/daterangepicker.css" rel="stylesheet">
+  <link href="/css/aos.css" rel="stylesheet">
+  <link href="/css/header.css" rel="stylesheet">
+  <link href="/css/board2.css" rel="stylesheet">
+
+  <title>태우고 타고 머물고</title>
+  <style>
+    body {
+      position: relative; /* body를 relative로 설정 */
+      overflow-x: hidden; /* 가로 스크롤 방지 */
+      background-color: #e8f5e9; /* 연한 초록색 배경 (기존 하늘색 코드 대체) */
+    }
+
+
+    /* 애니메이션 컨테이너 */
+    .transport-animation {
+      position: absolute; /* 절대 위치 */
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1; /* body보다 z-index를 낮게 설정하여 body 뒤에 위치하도록 함 */
+      pointer-events: none; /* 애니메이션 요소가 마우스 이벤트를 받지 않도록 설정 */
+    }
+
+    /* 이모티콘 스타일 */
+    .transport {
+      position: absolute;
+      font-size: 60px;
+      animation: moveTransport 20s linear infinite; /* moveTransport 애니메이션 적용, 20초 동안 무한 반복 */
+    }
+
+    /* 버스 이모티콘 위치 및 애니메이션 지연 시간 설정 */
+    .transport:nth-child(1) {
+      top: 10%;
+      left: -10%; /* 화면 왼쪽 밖에서 시작 */
+      animation-delay: 0s; /* 애니메이션 즉시 시작 */
+    }
+
+    .transport:nth-child(2) {
+      top: 20%;
+      left: -10%;
+      animation-delay: 2s; /* 2초 후 애니메이션 시작 */
+    }
+
+    .transport:nth-child(3) {
+      top: 35%;
+      left: -10%;
+      animation-delay: 4s; /* 4초 후 애니메이션 시작 */
+    }
+
+    .transport:nth-child(4) {
+      top: 50%;
+      left: -10%;
+      animation-delay: 6s; /* 6초 후 애니메이션 시작 */
+    }
+
+    .transport:nth-child(5) {
+      top: 65%;
+      left: -10%;
+      animation-delay: 8s; /* 8초 후 애니메이션 시작 */
+    }
+
+    /* 비행기 이모티콘 위치 및 애니메이션 지연 시간 설정 */
+    .transport:nth-child(6) {
+      top: 80%;
+      left: -10%;
+      animation-delay: 10s; /* 10초 후 애니메이션 시작 */
+    }
+
+    .transport:nth-child(7) {
+      top: 95%;
+      left: -10%;
+      animation-delay: 12s; /* 12초 후 애니메이션 시작 */
+    }
+
+    .transport:nth-child(8) {
+      top: 10%;
+      left: -10%;
+      animation-delay: 14s; /* 14초 후 애니메이션 시작 */
+    }
+
+    /* 이동 애니메이션 */
+    @keyframes moveTransport {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(calc(100vw + 10%)); /* 화면 오른쪽 밖으로 이동 */
+      }
+    }
+    #row:hover {
+      /*transform: translateY(-5px); !* 위로 살짝 이동 *!*/
+      /*box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.3); !* 더 진한 그림자 *!*/
+      transition: all 0.3s ease; /* 부드러운 전환 효과 */
+    }
+  </style>
+</head>
+<body>
+<!-- 애니메이션을 위한 div 추가 -->
+<div class="transport-animation">
+  <div class="transport">🚌</div>
+  <div class="transport">✈️</div>
+  <div class="transport">🚌</div>
+  <div class="transport">✈️</div>
+  <div class="transport">🚌</div>
+  <div class="transport">✈️</div>
+  <div class="transport">🚌</div>
+  <div class="transport">✈️</div>
+</div>
+
+<!-- ##### Header Area Start ##### -->
+<header class="header-area">
+  <div th:replace="~{header.html}"></div>
+</header>
+
+</br></br>
+</br></br>
+
+<div class="row" id="row">
+  <div class="col-12">
+    <div class="search-wrapper">
+      <select id="category">
+        <option value="UserNickname">닉네임</option>
+        <option value="RevTitle">제목</option>
+        <option value="RevContent">내용</option>
+      </select>
+      <div class="ui-input-container" id="ui-input">
+        <input class="ui-input" id="keyword" placeholder="Type something..." required="" type="text"/>
+        <div class="ui-input-underline"></div>
+        <div class="ui-input-highlight"></div>
+        <div class="ui-input-icon">
+          <button id="searchBtn" type="submit">
+            <svg fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path
+                      d="M21 21L16.65 16.65M19 11C19 15.4183 15.4183 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11Z"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <input id="board1-form1" type="button" class="btn-board-form" value="글쓰기"/>
+    </div>
+  </div>
+  <form class="board1">
+    <br/>
+
+    <div class="divider">
+      <h3 class="table-text" >어디든지 타고 이동~!!</h3>
+    </div>
+
+    <br/>
+
+    <!-- 태우고 목록 보기 -->
+    <div class="boardmenu">
+      <div id="board1-album1" class="board-item1 d-flex flex-wrap">
+        <!-- 게시글 로드 -->
+      </div>
+
+    </div>
+
+    <div class="board1-bod1-a">
+      <!-- 페이징 버튼 -->
+      <div id="paging" class="pagination">
+      </div>
+
+    </div>
+  </form>
+
+</div>
+</div>
+<div id="loginId" style="display:none;" th:text="${session.loginId}"></div>
+
+<!-- 로그인/회원가입 모달 -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="loginModalLabel">로그인 또는 회원가입</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="/mLogin" method="post">
+          <fieldset>
+            <label>아이디 : <input type="text" name="UserId" required/></label><br/>
+            <label>비밀번호 : <input type="password" name="UserPw" required/></label><br/>
+            <input id="login" type="submit" value="로그인">
+            <button id="joinButton" class="btn btn-primary">회원가입</button>
+
+          </fieldset>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/jquery-3.4.1.min.js"></script>
+<script src="/js/custom.js"></script>
+<script>
+  $(document).ready(function () {
+    // 글쓰기 버튼 클릭 시 "/Board/boardform"으로 이동
+    $('#board1-form1').click(function () {
+      // 세션에서 로그인 아이디 가져오기 (서버에서 설정한 값)
+      const loginId = $('#loginId').text(); // th:text="${session.loginId}"
+
+      // 로그인 상태 확인
+      if (loginId === "") {
+        // 로그인되지 않은 경우
+        alert("로그인 후 이용해주세요.");
+        // 로그인 모달 창 띄우기 (bootstrap 모달)
+        document.getElementById("loginModal").style.display = "block";
+        document.querySelector('.modal-overlay').style.display = 'block';
+        return; // 함수 종료
+      }
+      window.location.href = '/boardformForm';
+    });
+
+    let list = [];
+    let page = 1;        // 현재 페이지 번호
+    let limit = 8;       // 한 페이지에 출력될 데이터 개수
+    const block = 5;     // 한 블록에 출력될 페이지 개수
+    let count = 0;       // 전체 데이터 개수
+
+    function getCategoryNumFromUrl() {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get('categoryNum');
+    }
+
+    // 초기 데이터 로드 (수정)
+    const categoryNum = getCategoryNumFromUrl(); // URL에서 categoryNum 가져오기
+    loadBoardList(categoryNum); // 가져온 categoryNum 사용
+
+    // loadBoardList 함수 (categoryNum 파라미터 사용)
+    function loadBoardList(categoryNum) {
+      $.ajax({
+        type: "post",
+        url: "/boardList",
+        data: {categoryNum: categoryNum}, // categoryNum 사용
+        success: (result) => {
+          list = result;
+          count = list.length;
+          page = 1;
+          pagingList(page);
+        },
+        error: () => {
+          alert('boardList 불러오기 실패!!');
+        }
+      });
+    }
+
+    function pagingList(page) {
+      const maxPage = Math.ceil(count / limit);
+      const startRow = (page - 1) * limit;
+      const endRow = Math.min(page * limit - 1, count - 1);
+
+      const startPage = Math.floor((page - 1) / block) * block + 1;
+      const endPage = Math.min(startPage + block - 1, maxPage);
+
+      // 게시글 출력 (리스트 형식)
+      let output = '';
+      if (count > 0) {
+        for (let i = startRow; i <= endRow; i++) {
+          const board = list[i];
+          const imageUrl = board[4] ? `/boardUpload/${board[4]}` : '/images/default.png'; // 기본 이미지 설정
+          output += `
+    <div class="board-item">
+        <div class="board-thumbnail">
+            <a href="/boarddetail/${board[0]}">
+                <img src="${imageUrl}" alt="board Image" onerror="this.src='/images/default.png'"/>
+            </a>
+        </div>
+        <div class="board-details">
+            <a href="/boarddetail/${board[0]}" class="board-title">${board[1]}</a> <!-- B_TITLE -->
+            <div class="board-info">
+                <p>지역: ${board[9]}</p> <!-- R_ADDR -->
+                <p>일정: ${new Date(board[6]).toLocaleDateString()} ~ ${new Date(board[7]).toLocaleDateString()}</p> <!-- B_START, B_END -->
+                <p>인원수: ${board[3]} / ${board[2]}</p> <!-- CNT_NAME -->
+            </div>
+        </div>
+    </div>
+`;
+        }
+      } else {
+        output = '<p>게시글이 없습니다.</p>';
+      }
+      $('#board1-album1').html(output);
+// 게시글 개수에 따라 board-item 스타일 조정
+      const boardItemCount = $('#board1-album1 .board-item').length;
+      if (boardItemCount === 1) {
+        $('#board1-album1 .board-item').css('width', '100%'); // 1개일 때는 한 줄 꽉 채우기
+        $('#board1-album1').css('justify-content', 'center'); // 가운데 정렬
+      } else {
+        $('#board1-album1 .board-item').css('width', 'calc(50% - 10px)'); // 2개 이상일 때는 기존 스타일 적용
+        $('#board1-album1').css('justify-content', 'space-between'); // 양쪽 정렬
+      }
+      // 페이징 출력
+      let pageNum = '';
+
+      pageNum += page <= 1
+              ? `<span class="prev">이전</span>`
+              : `<a href="#" class="prev" data-page="${page - 1}">이전</a>`;
+
+      for (let i = startPage; i <= endPage; i++) {
+        pageNum += page === i
+                ? `<span class="iNum">${i}</span>`
+                : `<a href="#" class="iNum" data-page="${i}">${i}</a>`;
+      }
+
+      pageNum += page >= maxPage
+              ? `<span class="next">다음</span>`
+              : `<a href="#" class="next" data-page="${page + 1}">다음</a>`;
+
+      $('#paging').html(pageNum);
+    }
+
+    // 페이징 이벤트 핸들러
+    $('#paging').on('click', 'a', function (e) {
+      e.preventDefault();
+      page = parseInt($(this).data('page'));
+      pagingList(page);
+    });
+
+    // 게시글 갯수 변경
+    $('#limit').change(function () {
+      limit = parseInt($(this).val());
+      page = 1; // 페이지 번호 초기화
+      pagingList(page);
+    });
+    // 검색 기능 추가
+    $('#searchBtn').click(function() {
+      const category = $('#category').val();
+      const keyword = $('#keyword').val();
+
+      if (keyword === "") {
+        alert("검색어를 입력해주세요.");
+        return;
+      }
+
+      $.ajax({
+        type: "post",
+        url: "/searchBoardList", // 검색을 처리할 새로운 URL
+        data: {
+          categoryNum: categoryNum, // 카테고리 번호
+          category: category, // 검색 카테고리 (제목, 닉네임, 내용)
+          keyword: keyword // 검색어
+        },
+        success: (result) => {
+          list = result;
+          count = list.length;
+          page = 1;
+          pagingList(page);
+        },
+        error: () => {
+          alert('검색 실패!!');
+        }
+      });
+    });
+  });
+
+</script>
+</body>
+</html>

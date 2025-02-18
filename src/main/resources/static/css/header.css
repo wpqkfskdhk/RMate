@@ -1,0 +1,1043 @@
+/* 헤더 스타일 */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #FFF;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+.header-left img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+}
+
+.logo {
+    font-size: 18px;
+    font-weight: bold;
+    color: #ff4f59;
+    margin-right: 20px;
+}
+
+.header-right #login,
+.header-right #join,
+.header-right #myPage,
+.header-right #logout {
+    background-color: #8c9eff;
+    color: white;
+    padding: 12px 12px;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+    width: auto;
+    left: 50px;
+}
+
+
+/* 전체 컨테이너 정렬 */
+.header-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* 오른쪽 정렬 */
+    gap: 15px; /* 버튼 사이 간격 */
+    padding: 10px;
+}
+
+/* 회원가입, 로그인, 드롭다운 버튼 스타일 */
+.auth-buttons {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* 내부 버튼 사이 간격 */
+}
+
+.auth-item {
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    text-decoration: none;
+}
+
+.auth-item:hover {
+    color: #007bff; /* 호버 시 색상 변경 */
+}
+
+/* 드롭다운 버튼 이미지 크기 조정 */
+.dropdown-icon img {
+    width: 24px;
+    height: 24px;
+}
+
+/* 드롭다운 메뉴 기본 숨김 */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%; /* 드롭다운 버튼 바로 아래에 위치 */
+    left: 50%; /* 드롭다운 버튼과 정렬 */
+    background-color: #f9f9f9;
+    min-width: 160px; /* 최소 너비 설정 */
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    padding: 0; /* 패딩 제거로 각 아이템 간격을 개별 설정 */
+    border-radius: 5px;
+}
+
+/* 드롭다운 메뉴 아이템 스타일 */
+.dropdown-content .dropdown-item {
+    padding: 10px 20px; /* 텍스트 패딩 */
+    cursor: pointer;
+    text-align: center;
+    color: #333;
+    background-color: #fff;
+    border: none;
+    width: 100%; /* 메뉴 아이템을 부모 너비에 맞춤 */
+    box-sizing: border-box; /* 패딩 포함 */
+}
+
+/* 마우스 오버 스타일 */
+.dropdown-content .dropdown-item:hover {
+    background-color: #f1f1f1;
+}
+
+
+/* 검색 바 */
+.search-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.search-input, .location-select {
+    padding: 6px 12px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.search-input, .location-select {
+    padding: 6px 12px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.search-button {
+    padding: 6px 12px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #ffefc0;
+    color: #000;
+    cursor: pointer;
+    width: 110px; /* 너비 값을 높이와 동일하게 변경 */
+    height: 55px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    display: flex; /* Flexbox 사용 */
+    align-items: center; /* 세로 중앙 정렬 */
+    justify-content: center; /* 가로 중앙 정렬 */
+}
+
+.search-button:hover {
+    background-color: #ffa54f;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+    transform: translateY(1px);
+    color: #333; /* 호버시 텍스트 색상 변경*/
+}
+
+.search-button::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: 0%;
+    width: 100%;
+    height: 200%;
+    background: radial-gradient(circle at 100% -10%, #fff, transparent 50%);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.search-button:hover::before {
+    opacity: 1;
+}
+
+.navigation-card {
+    width: fit-content;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0;
+    gap: 0;
+    margin: 0 -30px;
+}
+
+.tab {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0%;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s;
+    margin: 0 auto;
+}
+
+.tab:hover {
+    background-color: transparent;
+}
+
+.tab svg {
+    width: 66%;
+    height: 66%;
+}
+
+
+/* 모달의 기본 스타일 */
+/* 모달 기본 스타일 */
+#loginModal {
+    display: none; /* 기본적으로 숨겨져 있음 */
+    flex-direction: column;
+    gap: 10px;
+    background-color: #ffffff;
+    padding: 20px;
+    width: 450px;
+    border-radius: 20px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000; /* 모달이 다른 콘텐츠 위에 표시되도록 설정 */
+}
+
+#joinModal {
+    display: none; /* 기본적으로 숨겨져 있음 */
+    flex-direction: column;
+    gap: 10px;
+    background-color: #ffffff;
+    width: 550px;
+    border-radius: 20px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000; /* 모달이 다른 콘텐츠 위에 표시되도록 설정 */
+
+    /* 스크롤바 관련 설정 */
+    overflow-y: auto; /* 세로 스크롤이 필요할 때만 스크롤바 표시 */
+    max-height: 80vh; /* 화면 높이의 80%로 최대 높이 제한 */
+    padding: 20px; /* 내용이 잘 보이도록 패딩 추가 */
+}
+
+/* 스크롤바 숨기기 (Chrome, Safari, Edge) */
+#joinModal::-webkit-scrollbar {
+    display: none;
+}
+
+/* 스크롤바 숨기기 (Firefox) */
+#joinModal {
+    scrollbar-width: none;
+}
+
+
+#joinModalLabel, #loginModalLabel {
+    text-align: center;
+    margin-top: 10px;
+}
+
+/* 배경 흐리게 만들기 */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 반투명 검은색 배경 */
+    backdrop-filter: blur(5px); /* 배경 흐림 효과 */
+    z-index: 100; /* 모달 아래에 배경이 표시되도록 설정 */
+    display: none;
+}
+
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 101; /* 모달은 오버레이 위에 있어야 하므로 101 */
+    display: none; /* 기본적으로 숨김 */
+    background-color: #fff;
+    border-radius: 8px; /* 모서리 둥글게 처리 */
+    max-width: 700px;
+    width: 90%;
+    height: auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+    padding: 20px;
+    /*overflow-y: hidden; !* 기본적으로 스크롤 숨김 *!*/
+}
+
+/* 모달이 열린 상태일 때 */
+.modal.open {
+    display: flex; /* 모달을 보이게 만듦 */
+}
+
+/* 배경이 흐릿해진 오버레이가 보이게 할 때 */
+.modal.open + .modal-overlay {
+    display: block;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 10px auto;
+    padding: 20px;
+    max-width: 700px;
+}
+
+.modal-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px; /* 항목 사이 간격 */
+    padding: 20px; /* 기존 padding 값에서 30px 감소 */
+}
+
+/* 입력 필드 스타일 */
+.modal-body label {
+    font-size: 1rem;
+    margin-right: 40px;
+}
+
+.modal-body input[type="text"],
+.modal-body input[type="password"] {
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    padding-left: 600px;
+    padding-bottom: 1px;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* 로그인 버튼 스타일 */
+#submitForm, #resetForm {
+    padding: 10px 20px;
+    width: 100px;
+    background-color: #0095FFFF;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    bottom: 10%;
+    left: 50%;
+}
+
+#login {
+    padding: 10px 20px;
+    width: 100px;
+    background-color: #0095FFFF;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 40px;
+    position: absolute; /* 절대 위치 지정 */
+    bottom: 10px; /* 모달 하단에서 10% 위치 */
+    left: 50%; /* 수평 중앙에 배치 */
+    transform: translateX(-50%); /* 정확한 중앙 정렬 */
+}
+
+
+#login:hover, #submitForm:hover, #resetForm:hover {
+    background-color: #0095FFFF;
+}
+
+
+/* 선택된 버튼 스타일 */
+.option.active {
+    background-color: #ffc107; /* 강조 색상 */
+    color: white;
+    border: none;
+}
+
+/* 기본 버튼 스타일 */
+.options button {
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.options button:hover {
+    background-color: #ddd; /* 마우스 오버 효과 */
+}
+
+/* 선택된 값 표시 숨기기 */
+.selected {
+    display: none;
+}
+
+/* 체크박스 영역 스타일 */
+.check-all {
+    margin: auto;
+    padding: 10px;
+    border-bottom: 1px solid #353537;
+}
+
+.checkbox {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+}
+
+.checkbox input {
+    margin-right: 10px;
+    accent-color: #0095FFFF;
+    width: 20px;
+    height: 20px;
+}
+
+.checkbox span {
+    display: inline-block;
+    font-size: 10px;
+}
+
+/* 리스트 항목 스타일 */
+.list {
+    padding-left: 0;
+    list-style-type: none;
+}
+
+.content, .content-inner {
+    display: block; /* block으로 변경하여 다음 요소가 아래에 오게 함 */
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+    margin: 20px 0;
+}
+
+/* 버튼 박스 */
+.content .btnBox, .btnBox {
+    background-color: #0095FFFF;
+    width: 100px;
+    height: 80%;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.content .btnBox:hover, .btnBox:hover {
+    background-color: rgb(120, 140, 170);
+}
+
+/* 마케팅 체크박스 스타일 */
+.marketing-check {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between; /* 각 항목이 한 줄에 두 개씩 배치되도록 설정 */
+    flex-wrap: wrap;
+    gap: 20px; /* 항목 간 간격 */
+}
+
+.marketing-check li {
+    flex: 1 1 45%; /* 각 항목이 한 줄에 두 개씩 배치되도록 비율 설정 */
+    list-style-type: none;
+}
+
+.marketing-check .checkbox {
+    font-size: 10px;
+}
+
+.marketing-check .checkbox input[type="checkbox"]:checked {
+    accent-color: #0095FFFF;
+}
+
+.marketing-check .checkbox input[type="checkbox"] {
+    margin-right: 10px;
+    width: 20px;
+    height: 20px;
+}
+
+.marketing-check .checkbox span {
+    font-size: 10px;
+    color: #353537;
+    cursor: pointer;
+}
+
+.marketing-check .checkbox span:hover {
+    color: #0095FFFF;
+}
+
+/* 나이 확인 체크박스 스타일 */
+.check-age {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+}
+
+/* 버튼 스타일 */
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+    padding: 12px 0;
+    text-align: center;
+    margin-top: 20px;
+}
+
+#term-agree-btn, #term-cancel-btn {
+    background-color: #0095FFFF;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+#term-agree-btn:hover, #term-cancel-btn:hover {
+    background-color: rgb(120, 140, 170);
+}
+
+/* textarea 스타일 */
+textarea {
+    margin-top: 10px;
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    background: #fff;
+    border: 1px solid #d8d9df;
+    font-size: 20px;
+    color: #000000;
+    line-height: 1.6em;
+    overflow: auto;
+    resize: vertical;
+    box-sizing: border-box;
+}
+
+#User_Email_Local {
+    width: 40%;
+}
+/* 연락처 관련 스타일 */
+.prefix {
+    display: inline-block;
+    vertical-align: middle; /* 세로 중앙 정렬 */
+    padding-right: 5px;
+}
+
+#User_Phone {
+    display: inline-block;
+    vertical-align: middle; /* 세로 중앙 정렬 */
+    width: 120px; /* 적절한 너비 조정 */
+}
+
+.button-container {
+    display: inline-flex;
+    flex-direction: row; /* 가로 방향 정렬 (기본값) */
+    justify-content: center; /* 가로축 중앙 정렬 */
+}
+
+/* From Uiverse.io by felipesntr */
+button {
+    border: 2px solid black; /* 굵기 1px, 실선, 검정색 테두리 */
+    background-color: #6B7280;
+    cursor: pointer;
+    padding: 0.8em 1.2em 0.8em 1em;
+    transition: all ease-in-out 0.2s;
+    font-size: 16px;
+}
+
+
+button span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-weight: 600;
+}
+
+button:hover {
+    background-color: #0095FFFF;
+}
+
+/* 로그인 모달 폼 스타일 */
+#loginModal .form {
+    background-color: #fff;
+    display: block;
+    padding: 1rem;
+    max-width: 350px; /* 폼 너비 조절 (모달 크기에 맞게) */
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+#loginModal .form-title {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    font-weight: 600;
+    text-align: center;
+    color: #000;
+    margin-bottom: 15px; /* 제목 아래 여백 */
+}
+
+#loginModal .input-container {
+    position: relative;
+    margin-bottom: 15px; /* 입력 필드 컨테이너 아래 여백 */
+}
+
+#loginModal .input-container input {
+    outline: none;
+    border: 1px solid #e5e7eb;
+    margin: 0; /* margin 제거 (위에서 8px 0 으로 설정되어 있었음) */
+    background-color: #fff;
+    padding: 1rem;
+    /* padding-right: 3rem; */ /* 불필요한 패딩 제거 */
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    width: 100%; /* 너비를 100%로 설정하여 부모 요소에 맞춤 */
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    box-sizing: border-box; /* 패딩과 테두리를 포함한 너비 계산 */
+}
+
+/* 이메일 입력 필드 */
+#loginModal .input-container input[type="email"] {
+    /* 필요 시 스타일 추가 */
+}
+
+/* 비밀번호 입력 필드 */
+#loginModal .input-container input[type="password"] {
+    /* 필요 시 스타일 추가 */
+}
+
+#loginModal .submit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 25px 20px 22px;
+    box-shadow: rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+    background-color: #6B7280;
+    border-radius: 0; /* 각진 모서리 */
+    font-size: 15px;
+    cursor: pointer;
+    font-weight: 900;
+    font-family: monospace;
+    transition: transform 400ms cubic-bezier(0.68, -0.55, 0.27, 2.5),
+    border-color 400ms ease-in-out, background-color 400ms ease-in-out;
+    word-spacing: -2px;
+    margin-top: 15px;
+    height: 50%;
+    width: 100%;
+}
+
+#loginModal .signup-link {
+    color: #6B7280;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    text-align: center;
+    margin-top: 10px; /* 위쪽 여백 */
+}
+
+#loginModal .signup-link a {
+    text-decoration: underline;
+}
+
+
+
+/* From Uiverse.io by alexmaracinaru */
+button.rb1 {
+    cursor: pointer;
+    font-weight: 700;
+    transition: all 0.2s;
+    padding: 10px 20px;
+    border-radius: 100px;
+    background: #cfef00;
+    border: 1px solid transparent;
+    display: flex;
+    align-items: center;
+    font-size: 30px;
+}
+
+button.rb1:hover {
+    background: #c4e201;
+}
+
+button.rb1 > svg {
+    width: 34px;
+    margin-left: 10px;
+    transition: transform 0.3s ease-in-out;
+}
+
+button.rb1:hover svg {
+    transform: translateX(5px);
+}
+
+button.rb1:active {
+    transform: scale(0.95);
+}
+
+/* Button 53 - from uiverse.io */
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-53,
+.btn-53 *,
+.btn-53 :after,
+.btn-53 :before,
+.btn-53:after,
+.btn-53:before {
+    border: 0 solid;
+    box-sizing: border-box;
+}
+
+.btn-53 {
+    margin: 0 25px; /* 좌우 여백 25px */
+    -webkit-tap-highlight-color: transparent;
+    -webkit-appearance: button;
+    background-image: none;
+    color: #000; /* 기본 글자색을 검정색으로 설정 */
+    cursor: pointer;
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif,
+    Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+    font-size: 100%;
+    line-height: 1.5;
+    -webkit-mask-image: -webkit-radial-gradient(#000, #fff);
+    padding: 0;
+}
+
+.btn-53:disabled {
+    cursor: default;
+}
+
+.btn-53:-moz-focusring {
+    outline: auto;
+}
+
+.btn-53 svg {
+    display: block;
+    vertical-align: middle;
+}
+
+.btn-53 [hidden] {
+    display: none;
+}
+
+.btn-53 {
+    border: 3px solid black; /* 테두리 굵기(3px) 및 색상(black) 변경 */
+    border-radius: 999px;
+    box-sizing: border-box;
+    display: block;
+    font-weight: 900;
+    overflow: hidden;
+    padding: 1.2rem 3rem;
+    position: relative;
+    text-transform: uppercase;
+}
+
+.btn-53 .original {
+    background: #fff; /* 기본 배경색을 흰색으로 설정 */
+    color: #000; /* 기본 글자색을 검정색으로 설정 */
+    display: grid;
+    inset: 0;
+    place-content: center;
+    position: absolute;
+    transition: transform 0.2s cubic-bezier(0.87, 0, 0.13, 1);
+}
+
+
+.btn-1:hover .original {
+    background-color: #9fd4ff; /* 연한 파란색 (LightSkyBlue) */
+    color: #000; /* 글자색을 검정색으로 유지 */
+}
+
+.btn-2:hover .original {
+    background-color: #a3ffaa; /* 진한 초록색 */
+    color: #000; /* 글자색을 검정색으로 유지 */
+}
+
+.btn-3:hover .original {
+    background-color: #e7d9c4; /* 더 진한 아이보리색 */
+    color: #000; /* 글자색을 검정색으로 유지 */
+}
+
+.btn-4:hover .original {
+    background-color: #ffa9bf; /* 하트와 어울리는 핑크색 */
+    color: #000; /* 글자색을 검정색으로 유지 */
+}
+
+.btn-53 .letters {
+    display: inline-flex;
+    position: relative; /* z-index 설정을 위해 position 추가 */
+    z-index: 2; /* .original 요소보다 z-index를 높게 설정 */
+}
+
+.btn-53 span {
+    opacity: 0;
+    transform: translateY(-15px);
+    transition: transform 0.2s cubic-bezier(0.87, 0, 0.13, 1), opacity 0.2s;
+    position: relative; /* z-index 설정을 위해 position 추가 */
+    z-index: 2; /* .original 요소보다 z-index를 높게 설정 */
+}
+
+.btn-53 span:nth-child(2n) {
+    transform: translateY(15px);
+}
+
+.btn-53:hover span {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.btn-53:hover span:nth-child(2) {
+    transition-delay: 0.1s;
+}
+
+.btn-53:hover span:nth-child(3) {
+    transition-delay: 0.2s;
+}
+
+.btn-53:hover span:nth-child(4) {
+    transition-delay: 0.3s;
+}
+
+.btn-53:hover span:nth-child(5) {
+    transition-delay: 0.4s;
+}
+
+.btn-53:hover span:nth-child(6) {
+    transition-delay: 0.5s;
+}
+
+.btn-1.active .original {
+    background-color: #9fd4ff; /* 진한 파란색 */
+    color: #000;
+}
+
+.btn-2.active .original {
+    background-color: #a3ffaa; /* 진한 초록색 */
+    color: #000;
+}
+
+.btn-3.active .original {
+    background-color: #e7d9c4; /* 더 진한 아이보리색 */
+    color: #000;
+}
+
+.btn-4.active .original {
+    background-color: #ffa9bf; /* 하트와 어울리는 핑크색 */
+    color: #000;
+}
+
+/* 활성화된 버튼의 글자 애니메이션 */
+.btn-53.active span {
+    opacity: 1;
+    transform: translateY(0);
+    color: #000;
+}
+
+.btn-53.active span:nth-child(1) {
+    transition-delay: 0s;
+}
+
+.btn-53.active span:nth-child(2) {
+    transition-delay: 0.1s;
+}
+
+.btn-53.active span:nth-child(3) {
+    transition-delay: 0.2s;
+}
+
+.btn-53.active span:nth-child(4) {
+    transition-delay: 0.3s;
+}
+
+.btn-53.active span:nth-child(5) {
+    transition-delay: 0.4s;
+}
+
+.btn-53.active span:nth-child(6) {
+    transition-delay: 0.5s;
+}
+/* 로그인 모달 (#loginModal) 내부의 버튼 스타일 */
+
+/* 로그인 버튼 (#loginbutton) */
+.modal#loginModal #loginbutton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 25px 20px 22px;
+    box-shadow: rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+    background-color: #9981c6; /* 보라색 계열 배경 */
+    border: none; /* 테두리 없음 */
+    border-radius: 5px; /* 둥근 모서리 */
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: 900;
+    transition: background-color 0.3s ease; /* 부드러운 배경색 변화 */
+    color: white; /* 글자색은 흰색 */
+    width: 100%; /* 너비는 부모 요소에 맞춤 */
+    margin-top: 15px; /* 위쪽 여백 */
+}
+
+.modal#loginModal #loginbutton:hover {
+    background-color: #7a61a3; /* 마우스 오버 시 더 진한 보라색 */
+}
+
+/* 회원가입 버튼 (#signbutton) */
+.modal#loginModal #signbutton {
+    background-color: #fff; /* 흰색 배경 */
+    color: #333; /* 검정색 글자 */
+    border: 1px solid #ccc; /* 연한 회색 테두리 */
+    padding: 10px 15px; /* 패딩 조정 */
+    border-radius: 5px; /* 둥근 모서리 */
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease; /* 부드러운 배경색 변화 */
+    margin-left: 5px;
+}
+
+.modal#loginModal #signbutton:hover {
+    background-color: #f5f5f5; /* 마우스 오버 시 연한 회색 배경 */
+}
+
+/* 회원가입 버튼 안의 링크 스타일 */
+.modal#loginModal #signbutton a {
+    text-decoration: none; /* 밑줄 제거 */
+    color: inherit; /* 부모 요소(#signbutton)의 글자색 상속 */
+    display: block; /* a 태그를 블록 레벨로 변경하여 버튼 영역 전체 클릭 가능하게 */
+    padding: 10px 0;
+}
+/* 폼 스타일 (새로 추가된 클래스) */
+.join-form {
+    width: 100%; /* 폼 너비를 모달 바디에 맞춤 */
+    padding: 20px; /* 폼 내부 여백 설정 */
+    box-sizing: border-box; /* 너비 계산에 패딩 포함 */
+}
+
+/* 테이블 스타일 */
+.join-form table {
+    width: 100%; /* 테이블 너비를 폼 너비에 맞춤 (이전 코드에서 이미 추가됨) */
+    border-collapse: collapse;
+}
+
+/* th, td 스타일 */
+.join-form th,
+.join-form td {
+    padding: 5px 10px; /* 위아래 패딩을 5px로 줄임 */
+    text-align: left;
+    border: 1px solid #e0e0e0; /* 하단 테두리 색상 변경 */
+}
+
+
+.join-form th {
+    width: 28%;
+    background-color: #e0f2f7; /* 연한 하늘색으로 변경 */
+    font-weight: 500;
+}
+
+.join-form td {
+    width: 72%;
+}
+
+/* 입력 필드 스타일 (margin 조정) */
+.join-form input[type="text"],
+.join-form input[type="password"],
+.join-form input[type="date"],
+.join-form input[type="tel"],
+.join-form input[type="file"],
+.join-form select {
+    padding: 8px; /* 패딩 조정 */
+    margin: 2px 0; /* 위아래 마진을 2px로 줄임 */
+    border: 1px solid #d0d0d0; /* 테두리 색상 연하게 */
+    border-radius: 5px;
+
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* 내부 그림자 추가 */
+    font-size: 12px;
+    color: #555; /* 글자색 연하게 */
+    background-color: #fff; /* 배경색 흰색으로 */
+}
+
+/* 버튼 스타일 */
+.join-form #submitForm,
+.join-form #resetForm {
+    color: #fff;
+    border: none;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 약하게 */
+}
+
+.join-form #submitForm:hover,
+.join-form #resetForm:hover {
+    background-color: #5fbbff; /* 호버 시 더 진한 하늘색 */
+}
+
+/* 성별, 자차유무 버튼 스타일 */
+.join-form .options button {
+    border: 1px solid #d0d0d0; /* 테두리 색상 연하게 */
+    background-color: #fff;
+    color: #555;
+    border-radius: 5px; /* 둥근 모서리 */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.join-form .options button:hover {
+    background-color: #f0f0f0; /* 호버 시 연한 회색 */
+}
+
+.join-form .options button.active {
+    background-color: #5fbbff; /* 진한 하늘색 (SkyBlue) */
+    border-color: #64b5f6; /* 조금 더 진한 파란색 계열 */
+    color: #333;
+}
+/* 회원가입 폼 규칙 폰트 크기 조정 */
+.join-form p#check1,
+.join-form p#check2,
+.join-form p#check3,
+.join-form p#checkNickname {
+    padding-left: 5px;
+}

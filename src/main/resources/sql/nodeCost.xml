@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.icia.rmate.dao.NodeCostDao">
+    <resultMap type="NodeCost" id="NodeCostRM">
+        <id property="id" column="id" javaType="Long"></id><!--노드비용ID-->
+        <result property="startNodeId" column="start_node_id" javaType="Long"></result><!--시작노드ID-->
+        <result property="endNodeId" column="end_node_id" javaType="Long"></result><!--종료노드ID-->
+        <result property="distanceMeter" column="distance_meter" javaType="Long"></result><!--이동거리(미터)-->
+        <result property="durationSecond" column="duration_second" javaType="Long"></result><!--이동시간(초)-->
+        <result property="tollFare" column="toll_fare" javaType="Integer"></result><!--통행 요금(톨게이트)-->
+        <result property="taxiFare" column="taxi_fare" javaType="Integer"></result><!--택시 요금(지자체별, 심야, 시경계, 복합, 콜비 감안)-->
+        <result property="fuelPrice" column="fuel_price" javaType="Integer"></result><!--해당 시점의 전국 평균 유류비와 연비를 감안한 유류비-->
+        <result property="pathJson" column="path_json" javaType="String"></result><!--이동경로JSON [[x,y],[x,y]]-->
+        <result property="regDt" column="reg_dt" javaType="Date"></result><!--등록일시-->
+        <result property="modDt" column="mod_dt" javaType="Date"></result><!--수정일시-->
+    </resultMap>
+    <insert id="insert" parameterType="com.icia.rmate.dto.NodeCost">
+        <selectKey keyProperty="id" resultType="long" order="BEFORE">
+            SELECT node_cost_seq.NEXTVAL FROM DUAL
+        </selectKey>
+        /* 노드비용 등록 */
+        INSERT INTO node_cost (
+        id,
+        start_node_id,
+        end_node_id,
+        distance_meter,
+        duration_second,
+        toll_fare,
+        taxi_fare,
+        fuel_price,
+        path_json,
+        reg_dt,
+        mod_dt
+        ) VALUES (
+        #{id},
+        #{startNodeId},
+        #{endNodeId},
+        #{distanceMeter},
+        #{durationSecond},
+        #{tollFare},
+        #{taxiFare},
+        #{fuelPrice},
+        <choose>
+            <when test="pathJson != null">
+                #{pathJson, jdbcType=VARCHAR}
+            </when>
+            <otherwise>
+                NULL
+            </otherwise>
+        </choose>,
+        <choose>
+            <when test="regDt != null">
+                #{regDt, jdbcType=TIMESTAMP}
+            </when>
+            <otherwise>
+                CURRENT_TIMESTAMP
+            </otherwise>
+        </choose>,
+        <choose>
+            <when test="modDt != null">
+                #{modDt, jdbcType=TIMESTAMP}
+            </when>
+            <otherwise>
+                CURRENT_TIMESTAMP
+            </otherwise>
+        </choose>
+        )
+    </insert>
+    <update id="update" parameterType="NodeCost">
+        /* 노드비용 수정 */
+        UPDATE node_cost
+        <set>
+            <if test="entity.startNodeId != null">
+                start_node_id = #{entity.startNodeId},
+            </if>
+            <if test="entity.endNodeId != null">
+                end_node_id = #{entity.endNodeId},
+            </if>
+            <if test="entity.distanceMeter != null">
+                distance_meter = #{entity.distanceMeter},
+            </if>
+            <if test="entity.durationSecond != null">
+                duration_second = #{entity.durationSecond},
+            </if>
+            <if test="entity.tollFare != null">
+                toll_fare = #{entity.tollFare},
+            </if>
+            <if test="entity.taxiFare != null">
+                taxi_fare = #{entity.taxiFare},
+            </if>
+            <if test="entity.fuelPrice != null">
+                fuel_price = #{entity.fuelPrice},
+            </if>
+            <if test="entity.pathJson != null">
+                path_json = #{entity.pathJson},
+            </if>
+            <if test="entity.regDt != null">
+                reg_dt = #{entity.regDt},
+            </if>
+            <if test="entity.modDt != null">
+                mod_dt = #{entity.modDt},
+            </if>
+        </set>
+        WHERE id = #{entity.id}
+    </update>
+    <delete id="delete" parameterType="NodeCost">
+        /* 노드비용 삭제 */
+        DELETE FROM node_cost
+        WHERE id = #{id}
+    </delete>
+    <sql id="cols">
+        a.id,
+        a.start_node_id,
+        a.end_node_id,
+        a.distance_meter,
+        a.duration_second,
+        a.toll_fare,
+        a.taxi_fare,
+        a.fuel_price,
+        a.path_json,
+        a.reg_dt,
+        a.mod_dt
+    </sql>
+    <sql id="where">
+        <if test="id != null">
+            AND a.id = #{id}
+        </if>
+        <if test="startNodeId != null">
+            AND a.start_node_id = #{startNodeId}
+        </if>
+        <if test="endNodeId != null">
+            AND a.end_node_id = #{endNodeId}
+        </if>
+        <if test="distanceMeter != null">
+            AND a.distance_meter = #{distanceMeter}
+        </if>
+        <if test="durationSecond != null">
+            AND a.duration_second = #{durationSecond}
+        </if>
+        <if test="tollFare != null">
+            AND a.toll_fare = #{tollFare}
+        </if>
+        <if test="taxiFare != null">
+            AND a.taxi_fare = #{taxiFare}
+        </if>
+        <if test="fuelPrice != null">
+            AND a.fuel_price = #{fuelPrice}
+        </if>
+        <if test="pathJson != null">
+            AND a.path_json = #{pathJson}
+        </if>
+        <if test="regDt != null">
+            AND a.reg_dt = #{regDt}
+        </if>
+        <if test="modDt != null">
+            AND a.mod_dt = #{modDt}
+        </if>
+    </sql>
+    <select id="selectOne" resultMap="NodeCostRM">
+        /* 노드비용 상세조회 */
+        SELECT <include refid="cols"></include>
+        FROM node_cost a
+        WHERE id = #{id}
+    </select>
+    <select id="selectOneByParam" resultMap="NodeCostRM">
+        /* 노드비용 상세조회 */
+        SELECT <include refid="cols"></include>
+        FROM node_cost a
+        <where>
+            <include refid="where"></include>
+        </where>
+    </select>
+    <select id="selectList" resultMap="NodeCostRM">
+        /* 노드비용 목록조회 */
+        SELECT <include refid="cols"></include>
+        FROM node_cost a
+        <where>
+            <include refid="where"></include>
+        </where>
+        <if test="pageable != null">
+            LIMIT #{pageable.start}, #{pageable.end}
+        </if>
+    </select>
+    <select id="selectListCount" resultType="Long">
+        /* 노드비용 전체 개수 조회 */
+        SELECT COUNT(*) AS CNT
+        FROM node_cost a
+        <where>
+            <include refid="where"></include>
+        </where>
+    </select>
+</mapper>

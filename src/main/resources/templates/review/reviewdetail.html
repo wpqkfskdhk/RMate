@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    <meta content="Untree.co" name="author">
+    <link href="/static/favicon.png" rel="shortcut icon">
+
+    <meta content="" name="description"/>
+    <meta content="bootstrap, bootstrap4" name="keywords"/>
+
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Source+Serif+Pro:wght@400;700&display=swap"
+          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="/css/header.css" rel="stylesheet">
+    <link href="/css/owl.carousel.min.css" rel="stylesheet">
+    <link href="/css/owl.theme.default.min.css" rel="stylesheet">
+    <link href="/css/jquery.fancybox.min.css" rel="stylesheet">
+    <link href="/fonts/icomoon/style.css" rel="stylesheet">
+    <link href="/fonts/flaticon/font/flaticon.css" rel="stylesheet">
+    <link href="/css/daterangepicker.css" rel="stylesheet">
+    <link href="/css/aos.css" rel="stylesheet">
+    <link href="/css/reviewdetail.css" rel="stylesheet">
+
+    <title>남기고</title>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+            integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+</head>
+<style>
+    /* CSS 추가 */
+    #particles-js {
+        position: fixed; /* 고정 위치 */
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1; /* 다른 요소들 뒤에 위치 */
+    }
+</style>
+
+<body id="bBody">
+
+<!-- ##### Header Area Start ##### -->
+<header class="header-area">
+    <div th:replace="~{header.html}"></div>
+</header>
+
+<div id="particles-js"></div>
+
+<br/><br/>
+<div id="whole-container">
+    <div id="modiForm1">
+        <div class="header-container">
+            <h1 style="text-align: center">[[${view.RevTitle}]]</h1>
+
+        </div>
+
+        <h3 style="text-align: left">
+            [[${view.UserNickname}]]
+            <!--후기평가-->
+            <span th:text="${#temporals.format(view.RevDate, 'yyyy-MM-dd HH:mm:ss')}"></span>
+            조회수 : [[${view.RHit}]]
+            <a th:href="@{/boarddetail/{bNum}(bNum=${view.BNum})}"></a>
+        </h3>
+        <!-- 이미지 중앙 배치 -->
+        <div class="image-container">
+            <img th:src="@{|/upload/${view.RevFileName}|}" class="rev-image"/>
+        </div>
+
+        <div class="rev-content">
+            <span>[[${view.RevContent}]]</span>
+        </div>
+
+        <!-- 별점 -->
+        <div id="rating" style="display: flex; justify-content: center;">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+
+        <!-- 버튼들 하단에 고정 -->
+        <div class="button-container">
+            <button id="modify"><img src="/images/modify.png" alt="수정"/></button>
+            <button id="delete"><img src="/images/delete.png" alt="삭제"/></button>
+            <button id="back" class="btn btn-secondary">게시판 목록</button>
+            <a th:href="@{/boarddetail/{bNum}(bNum=${view.BNum})}">
+                <button class="see">게시글</button>
+            </a>
+            <button class="report" id="report" th:if="${session.loginId ne view.UserId}"
+                    th:data-revnum="${view.REVNum}">
+                <img src="/images/report.png" alt="신고"/></button>
+        </div>
+    </div>
+
+    <br/><br/>
+
+    <div id="modiForm2">
+        <!--    수정버튼을 누르면 나오는 폼-->
+        <!--    <h2>게시글 수정 페이지</h2>-->
+        <form action="/RModify" enctype="multipart/form-data" method="post">
+            <table>
+                <tr>
+                    <th>제목</th>
+                    <td>
+                        <input name="RevTitle" th:placeholder="${view.RevTitle}" type="text"/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>내용</th>
+                    <td>
+                        <textarea cols="40" name="RevContent"
+                                  rows="10">[[${view.RevContent}]]</textarea>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>후기 평가</th>
+                    <td>
+                        <div id="ratingStars" class="stars">
+                            <i class="star" data-value="1">★</i>
+                            <i class="star" data-value="2">★</i>
+                            <i class="star" data-value="3">★</i>
+                            <i class="star" data-value="4">★</i>
+                            <i class="star" data-value="5">★</i>
+                        </div>
+                        <input id="ratingValue" name="Rating" type="hidden" value="0"/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>첨부파일</th>
+                    <td>
+                        <input id="RevFile" name="RevFile" type="file"/>
+                        <input name="RevFileName" th:value="${view.RevFileName}" type="hidden"/>
+                        <br/> <img id="preImage" th:src="@{|/upload/${view.RevFileName}|}" width="150px"/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th colspan="2" style="text-align: center;">
+                        <!--기본적으로 처음 제작했을 때와 동일한 값을 가져야하는 것들은 히든으로 초기값을 넣어줌-->
+                        <input name="REVNum" th:value="${view.REVNum}" type="hidden"/>
+                        <input name="UserNickname" th:value="${view.UserNickname}" type="hidden"/>
+                        <input name="UserId" th:value="${view.userId}" type="hidden"/>
+                        <input name="BNum" th:value="${view.BNum}" type="hidden"/>
+                        <input name="Rating" th:value="${view.Rating}" type="hidden"/>
+                        <input type="submit" value="수정"/>
+                    </th>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+
+<br/><br/>
+
+<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/custom.js"></script>
+<script>
+    // JavaScript: Particles.js 설정
+    $(document).ready(function () {
+        particlesJS("particles-js", {
+            particles: {
+                number: {
+                    value: 150, // 하트 개수 조절
+                    density: {
+                        enable: true,
+                        value_area: 800
+                    }
+                },
+                shape: {
+                    type: "image",
+                    image: {
+                        src: "/images/heart.png", // 하트 이미지 경로 - images 폴더가 resources/static/images 에 위치해야 합니다.
+                        width: 100,
+                        height: 100
+                    }
+                },
+                opacity: {
+                    value: 0.7, // 투명도 조절
+                    random: true,
+                    anim: {
+                        enable: true,
+                        speed: 1,
+                        opacity_min: 0.1,
+                        sync: false
+                    }
+                },
+                size: {
+                    value: 20, // 크기 조절
+                    random: true,
+                    anim: {
+                        enable: true,
+                        speed: 5,
+                        size_min: 5,
+                        sync: false
+                    }
+                },
+                line_linked: {
+                    enable: false
+                },
+                move: {
+                    enable: true,
+                    speed: 2, // 속도 조절
+                    direction: "top", // 위로 이동
+                    random: true,
+                    straight: false,
+                    out_mode: "out",
+                    bounce: false,
+                    attract: {
+                        enable: false,
+                        rotateX: 600,
+                        rotateY: 1200
+                    }
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: {
+                        enable: false,
+                        mode: "repulse"
+                    },
+                    onclick: {
+                        enable: false,
+                        mode: "push"
+                    },
+                    resize: true
+                },
+                modes: {
+                    grab: {
+                        distance: 400,
+                        line_linked: {
+                            opacity: 1
+                        }
+                    },
+                    bubble: {
+                        distance: 400,
+                        size: 40,
+                        duration: 2,
+                        opacity: 8,
+                        speed: 3
+                    },
+                    repulse: {
+                        distance: 200,
+                        duration: 0.4
+                    },
+                    push: {
+                        particles_nb: 4
+                    },
+                    remove: {
+                        particles_nb: 2
+                    }
+                }
+            },
+            retina_detect: true
+        });
+    });
+    document.getElementById("back").addEventListener("click", function () {
+        window.location.href = "/RList"
+    });
+
+    $('#modiForm2').hide();
+
+    $('#modify').click(() => {
+        $('#modiForm2').show();
+        $('#modiForm1').hide();
+    });
+
+    $('#delete').click(() => {
+        if (confirm('정말 삭제하시겠습니까?')) {
+            location.href = `/RDelete?REVNum=[[${view.REVNum}]]&RFileName=[[${view.RevFileName}]]`;
+        }
+    });
+
+    $('#RevFile').on('change', function (event) {
+        let file = event.target.files[0];
+        let reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#preImage').attr('src', e.target.result);
+        }
+
+        reader.readAsDataURL(file);
+    });
+
+    // 후기 평가 별점 표시
+    $(document).ready(function () {
+        // 서버에서 받아온 Rating 값을 사용하여 별점 표시
+        let rating = [[${view.Rating}]]; // 서버에서 가져온 후기 평점
+
+        // Rating 값에 맞춰 별을 채워주는 함수
+        $('#rating .star').each(function () {
+            if ($(this).data('value') <= rating) {
+                $(this).addClass('select'); // 점수에 해당하는 별을 채워줌
+            }
+        });
+    });
+
+    // 후기 별점 수정
+    $(document).ready(function () {
+        $('#ratingStars .star').on('click', function () {
+            var value = $(this).data('value');
+            $('#ratingValue').val(value);  // 선택된 별점 값을 hidden input에 설정
+
+            // 선택된 별점까지 황금색으로 변경
+            $('#ratingStars .star').removeClass('active');
+            for (var i = 0; i < value; i++) {
+                $('#ratingStars .star').eq(i).addClass('active');
+            }
+        });
+    });
+
+    // 신고 버튼을 눌렀을때 reportReview로 이동
+    $(document).ready(function () {
+        $('#report').click(function () {
+            const RevNum = $(this).data('revnum'); // data-revnum 속성 값을 가져옴
+
+            $.ajax({
+                url: '/reportReview',
+                type: 'POST',
+                data: {REVNum: RevNum}, // 올바른 변수 이름 사용
+                success: function (response) {
+                    alert(response);
+                    window.location.reload();
+                },
+                error: function (error) {
+                    alert(error.responseText); // error 객체 사용
+                    console.error(error);
+                }
+            });
+        });
+    });
+
+</script>
+
+</html>

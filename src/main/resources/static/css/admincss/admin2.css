@@ -1,0 +1,159 @@
+/* 기본 스타일 */
+body {
+    font-family: 'Inter', sans-serif; /* 기본 폰트 설정 */
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa; /* 기본 배경색 */
+    color: #333; /* 기본 글자색 */
+}
+
+/* 헤더 영역 */
+.header-area {
+    background-color: #fff;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+}
+
+/* 관리자 페이지 영웅 섹션 */
+.adminHero {
+    background-color: #e9ecef;
+    padding: 4rem 0;
+    text-align: center;
+}
+
+.adminHero .container-fluid {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.adminHero .intro-wrap {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 신고 목록 폼 */
+.adminForm.active {
+    display: block;
+}
+
+.adminForm table {
+    width: 100%;
+    margin-top: 2rem;
+    border-collapse: collapse;
+}
+
+.adminForm th,
+.adminForm td {
+    padding: 0.75rem;
+    text-align: left;
+    border: 1px solid #dee2e6;
+}
+
+.adminForm thead {
+    background-color: #f8f9fa;
+}
+
+/* 차단 버튼 */
+.blocked-btn {
+    background-color: #dc3545; /* 빨간색 계열 */
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.blocked-btn:hover {
+    background-color: #c82333; /* 어두운 빨간색 */
+}
+
+/* 푸터 영역 */
+.site-footer {
+    background-color: #343a40; /* 어두운 배경색 */
+    color: #fff;
+    padding: 4rem 0;
+}
+
+.site-footer .inner {
+    padding: 2rem 0;
+}
+
+.site-footer .inner.dark {
+    background-color: #212529; /* 더 어두운 배경색 */
+}
+
+.site-footer h3.heading {
+    color: #fff;
+    margin-bottom: 1.5rem;
+}
+
+.site-footer ul {
+    list-style: none;
+    padding: 0;
+}
+
+.site-footer ul li a {
+    color: #adb5bd;
+    text-decoration: none;
+}
+
+.site-footer ul li a:hover {
+    color: #fff;
+}
+
+.site-footer .social li {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.site-footer .social li a {
+    display: block;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    border-radius: 50%;
+    background-color: #495057;
+    color: #fff;
+}
+
+.site-footer .social li a:hover {
+    background-color: #6c757d;
+}
+
+/* 저작권 섹션 */
+.site-footer .copyright {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.site-footer .copyright p {
+    color: #adb5bd;
+    font-size: 0.9rem;
+}
+
+/* 반응형 디자인을 위한 미디어 쿼리 */
+@media (max-width: 992px) {
+    .adminHero .container-fluid {
+        height: auto;
+    }
+
+    .adminForm table {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .site-footer {
+        text-align: center;
+    }
+
+    .site-footer .social li {
+        margin: 0 5px;
+    }
+}

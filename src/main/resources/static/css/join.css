@@ -1,0 +1,112 @@
+#joinPageBody {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* 화면 전체 높이를 사용 */
+    width: 100vw; /* 화면 전체 폭을 사용 */
+    background-color: #ffd5d5;
+    margin: 0; /* 여백 제거 */
+}
+
+table {
+    border-radius: 15px;
+    background-color: #fff;
+    width: 500px;
+    height: 700px;
+    text-align: center;
+    box-shadow: 0 5px 15px 0 #00000026;
+}
+
+tr {
+    margin-top: 60px;
+    text-align: center;
+}
+
+th {
+    text-align: left;
+    padding-left: 50px;
+}
+
+#btn-btn {
+    left: 20px;
+}
+
+td {
+    text-align: left;
+    padding-left: 20px;
+}
+[type="submit"] {
+    background: #2b3569 ;
+    font-family: inherit;
+    padding: 0.6em 1.3em;
+    font-weight: 900;
+    font-size: 12px;
+    border: 1px solid #FFFFFF;
+    border-radius: 15px;
+    box-shadow: 0.1em 0.1em #2b3569;
+    cursor: pointer;
+    margin-left: auto;
+    color: #fff;
+    margin-top: 20px;
+}
+
+[type="submit"]:hover {
+    box-shadow: 0.15em 0.15em;
+}
+
+[type="submit"]:active {
+    box-shadow: 0.05em 0.05em;
+}
+
+[type="reset"] {
+    background: #2b3569 ;
+    font-family: inherit;
+    padding: 0.6em 1.3em;
+    font-weight: 900;
+    font-size: 12px;
+    border: 1px solid #FFFFFF;
+    border-radius: 15px;
+    box-shadow: 0.1em 0.1em #2b3569;
+    cursor: pointer;
+    margin-left: auto;
+    color: #fff;
+    margin-top: 20px;
+}
+
+[type="reset"]:hover {
+    box-shadow: 0.15em 0.15em;
+}
+
+[type="reset"]:active {
+    box-shadow: 0.05em 0.05em;
+}
+
+.options {
+    display: flex;
+    gap: 10px;
+}
+
+.option {
+    padding: 10px 10px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.option.selected {
+
+    background-color: #2b3569 ;
+    color: white;
+    border-color: #2b3569 ;
+}
+
+.option:hover {
+
+    background-color: #f1f1f1;
+}
+
+
+
+
+

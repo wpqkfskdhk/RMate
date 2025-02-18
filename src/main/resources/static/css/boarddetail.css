@@ -1,0 +1,450 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #e0f2f7; /* 연한 하늘색 배경 */
+    color: #343a40; /* 기본 글자색 유지 (진한 회색) */
+}
+
+.container {
+    max-width: 85vw;
+    margin: 0 auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column; /* 세로 방향으로 배치 */
+    justify-content: flex-start; /* 상단부터 차례대로 배치 */
+}
+
+/* .container 내부의 .mt-5 요소에 대한 스타일 (필요한 경우) */
+.container > .mt-5 {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#boardDetailForm {
+    background-color: #fff; /* 흰색 배경 유지 */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 그림자 유지 */
+    margin: auto;
+    margin-bottom: 30px;
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 1200px;
+    height: 800px;
+}
+
+/* #boardDetailForm 내부 요소들 스타일 (기존 스타일 유지) */
+#boardDetailForm > div:nth-child(1) {
+    grid-area: category;
+    text-align: left;
+    align-self: start;
+}
+
+#boardDetailForm > div:nth-child(2) {
+    grid-area: title;
+    text-align: center;
+}
+
+#boardDetailForm > div:nth-child(3) {
+    grid-area: destination;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#boardDetailForm > div:nth-child(4) {
+    grid-area: content;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    white-space: pre-line;
+    width: 100%;
+}
+
+#boardDetailForm > div:nth-child(5) {
+    grid-area: images;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    align-items: center;
+}
+
+#boardDetailForm > div > span {
+    display: inline-block;
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: 1px solid #b2ebf2; /* 연한 하늘색 계열 테두리 */
+    margin-right: 5px;
+}
+
+#boardDetailForm > div > h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+#boardDetailForm > div > p {
+    white-space: pre-line;
+    overflow-wrap: break-word;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+/* 게시글 수정 폼 스타일 (기존 스타일 유지) */
+#boardModifyFormContainer {
+    max-width: 85%;
+    width: 85%;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+#boardModifyForm .form-control {
+    margin-bottom: 10px;
+    border-radius: 4px;
+}
+
+#boardModifyForm .custom-select {
+    border: 1px solid #b2ebf2; /* 연한 하늘색 계열 테두리 */
+    border-radius: 4px;
+    padding: 8px;
+    margin-bottom: 10px;
+    display: block;
+    width: 100%;
+    font-size: 1rem;
+}
+
+#boardModifyForm .custom-textarea {
+    border: 1px solid #b2ebf2; /* 연한 하늘색 계열 테두리 */
+    border-radius: 4px;
+    padding: 8px;
+    margin-bottom: 10px;
+    display: block;
+    width: 100%;
+    font-size: 1rem;
+}
+
+/* 카운터 스타일 (기존 스타일 유지) */
+.counter-wrap {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* 해시태그 스타일 */
+.hash-tag-container {
+    margin-bottom: 15px;
+}
+
+.hash-tag-container input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #b2ebf2; /* 연한 하늘색 계열 테두리 */
+    border-radius: 4px;
+}
+
+.hash-tag-list {
+    list-style: none;
+    padding: 0;
+    margin: 5px 0 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.hash-tag-list .tag-item {
+    background-color: #e0f7fa; /* 연한 하늘색 계열 배경 */
+    color: #212529; /* 진한 회색 글자색 */
+    padding: 5px 10px;
+    border-radius: 15px;
+    margin: 2px 2px;
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid #b2ebf2; /* 연한 하늘색 계열 테두리 */
+}
+
+.hash-tag-list .del-btn {
+    cursor: pointer;
+    margin-left: 5px;
+    color: #616161; /* 회색 삭제 버튼 */
+    font-size: 14px;
+}
+
+/* 헤더 스타일 (기존 스타일 유지) */
+.header-area {
+    position: relative;
+    z-index: 1000;
+    background-color: white;
+}
+
+/* 모달 스타일 (기존 스타일 유지) */
+#detailModal {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    background-color: #ffffff;
+    width: 500px;
+    border-radius: 20px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+}
+
+/* 액션 헤더 스타일 (기존 스타일 유지) */
+#action-header {
+    /*position: sticky;*/
+    top: 0;
+    background-color: #fff;
+    z-index: 80;
+    padding: 10px 10px;
+    border-bottom: 1px solid #ccc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* 액션 푸터 스타일 */
+#action-footer {
+    position: fixed;
+    bottom: 0;
+    background-color: #f0f8ff; /* 연한 하늘색 계열 배경 */
+    z-index: 10;
+    border-top: 1px solid #a7d9ed; /* 연한 하늘색 계열 테두리 */
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+    width: 100%;
+    height: 80px;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* 날짜, 인원 스타일 */
+#date,
+#party {
+    flex: 1;
+    text-align: center;
+}
+
+#date {
+    margin-right: 10px;
+    font-size: 20px;
+}
+
+#party {
+    margin-left: 10px;
+    font-size: 20px;
+}
+
+/* 신청 버튼 스타일 */
+#apply {
+    background-color: #87ceeb; /* 연한 하늘색 배경 */
+    color: white;
+    font-size: 16px;
+    padding: 12px 24px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: 80px;
+    margin-right: 100px;
+}
+
+#apply:hover {
+    background-color: #64b5f6; /* 호버 시 조금 더 진한 하늘색 */
+    transform: scale(1.1);
+}
+
+#apply:active {
+    transform: scale(0.9);
+}
+
+/* #contents 스타일 */
+#contents {
+    margin-bottom: 50px;
+    text-align: center;
+    height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #FFFFFF;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #b2ebf2; /* 연한 하늘색 계열 테두리 */
+    width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+}
+/* 이미지 스타일 */
+#image #Image1 {
+    width: 400px; /* 이미지 너비 조정 (원하는 크기로 수정) */
+    height: auto; /* 이미지 높이 자동 조정 (가로세로 비율 유지) */
+    object-fit: contain; /* 이미지가 잘리지 않고 비율 유지하며 채워지도록 */
+    /*border: 3px solid #b2ebf2; !* 테두리 추가 (두께, 스타일, 색상 조정) *!*/
+    border-radius: 5px; /* 테두리 둥글게 (선택사항) */
+}
+
+/* #con-header 스타일 */
+#con-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+/* 댓글 입력 폼 스타일 */
+#commentWriteForm {
+    margin: 20px auto 0;
+    width: 1000px;
+}
+
+/* 댓글 입력창과 버튼을 가로로 배치 (기존 스타일 유지) */
+#commentInputContainer {
+    margin-top: 100px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+/* 댓글 입력창 스타일 */
+.comment-input {
+    resize: none;
+    height: 80px;
+    border: 1px solid #b2ebf2; /* 연한 하늘색 계열 테두리 */
+}
+
+/* 댓글 등록 버튼 스타일 */
+#commentBtn {
+    height: 80px;
+    padding: 10px 20px;
+    margin-top: 11px;
+    background-color: #87ceeb; /* 연한 하늘색 배경 */
+    border-color: #87ceeb; /* 연한 하늘색 테두리 */
+    color: #fff; /* 흰색 글자색 */
+}
+
+#commentBtn:hover {
+    background-color: #64b5f6; /* 호버 시 조금 더 진한 하늘색 */
+    border-color: #64b5f6; /* 호버 시 조금 더 진한 하늘색 테두리 */
+}
+
+/* 댓글 수정 폼 스타일 (기존 스타일 유지) */
+#commentModifyForm {
+    margin-top: 0;
+}
+
+/* #opt-btn 스타일 */
+#opt-btn {
+
+    bottom: 0;
+    text-align: center;
+}
+
+#opt-btn button {
+    margin: 0 10px;
+    background-color: #87ceeb; /* 연한 하늘색 배경 */
+    border-color: #87ceeb; /* 연한 하늘색 테두리 */
+    color: #fff; /* 흰색 글자색 */
+}
+
+#opt-btn button:hover {
+    background-color: #64b5f6; /* 호버 시 조금 더 진한 하늘색 */
+    border-color: #64b5f6; /* 호버 시 조금 더 진한 하늘색 테두리 */
+}
+
+#opt-btn img,
+#list img {
+    width: 20px;
+    height: 20px;
+}
+
+/* 로그인 안내 메시지 (기존 스타일 유지) */
+#loginNotice {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+/* 댓글 영역 스타일 */
+#commentArea {
+    padding: 10px;
+    background-color: #f0f8ff; /* 연한 하늘색 계열 배경 */
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 1000px;
+    margin-top: 35px; /* 상단 마진은 35px 유지 */
+    margin-left: auto; /* 좌측 마진 자동 */
+    margin-right: auto; /* 우측 마진 자동 */
+    margin-bottom: auto; /* 하단 마진 자동 */
+}
+#commentArea form {
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+}
+
+#commentArea form p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #333;
+}
+
+#commentArea form .btn {
+    margin-right: 10px;
+    font-size: 14px;
+    background-color: #87ceeb; /* 연한 하늘색 배경 */
+    border-color: #87ceeb; /* 연한 하늘색 테두리 */
+    color: #fff; /* 흰색 글자색 */
+}
+
+#commentArea form .btn:hover {
+    background-color: #64b5f6; /* 호버 시 조금 더 진한 하늘색 */
+    border-color: #64b5f6; /* 호버 시 조금 더 진한 하늘색 테두리 */
+}
+
+/* 스크롤 가능한 콘텐츠 영역 스타일 */
+.scrollable-content {
+    margin-bottom: 300px;
+}
+
+/* 뒤로 가기 버튼 스타일 */
+#back {
+    display: flex;
+    justify-content: flex-end;
+}
+
+#back img {
+    width: 20px;
+    height: 20px;
+}
+.commentmodify, .commentdelete, .report-btn {
+    cursor: pointer;
+    padding: 0.8em 1.2em 0.8em 1em;
+    transition: all ease-in-out 0.2s;
+    font-size: 16px;
+    border: none;
+    margin: 0;
+    min-width: 70px; /* 최소 너비 70px로 설정 */
+}
+
+.commentdelete, .report-btn {
+    background-color: red; /* 빨간색 배경 */
+    color: white; /* 흰색 글자 */
+}
+
+.commentmodify {
+    background-color: #4CAF50; /* 초록색 배경 (예시) */
+    color: white; /* 흰색 글자 */
+}
+
+/* 마우스 오버 효과 (선택사항) */
+.commentmodify:hover, .commentdelete:hover, .report-btn:hover {
+    opacity: 0.8; /* 약간 투명하게 */
+}

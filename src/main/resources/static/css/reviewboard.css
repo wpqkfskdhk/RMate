@@ -1,0 +1,344 @@
+/* reviewboard.css */
+@font-face {
+    font-family: 'Jalnan2TTF';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'ONE-Mobile-POP';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/ONE-Mobile-POP.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* 기본 설정 */
+#bBody {
+    text-align: center;
+    height: auto;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow-y: auto; /* 세로 스크롤 생성 */
+    position: relative; /* 다른 요소들이 particles-js 위에 오도록 설정 */
+    z-index: -1; /* particles-js 보다 z-index를 높게 설정 */
+    background-color: rgba(255, 255, 255, 0.8); /* 배경 투명도 조절 */
+}
+
+#row {
+    border-radius: 15px;
+    background-color: rgba(245, 245, 245, 0.8); /* 연한 회색 배경, 투명도 90% */
+    width: 1200px;
+    height: 80%;
+    text-align: center;
+    margin: 0 auto; /* 가로 중앙 정렬 */
+    padding: 20px;
+}
+
+/* 게시판 전체를 감싸는 폼 */
+.board {
+    /* 폼 전체에 대한 스타일 */
+    padding: 30px; /* 내부 여백 증가 */
+    border: 2px solid #fd6f8e; /* 테두리 추가, 하트와 어울리는 진한 핑크색 */
+    border-radius: 15px; /* 둥근 모서리 */
+    width: 100%; /* 가로 너비를 100%로 설정 */
+    max-width: 1200px; /* 최대 가로 너비 설정 */
+    margin: 0 auto 100px; /* 상하 여백 0, 좌우 여백 auto, 하단 여백 100px */
+    box-sizing: border-box; /* 너비 계산에 padding과 border 포함 */
+    background-color: rgba(255, 232, 235, 0.95); /* 연한 분홍색 배경, 투명도 95% */
+}
+
+/* 검색 섹션 */
+.search-section {
+    padding: 20px;
+    margin-bottom: 30px; /* 게시판과의 간격 증가 */
+    border: 2px solid #f5a6b3; /* 연한 핑크색 테두리 추가 */
+    border-radius: 10px; /* 둥근 모서리 */
+    background-color: rgba(255, 255, 255, 0.5); /* 흰색 배경, 50% 투명도 */
+}
+
+.search-wrapper {
+    display: flex;
+    align-items: center; /* Vertically centers the items */
+    justify-content: center; /* Horizontally centers the items */
+    gap: 15px; /* Optional: Adjusts the space between the elements */
+}
+
+#category {
+    border: 1px solid #f5a6b3; /* 연한 핑크 테두리 */
+    padding: 10px;
+    border-radius: 5px; /* 둥근 모서리 */
+    background-color: #fff;
+}
+
+.ui-input-container {
+    position: relative;
+    width: 300px;
+}
+
+.ui-input {
+    width: 100%;
+    padding: 10px 10px 10px 10px;
+    font-size: 1em;
+    border: none;
+    border-bottom: 2px solid #f5a6b3; /* 연한 핑크 테두리 */
+    outline: none;
+    background-color: transparent;
+    transition: border-color 0.3s;
+    margin: auto 0;
+}
+
+.ui-input:focus {
+    border-color: #fd6f8e; /* 진한 핑크 테두리 */
+}
+
+.ui-input-icon button {
+    border: none;
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+}
+
+.ui-input-underline {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    width: 100%;
+    background-color: #fd6f8e; /* 진한 핑크 테두리 */
+    transform: scaleX(0);
+    transition: transform 0.3s;
+}
+
+.ui-input:focus + .ui-input-underline {
+    transform: scaleX(1);
+}
+
+.ui-input-highlight {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 100%;
+    width: 0;
+    background-color: rgba(255, 213, 213, 0.2);
+    transition: width 0.3s;
+}
+
+.ui-input:focus ~ .ui-input-highlight {
+    width: 100%;
+}
+
+.ui-input-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #cccccc;
+    transition: color 0.3s;
+}
+
+.ui-input:focus ~ .ui-input-icon {
+    color: #fd6f8e; /* 진한 핑크색 */
+}
+
+.ui-input-icon svg {
+    width: 20px;
+    height: 20px;
+    transition: stroke 0.3s;
+}
+
+.ui-input:focus ~ .ui-input-icon svg path {
+    stroke: #fd6f8e; /* 진한 핑크색 */
+}
+
+/* 글쓰기 버튼 */
+.btn-board-form {
+    background: #fd6f8e; /* 진한 핑크색 배경 */
+    font-family: 'Cafe24SsurroundAir', sans-serif; /* 귀여운 폰트 */
+    padding: 10px 20px; /* 패딩 증가 */
+    font-weight: 600; /* 볼드 처리 */
+    font-size: 14px;
+    border: none; /* 테두리 제거 */
+    border-radius: 25px; /* 더 둥근 모서리 */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* 은은한 그림자 */
+    cursor: pointer;
+    margin-right: 0;
+    color: white;
+    gap: 20px;
+    transition: all 0.2s ease; /* 부드러운 transition 효과 */
+}
+
+.btn-board-form:hover {
+    background: #ff8fa3; /* 더 밝은 핑크색 */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); /* 더 진한 그림자 */
+    transform: translateY(-2px); /* 위로 살짝 이동 */
+}
+
+.btn-board-form:active {
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2); /* 더 옅은 그림자 */
+    transform: translateY(0); /* 원래 위치로 */
+}
+
+/* 구분선 */
+.divider {
+    text-align: center;
+    margin-top: 0px; /* 위쪽 여백 제거 */
+    margin-bottom: 30px; /* 아래쪽 여백 증가 */
+    font-size: 18px; /* 글자 크기 증가 */
+    line-height: 1.5;
+    padding-bottom: 15px; /* 아래쪽 패딩 증가 */
+    font-weight: 600; /* 볼드 처리 */
+}
+
+.divider span {
+    margin: 0 15px; /* 좌우 여백 증가 */
+    padding: 5px 10px; /* 패딩 추가 */
+    background-color: #ffe8eb; /* 연한 핑크 배경 */
+    border-radius: 15px; /* 둥근 모서리 */
+}
+
+/* 게시글 목록 컨테이너 */
+#review-album {
+    border: none;
+    display: flex;
+    flex-wrap: wrap; /* 줄바꿈 허용 */
+    gap: 30px; /* 게시글 간 간격 증가 */
+    width: 100%;
+    height: auto;
+    margin-top: 0; /* 상단 여백 제거 */
+    margin-bottom: 15px;
+    padding: 0; /* 내부 여백 제거 */
+    overflow-y: auto; /* 스크롤 가능 */
+    justify-content: space-between; /* 게시글 사이 간격 균등 배분 */
+}
+
+/* 게시글 항목 */
+/* 게시글 항목 */
+.review-item {
+    background-color: #fff; /* 흰색 배경 */
+    width: calc(33.33% - 60px); /* 한 줄에 3개씩 배치, 간격 고려 */
+    box-sizing: border-box; /* 간격이 항목 너비에 영향을 미치지 않도록 설정 */
+    display: flex;
+    flex-direction: column;
+    border: 2px solid #fd6f8e; /* 테두리 변경: 진한 핑크색 */
+    padding: 20px; /* 내부 여백 */
+    border-radius: 15px; /* 둥근 모서리 */
+    margin-bottom: 0; /* 하단 여백 제거 */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* 은은한 그림자 효과 */
+    transition: all 0.2s ease; /* 부드러운 transition 효과 */
+}
+/* 마우스 오버 효과 */
+.review-item:hover {
+    transform: translateY(-5px); /* 위로 살짝 이동 */
+    box-shadow: 0 6px 15px rgba(253, 111, 142, 0.3); /* 핑크색 그림자 효과 */
+    cursor: pointer;
+}
+
+/* 썸네일 */
+.review-thumbnail {
+    width: 100%;
+    height: 200px;
+    text-align: center;
+    margin-bottom: 15px; /* 여백 증가 */
+}
+
+.review-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 이미지 비율 유지하며 채우기 */
+    border-radius: 10px; /* 둥근 모서리 */
+    border: 2px solid #f5a6b3; /* 연한 핑크 테두리 */
+}
+
+/* 게시글 정보 */
+.review-details {
+    flex: 1; /* 남은 공간 채우기 */
+    display: flex;
+    flex-direction: column;
+    margin-top: 15px; /* 여백 증가 */
+}
+
+.review-title {
+    font-size: 20px; /* 글꼴 크기 증가 */
+    font-weight: bold;
+    margin-bottom: 10px; /* 여백 증가 */
+    color: #fd6f8e; /* 진한 핑크색 */
+    text-decoration: none;
+    font-family: 'Cafe24SsurroundAir', sans-serif; /* 귀여운 폰트 */
+}
+
+.review-title:hover {
+    text-decoration: underline;
+}
+
+.review-info {
+    font-size: 15px; /* 글꼴 크기 증가 */
+    color: #666; /* 진한 회색 */
+    line-height: 1.6; /* 줄 간격 증가 */
+}
+
+/* 페이징 컨테이너 */
+.board-bod-a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#paging {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px; /* 버튼 간 간격 증가 */
+    margin: 30px auto; /* 위아래 여백 증가 */
+    width: 100%;
+    color: #2b3569;
+}
+
+/* 페이지 번호 스타일 */
+#paging .iNum,
+#paging .prev,
+#paging .next {
+    padding: 8px 15px; /* 패딩 증가 */
+    border: 1px solid #f5a6b3; /* 연한 핑크 테두리 */
+    border-radius: 20px; /* 더 둥근 모서리 */
+    text-decoration: none;
+    color: #fd6f8e; /* 진한 핑크색 */
+    font-weight: 600; /* 볼드 처리 */
+    transition: all 0.2s ease; /* 부드러운 transition 효과 */
+}
+
+#paging .iNum:hover,
+#paging .prev:hover,
+#paging .next:hover {
+    background-color: #ffe8eb; /* 연한 핑크 배경 */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* 은은한 그림자 */
+}
+
+#paging .iNum.active {
+    /* 현재 페이지 번호 */
+    background-color: #fd6f8e; /* 진한 핑크색 배경 */
+    color: white;
+    border-color: #fd6f8e; /* 진한 핑크 테두리 */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* 은은한 그림자 */
+}
+
+/* 반응형 - 화면이 작아질 때 게시글 한 줄에 하나씩 배치 */
+@media (max-width: 768px) {
+    .review-item {
+        width: calc(50% - 60px); /* 한 줄에 2개씩 배치 */
+    }
+}
+
+@media (max-width: 500px) {
+    .review-item {
+        width: calc(100% - 60px); /* 한 줄에 1개씩 배치 */
+    }
+}
+
+.table-text{
+    font-family: "ONE-Mobile-POP","serif";
+    font-weight: 200;
+    font-size: 24px;
+    font-style: normal;
+}

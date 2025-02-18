@@ -1,0 +1,22 @@
+/* 푸터 스타일 */
+.transparent-footer {
+    position: fixed;
+    bottom: 130px;
+    left: 0;
+    width: 100%;
+    background-color: transparent; /* 배경을 투명하게 설정 */
+    display: flex;
+    justify-content: flex-end; /* 오른쪽 정렬 */
+    align-items: center; /* 세로 가운데 정렬 */
+    padding: 10px; /* 푸터의 여백 */
+    z-index: 1000; /* 다른 요소들 위에 보이게 설정 */
+}
+    
+/* 채팅 아이콘 스타일 */
+.chat-icon img {
+    right: 50px;
+    width: 50px;  /* 아이콘 크기 조정 */
+    height: 50px; /* 아이콘 크기 조정 */
+    cursor: pointer; /* 클릭할 수 있는 아이콘으로 보이게 */
+    position: absolute; /* absolute로 위치를 지정 */
+}

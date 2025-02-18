@@ -1,0 +1,151 @@
+body, html {
+    font-family: 'Noto Sans KR', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8e8ee; /* (추가) 연한 핑크 배경 */
+}
+
+.rBody {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100vw;
+    margin: 0;
+    padding-top: 50px; /* (추가) 헤더와의 간격 조정 */
+    padding-bottom: 50px; /* (추가) 하단 여백 조정 */
+}
+
+
+form {
+    width: 100%; /* (추가) 폼 너비를 100%로 설정 */
+    max-width: 800px; /* (추가) 폼 최대 너비 설정 */
+    margin: auto; /* (추가) 폼 중앙 정렬 */
+    box-sizing: border-box; /* (추가) 박스 크기 계산 방식 변경 */
+    padding: 40px; /* (추가) 폼 내부 여백 증가 */
+    border-radius: 20px;
+    background-color: #fff;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); /* (수정) 그림자 효과 강화 */
+}
+
+table {
+    width: 100%; /* (수정) 테이블 너비를 100%로 설정 */
+    border-collapse: collapse; /* (추가) 테이블 셀 간격 제거 */
+}
+
+th, td {
+
+    text-align: left;
+    padding: 15px 20px;
+    height: auto;
+    font-size: 1rem; /* (수정) 글꼴 크기 조정 */
+}
+
+th,td {
+    color: #d9534f;
+    font-weight: 600;
+    width: 150px;
+    border: 2px solid #f8e8ee; /* (추가) 하단 구분선 추가 */
+    padding-bottom: 20px; /* (추가) 구분선 아래 여백 조정 */
+}
+input[type="text"], textarea {
+    width: calc(100% - 40px); /* (수정) 입력 요소 너비 조정 */
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #f0b3b0; /* (수정) 연한 핑크 테두리 */
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+textarea {
+    min-height: 250px; /* (수정) 텍스트 영역 높이 증가 */
+    resize: vertical;
+    border: 1px solid #f0b3b0; /* (수정) 연한 핑크 테두리 */
+}
+
+input[type="file"] {
+    margin-bottom: 20px;
+
+}
+
+#preImage {
+    max-width: 250px; /* (수정) 이미지 최대 너비 증가 */
+    margin-top: 10px;
+    border-radius: 5px;
+}
+
+input[type="submit"], input[type="reset"] {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* (추가) 부드러운 배경색 전환 효과 */
+}
+
+input[type="submit"] {
+    background-color: #d9534f; /* (수정) 러블리한 핑크색 버튼 */
+    color: #fff;
+    margin-right: 10px;
+}
+
+input[type="reset"] {
+    background-color: #f0b3b0; /* (수정) 연한 핑크색 버튼 */
+    color: #fff;
+}
+
+input[type="submit"]:hover {
+    background-color: #c9302c; /* (수정) 마우스 오버 시 진한 핑크색 */
+}
+
+input[type="reset"]:hover {
+    background-color: #e68a87; /* (수정) 마우스 오버 시 옅은 핑크색 */
+}
+
+/* 별점 스타일 */
+.stars {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center; /* (추가) 수직 중앙 정렬 */
+    cursor: pointer;
+    font-size: 30px;
+    margin-bottom: 20px; /* (추가) 하단 여백 추가 */
+}
+
+.stars i {
+    font-size: 30px;
+    color: #ccc;
+    cursor: pointer;
+    margin-right: 5px; /* (추가) 별 간격 조정 */
+}
+
+.stars i.active {
+    color: #FFD700;
+}
+
+.stars i:hover {
+    color: #FFD700;
+}
+
+#rating {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center; /* (추가) 수직 중앙 정렬 */
+}
+
+.star {
+    font-size: 30px;
+    color: #ccc;
+    margin-right: 5px; /* (추가) 별 간격 조정 */
+}
+
+.star.selected {
+    color: gold;
+}
+
+#ratingValue {
+    font-size: 1rem; /* (추가) 별점 값 글꼴 크기 조정 */
+    margin-left: 10px; /* (추가) 별점 값 여백 조정 */
+    color: #d9534f; /* (추가) 별점 값 색상 추가 */
+    font-weight: bold; /* (추가) 별점 값 굵기 조정 */
+}

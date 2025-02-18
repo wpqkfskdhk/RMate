@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마이페이지</title>
+    <link rel="icon" href="/img/core-img/favicon.ico">
+    <style>
+        /* 위에서 제공된 CSS 코드를 여기에 붙여넣으세요. */
+        /* 수정된 CSS 코드를 여기 붙여넣습니다. */
+        /* 전체 레이아웃 */
+        .profile-container {
+            width: 800px;
+            margin: 20px auto;
+            border: 1px solid #ccc;
+            padding: 20px;
+            box-sizing: border-box;
+            font-family: sans-serif;
+            position: relative;
+        }
+
+        /* 개인 정보 영역 */
+        .personal-info-area {
+            display: flex;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+        }
+
+        .profile-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: #ddd;
+            margin-right: 20px;
+            overflow: hidden;
+        }
+
+        .profile-image img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        .profile-details {
+            flex-grow: 1;
+        }
+
+        .profile-details p {
+            margin: 5px 0;
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+        }
+
+        .action-buttons button {
+            padding: 8px 15px;
+            margin-bottom: 5px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .action-buttons button:nth-child(1) {
+            background-color: #cce0ff;
+            color: #003366;
+        }
+
+        .action-buttons button:nth-child(2) {
+            background-color: #ffe0e0;
+            color: #660000;
+        }
+
+        /* 탭 메뉴 */
+        .tab-menu {
+            display: flex;
+            border-bottom: 1px solid #ccc;
+            margin-bottom: 15px;
+        }
+
+        .tab-menu button {
+            padding: 10px 15px;
+            border: none;
+            background-color: #f0f0f0;
+            cursor: pointer;
+            border-right: 1px solid #ccc;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+
+        .tab-menu button:last-child {
+            border-right: none;
+        }
+
+        .tab-menu button.active {
+            background-color: #fff;
+            font-weight: bold;
+        }
+
+        /* 탭 내용 영역 */
+        .tab-content {
+            padding: 10px;
+        }
+
+        .tab-content h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        /* 스크롤 기능 추가 */
+        .comment-list,
+        .written-post-list,
+        .applicant-list,
+        .applied-post-list,
+        .completed-trip-list {
+            border: 1px solid #ccc;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            max-height: 200px;
+            overflow-y: auto;
+            position: relative; /* position: relative 추가 */
+        }
+        .comment-list h4,
+        .written-post-list h4,
+        .applicant-list h4,
+        .applied-post-list h4,
+        .completed-trip-list h4 {
+            margin-left :5px;
+            margin-top: 0;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+            position: sticky;
+            top: 0;
+            background-color: white; /* 배경색을 흰색으로 변경 */
+            z-index: 1;
+            width: 100%; /* 추가: 부모 div 너비 꽉 채우기 */
+        }
+        .content-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            margin-left:5px;
+        }
+
+        .content-item:last-child {
+            border-bottom: none;
+        }
+
+        .content-item a {
+            text-decoration: none;
+            color: #333;
+        }
+
+        .content-title {
+            flex-grow: 1;
+        }
+
+        .content-date {
+            margin-left: 10px;
+            margin-right: 10px;
+            font-size: 0.9em;
+            color: #777;
+        }
+
+        .content-button button {
+            padding: 5px 10px;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            background-color: white;
+            border-radius: 3px;
+        }
+
+        /* 신청자 목록 스타일 (내 게시글에 신청한 신청자) */
+        .applicant-list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .applicant-list-item:last-child {
+            border-bottom: none;
+        }
+
+        /* 수정 폼 영역 */
+        .edit-profile-form {
+            border-top: 1px solid #ccc;
+            padding-top: 20px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .edit-profile-form h2 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #003366;
+        }
+
+        .edit-profile-form table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .edit-profile-form th, .edit-profile-form td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .edit-profile-form th {
+            width: 120px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .edit-profile-form input[type="text"],
+        .edit-profile-form input[type="password"],
+        .edit-profile-form input[type="email"],
+        .edit-profile-form input[type="file"] {
+            width: calc(100% - 16px);
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .edit-profile-form .options {
+            display: flex;
+            align-items: center;
+        }
+
+        .edit-profile-form .option {
+            padding: 8px 15px;
+            margin-right: 10px;
+            border: none;
+            background-color: #eee;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .edit-profile-form .option.selected {
+            background-color: #cce0ff;
+        }
+
+        .edit-profile-form input[type="button"],
+        .edit-profile-form input[type="submit"],
+        .edit-profile-form input[type="reset"] {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .edit-profile-form input[type="button"]:hover,
+        .edit-profile-form input[type="submit"]:hover,
+        .edit-profile-form input[type="reset"]:hover {
+            opacity: 0.8;
+        }
+
+        .edit-profile-actions {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .edit-profile-actions button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .edit-profile-actions #modalSaveBtn {
+            background-color: #cce0ff;
+            color: #003366;
+        }
+
+        .edit-profile-actions #modalCancelBtn {
+            background-color: #ffe0e0;
+            color: #660000;
+        }
+
+        .myPage_btn {
+            display: inline-block;
+            padding: 10px 15px;
+            text-decoration: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .myPage_btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* 전역 스타일: body 요소에 스크롤바 색상 및 너비 지정 */
+        body {
+            scrollbar-color: transparent transparent;
+
+        }
+
+        /* 웹킷 기반 브라우저 (Chrome, Safari 등) 스크롤바 스타일 지정 */
+        ::-webkit-scrollbar {
+            width: 0.3em;  /* 스크롤바 너비 */
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: transparent; /* 스크롤 핸들 색 */
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;/*트랙색*/
+        }
+    </style>
+</head>
+<body>
+<div class="profile-container">
+    <div class="personal-info-area">
+        <div class="profile-image">
+            <img th:src="@{/Profile/{loginProfile}(loginProfile=${session.loginProfile})}" alt="프로필 사진">
+        </div>
+        <div class="profile-details">
+            <p>이름: <span th:text="${session.loginName}"></span></p>
+            <p>닉네임: <span th:text="${session.loginNickname}"></span></p>
+            <p>생년월일: <span th:text="${session.loginBirth}"></span></p>
+            <p>성별 : <span th:text="${session.loginGender == 'M' ? '남성' : '여성'}"></span></p>
+            <p>이메일 : <span th:text="${session.loginEmail}"></span>   연락처 : <span th:text="${session.loginPhone}"></span></p>
+            <p>주소 : <span th:text="${session.loginAddress}"></span></p>
+        </div>
+        <div class="action-buttons">
+            <button id="editProfileBtn">수정</button>
+            <button>회원탈퇴</button>
+        </div>
+    </div>
+
+    <div class="edit-profile-form">
+        <h2>회원 정보 수정</h2>
+        <form action="/mdJoin" method="post" enctype="multipart/form-data" name="mJoinForm">
+            <table>
+                <tr>
+                    <th>자차유무</th>
+                    <td>
+                        <div class="options">
+                            <button type="button" class="option" onclick="selectOption2(1)">있음</button>
+                            <button type="button" class="option" onclick="selectOption2(0)">없음</button>
+                        </div>
+                        <input type="hidden" name="CarNum" id="CType" required/>
+                        <div id="selectedOption2" class="selected"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>성별</th>
+                    <td th:text="${session.loginGender == 'M' ? '남성' : '여성'}"></td>
+                    <td>
+                        <input type="hidden" id="User_Gender" name="UserGender" th:value="${session.loginGender}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>아이디</th>
+                    <td th:text="${session.loginId}">
+                        <input type="hidden" id="User_Id" name="UserId"  th:value="${session.loginId}"/>
+                        <p id="check1"></p>
+                    </td>
+                </tr>
+                <tr>
+                    <th>비밀번호</th>
+                    <td>
+                        <input type="password" id="User_Pw" name="UserPw" placeholder="비밀번호"/>
+                        <p id="check2"></p>
+                    </td>
+                </tr>
+                <tr>
+                    <th>비밀번호 확인</th>
+                    <td>
+                        <input type="password" id="checkPw" placeholder="비밀번호 확인"/>
+                        <p id="check3"></p>
+                    </td>
+                </tr>
+                <tr>
+                    <th>생년월일</th>
+                    <td th:text="${session.loginBirth}"></td>
+                    <td><input type="hidden" id="User_Birth" name="UserBirth" placeholder="생년월일" th:value="${session.loginBirth}"/></td>
+                </tr>
+                <tr>
+                    <th>이메일</th>
+                    <td>
+                        <input type="email" id="User_Email" name="UserEmail" placeholder="이메일" th:value="${session.loginEmail}"/>
+                        <span id="check4">
+                            <input type="button" value="인증번호 발송" id="checkEmail"/>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>연락처</th>
+                    <td>
+                        <input type="text" id="User_Phone" name="UserPhone" placeholder="연락처" th:value="${session.loginPhone}"/>
+                        <span id="check5">
+                            <input type="button" value="인증번호 발송" id="checkPhone"/>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>주소</th>
+                    <td>
+                        <input type="button" onclick="sample6_execDaumPostcode_modal()" value="우편번호 찾기"><br>
+                        <input type="text" id="modal_sample6_address" placeholder="주소" th:value="${session.loginAddress}"><br>
+                        <input type="text" id="modal_sample6_detailAddress" placeholder="상세주소">
+                        <input type="hidden" id="User_Address" name="UserAddress"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th>이름</th>
+                    <td><input type="text" name="UserName" placeholder="이름" th:value="${session.loginName}"/></td>
+                </tr>
+                <tr>
+                    <th>닉네임</th>
+                    <td><input type="text" name="UserNickname" placeholder="닉네임" th:value="${session.loginNickname}"/></td>
+                </tr>
+                <tr>
+                    <th>프로필사진</th>
+                    <td><input type="file" name="UserProfile" id="User_Profile" />
+                        <br/><img id="preImage" width="100px" th:src="@{/Profile/${session.loginProfile ?: 'default.png'}}" /></td>
+                </tr>
+            </table>
+            <div class="edit-profile-actions">
+                <button type="button" id="modalSaveBtn">수정 완료</button>
+                <button type="button" id="modalCancelBtn">취소</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="tab-menu">
+        <button class="tab-button active" data-tab="tab1">내 정보 내역</button>
+        <button class="tab-button" data-tab="tab2">신청중</button>
+        <button class="tab-button" data-tab="tab3">여행 중</button>
+        <button class="tab-button" data-tab="tab4">여행 완료</button>
+    </div>
+
+    <div id="tab1" class="tab-content active">
+        <h3>신청중</h3>
+        <div class="comment-list">
+            <h4>내가 쓴 댓글</h4>
+            <div class="content-item">
+                <a href="#">홍대에서 놀 사람들 모여라</a>
+                <span class="content-date">2024. 12. 13 ~ 2024. 12. 18</span>
+            </div>
+            <div class="content-item">
+                <a href="#">천안</a>
+                <span class="content-date">2024. 12. 12 ~ 2024. 12. 16</span>
+            </div>
+            <div class="content-item">
+                <a href="#">제주도</a>
+                <span class="content-date">2024. 12. 17 ~ 2024. 12. 21</span>
+            </div>
+        </div>
+
+        <div class="written-post-list">
+            <h4>내가 쓴 게시글</h4>
+            <div class="content-item">
+                <a href="#">[타고] 같이 스쿠터 빌려서 해안도로 드라이브 하실 분</a>
+            </div>
+            <div class="content-item">
+                <a href="#">[머물고] 게스트 하우스 추천 부탁드립니다.</a>
+            </div>
+        </div>
+
+        <div class="applicant-list">
+            <h4>내 게시글에 신청한 신청자</h4>
+            <div class="applicant-list-item">
+                <span>신청자1</span>
+                <div class="content-button">
+                    <button>확정</button>
+                </div>
+            </div>
+            <div class="applicant-list-item">
+                <span>신청자2</span>
+                <div class="content-button">
+                    <button>확정</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="applied-post-list">
+            <h4>내가신청한 게시판 </h4>
+            <div class="content-item">
+                <a href="#">[태우고] 서울에서 부산까지 같이 자전거 여행 떠나요!</a>
+                <span class="content-button"><button>신청중</button></span>
+            </div>
+            <div class="content-item">
+                <a href="#">[태우고] 서울에서 부산까지 같이 자전거 여행 떠나요!</a>
+                <span class="content-button"><button>신청중</button></span>
+            </div>
+            <div class="content-item">
+                <a href="#">[태우고] 서울에서 부산까지 같이 자전거 여행 떠나요!</a>
+                <span class="content-button"><button>신청중</button></span>
+            </div>
+            <div class="content-item">
+                <a href="#">[태우고] 서울에서 부산까지 같이 자전거 여행 떠나요!</a>
+                <span class="content-button"><button>신청중</button></span>
+            </div>
+        </div>
+
+        <div class="completed-trip-list">
+            <h4>여행 완료</h4>
+            <div class="content-item">
+                <a href="#">[여행 완료] 강릉 아닌데 후기</a>
+                <span class="content-button"><button>리뷰 쓰기</button></span>
+            </div>
+            <div class="content-item">
+                <a href="#">[여행 완료] 강릉 여행 후기</a>
+                <span class="content-button"><button>리뷰 쓰기</button></span>
+            </div> <div class="content-item">
+            <a href="#">[여행 완료] 강릉 여행 후기</a>
+            <span class="content-button"><button>리뷰 쓰기</button></span>
+        </div> <div class="content-item">
+            <a href="#">[여행 완료] 강릉 여행 후기</a>
+            <span class="content-button"><button>리뷰 쓰기</button></span>
+        </div> <div class="content-item">
+            <a href="#">[여행 완료] 강릉 여행 후기</a>
+            <span class="content-button"><button>리뷰 쓰기</button></span>
+        </div>
+            <div class="content-item">
+                <a href="#">[여행 완료] 강릉 여행 후기</a>
+                <span class="content-button"><button>리뷰 쓰기</button></span>
+            </div>
+            <div class="content-item">
+                <a href="#">[여행 완료] 강릉 여행 후기</a>
+                <span class="content-button"><button>리뷰 쓰기</button></span>
+            </div>
+            <div class="content-item">
+                <a href="#">[여행 완료] 강릉 여행 후기</a>
+                <span class="content-button"><button>리뷰 쓰기</button></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script th:inline="javascript">
+    window.onload = function() {
+        // 서버에서 받아온 세션 이미지 경로(상대 경로 유지)
+        var profileImageUrl = '[[${session.loginProfile}]]';  // 세션에서 파일명만 가져옴
+        if (profileImageUrl) {
+            // Thymeleaf에서 사용하는 경로와 일치시켜 웹에서 접근할 수 있는 경로로 변경
+            document.getElementById('preImage').src = '/images/Profile/' + profileImageUrl;
+        }
+    };
+    $('#User_Profile').on('change', function(event) {
+        let file = event.target.files[0];  // 선택한 파일
+        console.log(file);  // 파일 객체가 잘 읽혔는지 확인
+        if (file) {
+            let reader = new FileReader();  // FileReader 생성
+
+            reader.onload = function(e) {
+                console.log(e.target.result);  // 읽힌 파일의 URL을 콘솔로 출력하여 확인
+                $('#preImage').attr('src', e.target.result);  // 미리보기 이미지
+            };
+
+            // 파일을 Base64 데이터 URL로 변환
+            reader.readAsDataURL(file);  // FileReader가 Base64로 변환
+        } else {
+            console.log('파일이 선택되지 않았습니다');
+        }
+    });
+
+    // 탭 메뉴 JavaScript
+    const tabButtons = document.querySelectorAll('.tab-menu button');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const targetTab = button.dataset.tab;
+
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+
+            tabContents.forEach(content => content.classList.remove('active'));
+            document.getElementById(targetTab).classList.add('active');
+        });
+    });
+
+    // 수정 폼 JavaScript
+    const editProfileForm = document.querySelector('.edit-profile-form');
+    const editProfileBtn = document.getElementById('editProfileBtn');
+    const personalInfoArea = document.querySelector('.personal-info-area');
+    const tabMenu = document.querySelector('.tab-menu');
+    const tab1Content = document.getElementById('tab1'); // "내 정보 내역" 탭 내용
+    const modalCancelBtn = document.getElementById('modalCancelBtn');
+    const modalSaveBtn = document.getElementById('modalSaveBtn');
+
+    editProfileBtn.onclick = function() {
+        personalInfoArea.style.display = 'none';
+        tabMenu.style.display = 'none';
+        tab1Content.style.display = 'none'; // 수정 시 숨김
+        editProfileForm.style.display = "block";
+    }
+
+    modalCancelBtn.onclick = function() {
+        editProfileForm.style.display = "none";
+        personalInfoArea.style.display = 'flex';
+        tabMenu.style.display = 'flex';
+        tab1Content.style.display = 'block'; // 취소 시 보임
+    }
+
+    modalSaveBtn.onclick = function() {
+        // 여기에 저장 로직을 구현하세요
+        alert("수정 완료되었습니다!"); // 예시
+        editProfileForm.style.display = "none";
+        personalInfoArea.style.display = 'flex';
+        tabMenu.style.display = 'flex';
+        tab1Content.style.display = 'block'; // 저장 완료 시 보임
+    }
+
+    // 자차 유무 선택
+    function selectOption2(option1) {
+        document.querySelectorAll('.edit-profile-form .option').forEach(opt => opt.classList.remove('selected'));
+        event.target.classList.add('selected');
+        document.getElementById('CType').value = option1;
+    }
+
+    // 프로필 이미지 미리보기 (Modal 내부 -> 폼 내부)
+    document.querySelector('#User_Profile').onchange = function(event) {
+        let file = event.target.files[0];
+        if (file) {
+            let reader = new FileReader();
+            reader.onload = function(e) {
+                document.querySelector('#preImage').src = e.target.result;
+            }
+            reader.readAsDataURL(file);
+        }
+    };
+
+    // 다음 주소 API (Modal 내부 -> 폼 내부)
+    function sample6_execDaumPostcode_modal() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                var addr = '';
+                if (data.userSelectedType === 'R') {
+                    addr = data.roadAddress;
+                } else {
+                    addr = data.jibunAddress;
+                }
+                document.querySelector('#modal_sample6_address').value = addr;
+                document.querySelector('#modal_sample6_detailAddress').focus();
+            }
+        }).open();
+    }
+
+    // 주소 합치기 및 Form 제출 (Modal 내부 -> 폼 내부)
+    document.querySelector('#modalSaveBtn').onclick = function() {
+        let user_Address = document.querySelector('#User_Address');
+        let addr1 = document.querySelector('#modal_sample6_address').value;
+        let addr2 = document.querySelector('#modal_sample6_detailAddress').value;
+        user_Address.value = `${addr1}, ${addr2}`;
+
+        // 간단한 유효성 검사 (추가적인 검증 로직 필요)
+        if (!document.querySelector('#User_Pw').value || !document.querySelector('#checkPw').value || !document.querySelector('#User_Email').value || !document.querySelector('#User_Phone').value) {
+            alert('필수 정보를 입력해주세요.');
+            return;
+        }
+
+        document.querySelector('form[name="mJoinForm"]').submit();
+    };
+
+    // 추가적인 JavaScript (Modal 내부에서 사용될 가능성이 있는 스크립트 포함)
+    let user_Id = $('#User_Id');
+    let check1 = $('#check1');
+    let check_id = true;
+
+    user_Id.keyup(()=>{
+        $.ajax({
+            type : "POST",
+            url : "/idCheck",
+            data : { "UserId" : user_Id.val() },
+            dataType : "text",
+            success : function(result){
+                if(result=="OK"){
+                    check1.html(user_Id.val() + "는 사용 가능한 아이디");
+                    check1.css('color', 'blue');
+                    check_id = true;
+                } else {
+                    check1.html(user_Id.val() + "는 사용중인 아이디");
+                    check1.css('color', 'red');
+                    check_id = false;
+                }
+            },
+            error : function (){
+                alert('idCheck 통신 실패!')
+            }
+        });
+    });
+
+    let user_Pw = $('#User_Pw');
+    let check2 = $('#check2');
+    let check_pw1 = false;
+
+    user_Pw.keyup(()=>{
+        let pwVal = user_Pw.val();
+        let num  = pwVal.search(/[0-9]/);
+        let eng  = pwVal.search(/[a-z]/);
+        let eng1 = pwVal.search(/[A-Z]/);
+        let spe  = pwVal.search(/[~!@#$%^&*]/);
+        let spc  = pwVal.search(/\s/);
+        let checked =  pwVal.search(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[~!@#$%^&*])[\S]{8,16}$/);
+
+        if(pwVal.length < 8 || pwVal.length > 16){
+            check2.html('8-16자리 입력!');
+            check2.css('color', 'red');
+            check_pw1 = false;
+        } else if(spc != -1) {
+            check2.html('공백없이 입력!');
+            check2.css('color', 'red');
+            check_pw1 = false;
+        } else if(num==-1 || eng==-1 || eng1==-1 || spe==-1){
+            check2.html('숫자, 특수문자, 대소문자 혼합 입력!');
+            check2.css('color', 'red');
+            check_pw1 = false;
+        } else {
+            check2.html('사용가능한 비밀번호!');
+            check2.css('color', 'blue');
+            check_pw1 = true;
+        }
+    });
+
+    let checkPw = $('#checkPw');
+    let check3 = $('#check3');
+    let check_pw2 = false;
+
+    checkPw.keyup(()=>{
+        pwVal = user_Pw.val();
+        let checkVal = checkPw.val();
+
+        if(pwVal == checkVal){
+            check3.html(`비밀번호 일치`);
+            check3.css('color', 'blue');
+            check_pw2 = true;
+        } else {
+            check3.html(`비밀번호 불일치`);
+            check3.css('color', 'red');
+            check_pw2 = false;
+        }
+    });
+
+    let checkEmail = $('#checkEmail');
+    let user_Email = $('#User_Email');
+    let check4 = $('#check4');
+    let check_email = false;
+
+    checkEmail.click(()=>{
+        $.ajax({
+            type : "POST",
+            url : "/emailCheck",
+            data : { "UserEmail" : user_Email.val() },
+            dataType: "text",
+            success : (uuid)=>{
+                console.log(uuid);
+                check4.empty();
+                check4.append(`<br/><input type="text" id="uuid1" />`);
+                check4.append(` <input type="button" value="인증" id="btnUUID" data-value="${uuid}" />`);
+            },
+            error : ()=>{
+                alert('emailCheck 통신 실패');
+            }
+        });
+    });
+
+    $(document).on('click', '#btnUUID', function(){
+        let uuid = $(this).data("value");
+        let uuid1 = $('#uuid1').val();
+
+        if(uuid==uuid1){
+            alert('이메일 인증 성공');
+            check4.hide();
+            user_Email.attr('readonly', true);
+            check_email = true;
+        } else {
+            alert('이메일 인증번호를 확인해주세요');
+            $('#uuid1').val("");
+            check_email = false;
+        }
+    });
+
+    let check_phone = false;
+
+    $(document).on('click', '#checkPhone', function() {
+        var phone = $('#User_Phone').val();
+
+        if (phone === "") {
+            alert("연락처를 입력해주세요.");
+            return;
+        } else {
+            alert("입력하신 폰 번호는 : " + phone + "입니다.");
+        }
+
+        $.ajax({
+            url: '/PhoneCheck',
+            method: 'POST',
+            data: { "UserPhone": phone },
+            dataType: "text",
+            success: function(response) {
+                console.log("연락처:", phone, "인증번호:", response);
+                var check5 = $('#check5');
+                check5.empty();
+                check5.append(`<br/><input type="text" id="uuid" />`);
+                check5.append(` <input type="button" value="인증" id="BtnPhone" data-value="${response}" />`);
+                check_phone = true;
+            },
+            error: function(error) {
+                alert('인증번호를 생성하는데 실패했습니다. 다시 시도해주세요.');
+            }
+        });
+    });
+
+    $(document).on('click', '#BtnPhone', function(){
+        if (!check_phone) {
+            alert("먼저 인증번호 발송을 클릭해주세요.");
+            return;
+        }
+
+        let btnPhone = $('#uuid').val();
+        let btnPhone1 = $(this).data("value");
+
+        if (btnPhone === btnPhone1) {
+            alert('연락처 인증 성공');
+            $('#check5').hide();
+            $('#User_Phone').attr('readonly', true);
+        } else {
+            alert('인증번호를 확인해주세요');
+            $('#uuid').val("");
+        }
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const tabId = this.getAttribute('data-tab');
+
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+
+                this.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+
+        // 페이지 로드 시 게시글 데이터 가져오기
+        fetch('/myboardList')
+            .then(response => {
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        throw new Error('로그인이 필요합니다.');
+                    } else if (response.status === 204) {
+                        console.warn("No content received from /myboardList");
+                        return []; // 빈 배열 반환 또는 적절한 처리
+                    } else {
+                        throw new Error('Network response was not ok');
+                    }
+                }
+
+            })
+            .then(boards => {
+                console.log(boards); // 받아온 데이터 확인
+                const writtenPostList = document.querySelector('#tab1 .written-post-list');
+                writtenPostList.innerHTML = '<h4>내가 쓴 게시글</h4>'; // 제목 추가
+                boards.forEach(board => {
+                    const contentItem = document.createElement('div');
+                    contentItem.classList.add('content-item');
+
+                    let categoryText = "";
+                    switch(board.categoryNum){
+                        case 1:
+                            categoryText = "[태우고]";
+                            break;
+                        case 2:
+                            categoryText = "[타고]";
+                            break;
+                        case 3:
+                            categoryText = "[머물고]";
+                            break;
+                    }
+
+                    const categorySpan = document.createElement('span');
+                    categorySpan.textContent = categoryText;
+                    contentItem.appendChild(categorySpan);
+
+                    const link = document.createElement('a');
+                    link.href = `/boarddetail/${board.bnum}`; // 경로 변수 사용
+                    link.textContent =   ` ${board.btitle}`;
+
+                    contentItem.appendChild(link);
+
+
+                    writtenPostList.appendChild(contentItem);
+                });
+
+            })
+            .catch(error => {
+                alert(error.message);
+                location.href = '/login';  // 로그인 페이지로 리다이렉트
+            });
+    });
+    // 내가 쓴 댓글 데이터 가져오기
+    fetch('/myCommentList')
+        .then(response => {
+            if (!response.ok) {
+                if(response.status === 401){
+                    throw new Error('로그인이 필요합니다.');
+                }
+                if(response.status === 204){ // 204 응답은 정상
+                    return Promise.resolve([]); // 빈 배열로 처리
+                }
+                throw new Error('댓글 목록을 가져오는 데 실패했습니다.');
+
+            }
+            console.log(response);
+            return response.json();
+        })
+        .then(comments => {
+            console.log(comments);
+            const commentList = document.querySelector('#tab1 .comment-list');
+            commentList.innerHTML = '<h4>내가 쓴 댓글</h4>'; // 기존 내용 비우기
+            if(comments && comments.length > 0) {
+                comments.forEach(comment => {
+                    const contentItem = document.createElement('div');
+                    contentItem.classList.add('content-item');
+
+                    const link = document.createElement('a');
+                    link.href = `/boarddetail/${comment.bnum}`; // 게시글 상세 페이지 링크
+                    link.textContent = comment.ccontent; // 댓글 내용
+
+                    const dateSpan = document.createElement('span');
+                    const formattedDate = new Date(comment.cdate).toLocaleDateString();
+                    dateSpan.classList.add('content-date');
+                    dateSpan.textContent = formattedDate;
+
+                    contentItem.appendChild(link);
+                    contentItem.appendChild(dateSpan);
+                    commentList.appendChild(contentItem);
+
+                });
+            }
+        })
+        .catch(error => {
+            alert(error.message);
+            location.href = '/login';
+        });
+
+
+    // 내 게시글에 신청한 신청자 데이터 가져오기
+    fetch('/myApplicantList')
+        .then(response => {
+            if (!response.ok) {
+                if(response.status === 401){
+                    throw new Error('로그인이 필요합니다.');
+                    throw new Error('로그인이 필요합니다.');
+                }
+                if(response.status === 204){
+                    return Promise.resolve([]);
+                }
+                throw new Error('신청자 목록을 가져오는 데 실패했습니다.');
+            }
+            console.log(response);
+            return response.json();
+        })
+        .then(applicants => {
+            console.log(applicants);
+            const applicantList = document.querySelector('#tab1 .applicant-list');
+            applicantList.innerHTML = '<h4>내 게시글에 신청한 신청자</h4>'; // 기존 내용 비우기
+            if(applicants && applicants.length>0){
+                applicants.forEach(applicant => {
+                    const applicantListItem = document.createElement('div');
+                    applicantListItem.classList.add('applicant-list-item');
+
+                    const applicantInfo = document.createElement('span');
+                    applicantInfo.textContent = `닉네임: ${applicant.userNickName}, 성별: ${applicant.userGender}, 아이디: ${applicant.userId}`;
+
+                    applicantListItem.appendChild(applicantInfo);
+
+                    const contentButtonDiv = document.createElement('div');
+                    contentButtonDiv.classList.add('content-button');
+
+                    let buttonText = "확정";
+                    if(applicant.astatus === 1){
+                        buttonText = "승인완료"
+                    }
+
+                    const confirmButton = document.createElement('button');
+                    confirmButton.textContent = buttonText;
+
+                    if (applicant.aStatus !== 1) {
+                        confirmButton.onclick = function () {
+                            fetch(`/increaseAStatus/${applicant.anum}`, {
+                                method: 'POST'
+                            })
+                                .then(response => {
+                                    if (response.ok) {
+                                        alert('신청 상태가 변경되었습니다.');
+                                        // 상태 업데이트 후 새로고침
+                                        location.reload();
+                                    } else {
+                                        alert('신청 상태 변경에 실패했습니다.');
+                                    }
+                                });
+                        };
+                    }
+
+
+                    contentButtonDiv.appendChild(confirmButton);
+
+                    applicantListItem.appendChild(contentButtonDiv);
+                    applicantList.appendChild(applicantListItem);
+                });
+            }
+
+
+        })
+        .catch(error => {
+            alert(error.message);
+            location.href = '/login';
+        });
+
+    // 내가 신청한 게시글 데이터 가져오기
+    fetch('/myAppliedBoardList')
+        .then(response => {
+            if (!response.ok) {
+                if(response.status === 401){
+                    throw new Error('로그인이 필요합니다.');
+                }
+                if(response.status === 204){
+                    return Promise.resolve([]);
+                }
+                throw new Error('신청한 게시글 목록을 가져오는 데 실패했습니다.');
+
+            }
+            console.log(response);
+            return response.json();
+        })
+        .then(appliedBoards => {
+            console.log(appliedBoards)
+            const appliedPostList = document.querySelector('#tab1 .applied-post-list');
+            appliedPostList.innerHTML = '<h4>신청중인 게시글</h4>';
+
+            const completedTripList = document.querySelector('#tab1 .completed-trip-list');
+            completedTripList.innerHTML = '<h4>모집 완료</h4>';
+
+            if (appliedBoards && appliedBoards.length > 0) {
+                appliedBoards.forEach(apply => {
+                    const contentItem = document.createElement('div');
+                    contentItem.classList.add('content-item');
+
+                    const link = document.createElement('a');
+                    link.href = `/boarddetail/${apply.bNum}`;
+                    link.textContent = `게시글 보기`;
+                    const contentButton = document.createElement('span');
+                    contentButton.classList.add('content-button');
+
+
+                    if (apply.categoryNum === 4) {
+                        const reviewButton = document.createElement('button');
+                        reviewButton.textContent = "리뷰 쓰기";
+                        reviewButton.onclick = function(){
+                            window.location.href = `/RWriteForm?bNum=${apply.bNum}`;
+                        };
+
+                        contentItem.appendChild(link);
+                        contentButton.appendChild(reviewButton)
+                        contentItem.appendChild(contentButton);
+                        completedTripList.appendChild(contentItem);
+                    } else {
+                        let buttonText = "신청중";
+                        if(apply.aStatus===1){
+                            buttonText = "승인 완료";
+                        }
+                        const button = document.createElement('button');
+                        button.textContent = buttonText;
+                        contentButton.appendChild(button)
+                        contentItem.appendChild(link);
+                        contentItem.appendChild(contentButton);
+                        appliedPostList.appendChild(contentItem);
+                    }
+
+
+                });
+            }
+        })
+        .catch(error => {
+            alert(error.message);
+            location.href = '/login';
+        });
+</script>
+</body>
+</html>
